@@ -8,36 +8,35 @@
 import SwiftUI
 
 struct EventView: View {
-    @StateObject var viewModel: EventViewModel
-
+    @ObservedObject var viewModel: EventViewModel
+    
     var body: some View {
         HStack {
-            Image(systemName: "calendar")
-
+            Image(systemName: viewModel.event.imageName)
+                .resizable()
+                .frame(width: 50, height: 50)
+            
             VStack(alignment: .leading) {
                 Text(viewModel.event.name)
-                Text(viewModel.formattedDate)
+                    .font(.headline)
+                Text(viewModel.event.date, style: .date)
+                    .font(.caption)
+                    .foregroundColor(.secondary)
             }
-
+            
             Spacer()
-
+            
             Text(viewModel.remainingText)
-                .foregroundStyle(
-                    viewModel.isInFuture ? .blue : .gray
-                )
+                .font(.caption)
+                .foregroundColor(viewModel.isInFuture ? .green : .red)
         }
+        .padding()
     }
 }
 
 
 
-//#Preview {
-//    EventView(
-//        id: UUID(),
-//        image: Image(systemName: "calendar"),
-//        name: "Paname",
-//        date: "13 février 2026 à 15h45",
-//        remainingTime: "10j, 23h, 12s"
-//    )
-//}
+#Preview {
+    EventView(viewModel: EventViewModel(event: Event(id: UUID(), name: "ma bite", date: Date(), imageName: "calendar")))
+}
 

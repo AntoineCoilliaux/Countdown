@@ -7,47 +7,59 @@
 
 import Combine
 import Foundation
+import UIKit
 
 class EventViewModel: ObservableObject {
-    @Published var title : String
-    @Published var date : Date
-    @Published var remainingText: String
     
     let event: Event
+    @Published var remainingText: String = ""
+    @Published var isInFuture: Bool = true
+    
+    private var timer: Timer?
 
-    init(title: String, date: Date, remainingText: String, event: Event) {
-        self.title = title
-        self.date = date
-        self.remainingText = remainingText
+    init(event: Event) {
         self.event = event
+        updateRemainingTime()
+        startTimer()
     }
 
-    var remainingInterval: TimeInterval {
-        event.date.timeIntervalSinceNow
-    }
-
-    var isInFuture: Bool {
-        remainingInterval >= 0
-    }
-
-    var remainingTextInDays: String {
-        let absInterval = abs(remainingInterval)
-        let days = Int(absInterval) / 86400
-        let hours = (Int(absInterval) % 86400) / 3600
-        let minutes = (Int(absInterval) % 3600) / 60
-
-        if isInFuture {
-            return "Dans \(hours)h \(minutes)m"
-        } else {
-            return "Il y a \(hours)h \(minutes)m"
+    private func startTimer() {
+        timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
+            self?.updateRemainingTime()
         }
     }
-
-    var formattedDate: String {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .medium
-        formatter.timeStyle = .short
-        return formatter.string(from: event.date)
+    
+    private func updateRemainingTime() {
+        let now = Date()
+        let interval = event.date.timeIntervalSince(now)
+        
+        if interval > 0 {
+            remainingText = formatTimeInterval(interval)
+            isInFuture = true
+        } else {
+            remainingText = formatTimeInterval(-interval)
+            isInFuture = false
+        }
+    }
+    
+    private func formatTimeInterval(_ interval: TimeInterval) -> String {
+        let days = Int(interval) / 86400
+        let hours = (Int(interval) % 86400) / 3600
+        let minutes = (Int(interval) % 3600) / 60
+        let seconds = Int(interval) % 60
+        
+        if days > 0 {
+            return "\(days)d \(hours)h"
+        } else if hours > 0 {
+            return "\(hours)h \(minutes)m"
+        } else if minutes > 0 {
+            return "\(minutes)m \(seconds)s"
+        } else {
+            return "\(seconds)s"
+        }
+    }
+    
+    deinit {
+        timer?.invalidate()
     }
 }
-
