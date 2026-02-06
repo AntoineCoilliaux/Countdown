@@ -50,6 +50,6 @@ struct EventView: View {
 
 
 #Preview {
-    EventView(viewModel: EventViewModel(event: Event(id: UUID(), name: "ma bite", date: Date(), imageName: "calendar")))
+    EventView(viewModel: EventViewModel(event: Event(id: UUID(), name: "Weekend in Paris", date: Date(), imageName: "calendar")))
 }
 
