@@ -14,6 +14,7 @@ class EventViewModel: ObservableObject {
     let event: Event
     @Published var remainingText: String = ""
     @Published var isInFuture: Bool = true
+    @Published var dayNumber: String = ""
     
     private var timer: Timer?
 
@@ -48,15 +49,9 @@ class EventViewModel: ObservableObject {
         let minutes = (Int(interval) % 3600) / 60
         let seconds = Int(interval) % 60
         
-        if days > 0 {
-            return "\(days)d \(hours)h"
-        } else if hours > 0 {
-            return "\(hours)h \(minutes)m"
-        } else if minutes > 0 {
-            return "\(minutes)m \(seconds)s"
-        } else {
-            return "\(seconds)s"
-        }
+            dayNumber = "\(days)"
+            return "\(hours)h \(minutes)m \(seconds)s"
+
     }
     
     deinit {

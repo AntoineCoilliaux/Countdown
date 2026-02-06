@@ -22,13 +22,26 @@ struct EventView: View {
                 Text(viewModel.event.date, style: .date)
                     .font(.caption)
                     .foregroundColor(.secondary)
+                Text(viewModel.event.date, style: .time)
+                    .font(.caption)
+                    .foregroundColor(.secondary)
             }
             
             Spacer()
             
-            Text(viewModel.remainingText)
-                .font(.caption)
-                .foregroundColor(viewModel.isInFuture ? .green : .red)
+            VStack (alignment: .trailing) {
+                HStack {
+                    Text(viewModel.dayNumber)
+                        .font(.largeTitle)
+                        .bold()
+                        .foregroundColor(viewModel.isInFuture ? .green : .red)
+                    
+                    Image(systemName: viewModel.isInFuture ? K.Event.arrowDown : K.Event.arrowUp)
+                }
+                Text(viewModel.remainingText)
+                    .font(.caption)
+                    .foregroundColor(viewModel.isInFuture ? .green : .red)
+            }
         }
         .padding()
     }

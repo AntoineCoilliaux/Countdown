@@ -24,8 +24,13 @@ struct HomeView: View {
                         .foregroundColor(.secondary)
                     Spacer()
                 } else {
-                    List(vm.events) { event in
-                        EventView(viewModel: EventViewModel(event: event))
+                    List {
+                        ForEach(vm.events) { event in
+                            EventView(viewModel: EventViewModel(event: event))
+                        }
+                        .onDelete { indexSet in
+                            vm.deleteEvent(indexSet)
+                        }
                     }
                 }
             }
@@ -37,6 +42,9 @@ struct HomeView: View {
                         Image(systemName: "plus")
                     }
                 }
+            }
+            .onAppear {
+                vm.events = vm.loadEvents()
             }
             .sheet(isPresented: $showingAddEvent) {
                 AddAnEventView { newEvent in
