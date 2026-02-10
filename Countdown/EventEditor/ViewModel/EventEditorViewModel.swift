@@ -46,13 +46,4 @@ final class EventEditorViewModel: ObservableObject {
               return Event(id: existing.id, name: name, date: date, imageName: imageName)
           }
       }
-    
-    func saveEvents(_ events: [Event]) {
-        do {
-            let data = try JSONEncoder().encode(events)
-            UserDefaults.standard.set(data, forKey: K.userDefaultsKeys.events)
-        } catch {
-            print("Failed to encode events:", error)
-        }
-    }
   }

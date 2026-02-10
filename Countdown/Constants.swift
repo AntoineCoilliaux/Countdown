@@ -10,6 +10,7 @@ import Foundation
 struct K {
     struct Home {
         static let navigationTitle = "Events"
+        static let noEventsYet = "No events yet"
     }
     
     struct Event {

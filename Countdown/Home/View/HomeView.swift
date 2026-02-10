@@ -18,20 +18,30 @@ struct HomeView: View {
                     .fontWeight(.bold)
                     .padding(5)
                 
-                if vm.events.isEmpty {
-                    Spacer()
-                    Text("No events yet")
-                        .foregroundColor(.secondary)
-                    Spacer()
-                } else {
+                if !vm.events.isEmpty {
                     List {
                         ForEach(vm.events) { event in
-                            EventView(viewModel: EventViewModel(event: event))
+                            NavigationLink {
+
+                                EventEditorView(event: event) { updatedEvent in
+                                    vm.updateEvent(updatedEvent)
+                                }
+                                
+                            } label: {
+                                EventView(viewModel: EventViewModel(event: event))
+                            }
                         }
                         .onDelete { indexSet in
                             vm.deleteEvent(indexSet)
                         }
                     }
+                    
+                } else {
+                    
+                    Spacer()
+                    Text(K.Home.noEventsYet)
+                        .foregroundColor(.secondary)
+                    Spacer()
                 }
             }
             .toolbar {
@@ -45,9 +55,10 @@ struct HomeView: View {
             }
             .onAppear {
                 vm.events = vm.loadEvents()
+                vm.sortEvents()
             }
             .sheet(isPresented: $showingAddEvent) {
-                AddAnEventView { newEvent in
+                EventEditorView { newEvent in
                     vm.addEvent(newEvent)
                 }
             }

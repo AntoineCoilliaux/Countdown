@@ -10,6 +10,26 @@ import SwiftUI
 
 class HomeViewModel: ObservableObject {
     @Published var events: [Event] = []
+    private var updateTimer: Timer?
+    
+    init() {
+        self.events = loadEvents()
+        sortEvents()
+        startSortTimer()
+    }
+    
+    deinit {
+        updateTimer?.invalidate()
+    }
+    
+    private func startSortTimer() {
+        // Vérifie toutes les secondes si un tri est nécessaire
+        updateTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
+            self?.sortEvents()
+            self?.objectWillChange.send()
+
+        }
+    }
     
     func addEvent(_ event: Event) {
         events.append(event)
@@ -19,33 +39,36 @@ class HomeViewModel: ObservableObject {
     
     func sortEvents() {
         let now = Date()
-
-        events.sort { a, b in
+        
+        let sortedEvents = events.sorted { a, b in
             let aIsFuture = a.date >= now
             let bIsFuture = b.date >= now
 
-            // 1️⃣ Futur avant passé
             if aIsFuture != bIsFuture {
                 return aIsFuture
             }
 
-            // 2️⃣ Les deux sont futurs → plus proche en premier
-            if aIsFuture {
-                return a.date < b.date
-            }
-
-            // 3️⃣ Les deux sont passés → plus récent en premier
-            return a.date > b.date
+            return aIsFuture ? a.date < b.date : a.date > b.date
+        }
+        
+        // Ne met à jour que si l'ordre a changé
+        if sortedEvents.map({ $0.id }) != events.map({ $0.id }) {
+            events = sortedEvents
         }
     }
-
-    
     private func saveEvents() {
         do {
             let data = try JSONEncoder().encode(events)
             UserDefaults.standard.set(data, forKey: K.userDefaultsKeys.events)
         } catch {
             print("Failed to encode events:", error)
+        }
+    }
+    
+    func updateEvent(_ updatedEvent: Event) {
+        if let index = events.firstIndex(where: { $0.id == updatedEvent.id }) {
+            events[index] = updatedEvent
+            saveEvents()
         }
     }
     

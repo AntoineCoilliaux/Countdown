@@ -16,18 +16,9 @@ class EventViewModel: ObservableObject {
     @Published var isInFuture: Bool = true
     @Published var dayNumber: String = ""
     
-    private var timer: Timer?
-
     init(event: Event) {
         self.event = event
         updateRemainingTime()
-        startTimer()
-    }
-
-    private func startTimer() {
-        timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
-            self?.updateRemainingTime()
-        }
     }
     
     private func updateRemainingTime() {
@@ -52,9 +43,5 @@ class EventViewModel: ObservableObject {
             dayNumber = "\(days)"
             return "\(hours)h \(minutes)m \(seconds)s"
 
-    }
-    
-    deinit {
-        timer?.invalidate()
     }
 }

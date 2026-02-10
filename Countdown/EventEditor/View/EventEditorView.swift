@@ -7,11 +7,22 @@
 
 import SwiftUI
 
-struct AddAnEventView: View {
+struct EventEditorView: View {
     @StateObject var vm = EventEditorViewModel(mode: .add)
     @Environment(\.dismiss) private var dismiss
     
     let onSave: (Event) -> Void
+    
+    init(onSave: @escaping (Event) -> Void) {
+        _vm = StateObject(wrappedValue: EventEditorViewModel(mode: .add))
+        self.onSave = onSave
+    }
+    
+    // Initializer pour MODE EDIT
+    init(event: Event, onSave: @escaping (Event) -> Void) {
+        _vm = StateObject(wrappedValue: EventEditorViewModel(mode: .edit(existing: event)))
+        self.onSave = onSave
+    }
     
     var body: some View {
         NavigationStack {
