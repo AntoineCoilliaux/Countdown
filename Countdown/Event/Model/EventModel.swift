@@ -11,5 +11,5 @@ struct Event: Codable, Identifiable {
     let id: UUID
     let name: String
     let date: Date
-    let imageName: String
+    let imageName: URL
 }

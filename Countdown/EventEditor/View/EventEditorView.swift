@@ -10,6 +10,8 @@ import SwiftUI
 struct EventEditorView: View {
     @StateObject var vm = EventEditorViewModel(mode: .add)
     @Environment(\.dismiss) private var dismiss
+    @State private var isShowingImageSheet = false
+    @State private var selectedImageURL: URL?
     
     let onSave: (Event) -> Void
     
@@ -33,12 +35,19 @@ struct EventEditorView: View {
                 Spacer()
                 Form {
                     HStack(alignment: .top) {
-                        Image(systemName: vm.imageName)
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 70, height: 70)
-                            .clipShape(Circle())
-                            .overlay(Circle().stroke(Color.black, lineWidth: 5))
+                        AsyncImage(url: vm.imageName) { image in
+                            image.resizable()
+                        } placeholder: {
+                            ProgressView()
+                        }
+                        .frame(width: 50, height: 50)
+                        .clipShape(Circle())
+                        .overlay(Circle().stroke(Color.black, lineWidth: 5))
+                        
+                        .onTapGesture {
+                                isShowingImageSheet = true
+                            }
+                        
                         VStack(alignment: .leading) {
                             Text(K.AddAnEvent.title)
                             TextField(K.AddAnEvent.textfieldPlaceholder, text: $vm.name )
@@ -69,6 +78,20 @@ struct EventEditorView: View {
                     .disabled(!vm.canSave)
                 }
             }
+        }
+        .sheet(isPresented: $isShowingImageSheet) {
+            EventImagePickerSheet(
+                onGallerySelect: { url in
+                    vm.imageName = url
+                    isShowingImageSheet = false
+                },
+                
+                onPhotosSelect: { url in
+                    vm.imageName = url
+                    isShowingImageSheet = false
+                }
+            )
+            .presentationDetents([.medium, .large])
         }
     }
 }

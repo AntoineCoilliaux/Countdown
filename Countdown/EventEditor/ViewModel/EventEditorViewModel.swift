@@ -11,7 +11,8 @@ import Combine
 final class EventEditorViewModel: ObservableObject {
     @Published var name: String
     @Published var date: Date
-    @Published var imageName: String
+    @Published var imageName: URL
+    var randomNumber = Int.random(in: 0...50)
 
       enum Mode {
           case add
@@ -26,7 +27,7 @@ final class EventEditorViewModel: ObservableObject {
           case .add:
               self.name = ""
               self.date = Date()
-              self.imageName = "calendar"
+              self.imageName = URL(string: "https://picsum.photos/seed/\(randomNumber)/300/300")!
           case .edit(let existing):
               self.name = existing.name
               self.date = existing.date

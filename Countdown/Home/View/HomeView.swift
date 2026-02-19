@@ -51,6 +51,7 @@ struct HomeView: View {
                     } label: {
                         Image(systemName: "plus")
                     }
+                    .buttonStyle(.borderedProminent)
                 }
             }
             .onAppear {

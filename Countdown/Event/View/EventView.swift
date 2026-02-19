@@ -9,13 +9,18 @@ import SwiftUI
 
 struct EventView: View {
     @ObservedObject var viewModel: EventViewModel
-    
+
     var body: some View {
         HStack {
-            Image(systemName: viewModel.event.imageName)
-                .resizable()
-                .frame(width: 50, height: 50)
-            
+            AsyncImage(url: viewModel.event.imageName) { image in
+                image.resizable()
+            } placeholder: {
+                ProgressView()
+            }
+            .frame(width: 50, height: 50)
+            .clipShape(Circle())
+            .overlay(Circle().stroke(Color.black, lineWidth: 5))
+
             VStack(alignment: .leading) {
                 Text(viewModel.event.name)
                     .font(.headline)
@@ -44,12 +49,10 @@ struct EventView: View {
             }
         }
         .padding()
+
     }
 }
 
-
-
 #Preview {
-    EventView(viewModel: EventViewModel(event: Event(id: UUID(), name: "Weekend in Paris", date: Date(), imageName: "calendar")))
+    EventView(viewModel: EventViewModel(event: Event(id: UUID(), name: "Weekend in Paris", date: Date(), imageName: URL(string: "https://fastly.picsum.photos/id/998/300/300.jpg?hmac=CqTPyw23mdWCpY1vSNoWUU5ipnTa6BtTsGc_ztfonWI")!)))
 }
-
