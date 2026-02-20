@@ -13,7 +13,6 @@ class HomeViewModel: ObservableObject {
     private var updateTimer: Timer?
     
     init() {
-        self.events = loadEvents()
         sortEvents()
         startSortTimer()
     }
@@ -23,7 +22,6 @@ class HomeViewModel: ObservableObject {
     }
     
     private func startSortTimer() {
-        // Vérifie toutes les secondes si un tri est nécessaire
         updateTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
             self?.sortEvents()
             self?.objectWillChange.send()
@@ -51,7 +49,6 @@ class HomeViewModel: ObservableObject {
             return aIsFuture ? a.date < b.date : a.date > b.date
         }
         
-        // Ne met à jour que si l'ordre a changé
         if sortedEvents.map({ $0.id }) != events.map({ $0.id }) {
             events = sortedEvents
         }
@@ -59,7 +56,8 @@ class HomeViewModel: ObservableObject {
     private func saveEvents() {
         do {
             let data = try JSONEncoder().encode(events)
-            UserDefaults.standard.set(data, forKey: K.userDefaultsKeys.events)
+            UserDefaults.standard.set(data, forKey: K.HomeViewModel.userDefaultsKey)
+            UserDefaults.standard.synchronize()
         } catch {
             print("Failed to encode events:", error)
         }
@@ -71,18 +69,35 @@ class HomeViewModel: ObservableObject {
             saveEvents()
         }
     }
+
     
     func loadEvents() -> [Event] {
-        guard let data = UserDefaults.standard.data(forKey: K.userDefaultsKeys.events) else { return [] }
+        guard let data = UserDefaults.standard.data(forKey: K.HomeViewModel.userDefaultsKey) else {
+            return []
+        }
         do {
-            return try JSONDecoder().decode([Event].self, from: data)
+            let events = try JSONDecoder().decode([Event].self, from: data)
+            
+            for event in events {
+               
+                if event.imageName.isFileURL {
+                    let exists = FileManager.default.fileExists(atPath: event.imageName.path)
+                }
+            }
+            
+            return events
         } catch {
-            print("Failed to decode events:", error)
             return []
         }
     }
     
     func deleteEvent(_ indexSet: IndexSet) {
+        for index in indexSet {
+            let event = events[index]
+            if event.imageName.isFileURL {
+                try? FileManager.default.removeItem(at: event.imageName)
+            }
+        }
         events.remove(atOffsets: indexSet)
         saveEvents()
     }

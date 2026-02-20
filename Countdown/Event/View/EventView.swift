@@ -12,10 +12,24 @@ struct EventView: View {
 
     var body: some View {
         HStack {
-            AsyncImage(url: viewModel.event.imageName) { image in
-                image.resizable()
-            } placeholder: {
-                ProgressView()
+            Group {
+                if viewModel.event.imageName.isLocalImage {
+                    if let filename = viewModel.event.imageName.localFilename,
+                       let fileURL = URL.localImageURL(filename: filename),
+                       let uiImage = UIImage(contentsOfFile: fileURL.path) {
+                        Image(uiImage: uiImage)
+                            .resizable()
+                    } else {
+                        Image(systemName: K.EventView.photo)
+                            .resizable()
+                    }
+                } else {
+                    AsyncImage(url: viewModel.event.imageName) { image in
+                        image.resizable()
+                    } placeholder: {
+                        ProgressView()
+                    }
+                }
             }
             .frame(width: 50, height: 50)
             .clipShape(Circle())
@@ -41,7 +55,7 @@ struct EventView: View {
                         .bold()
                         .foregroundColor(viewModel.isInFuture ? .green : .red)
                     
-                    Image(systemName: viewModel.isInFuture ? K.Event.arrowDown : K.Event.arrowUp)
+                    Image(systemName: viewModel.isInFuture ? K.EventView.arrowDown : K.EventView.arrowUp)
                 }
                 Text(viewModel.remainingText)
                     .font(.caption)

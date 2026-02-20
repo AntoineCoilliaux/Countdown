@@ -7,8 +7,8 @@
 
 import SwiftUI
 
-struct EventEditorView: View {
-    @StateObject var vm = EventEditorViewModel(mode: .add)
+struct EditorView: View {
+    @StateObject var vm = EditorViewModel(mode: .add)
     @Environment(\.dismiss) private var dismiss
     @State private var isShowingImageSheet = false
     @State private var selectedImageURL: URL?
@@ -16,41 +16,57 @@ struct EventEditorView: View {
     let onSave: (Event) -> Void
     
     init(onSave: @escaping (Event) -> Void) {
-        _vm = StateObject(wrappedValue: EventEditorViewModel(mode: .add))
+        _vm = StateObject(wrappedValue: EditorViewModel(mode: .add))
         self.onSave = onSave
     }
     
-    // Initializer pour MODE EDIT
     init(event: Event, onSave: @escaping (Event) -> Void) {
-        _vm = StateObject(wrappedValue: EventEditorViewModel(mode: .edit(existing: event)))
+        _vm = StateObject(wrappedValue: EditorViewModel(mode: .edit(existing: event)))
         self.onSave = onSave
     }
     
     var body: some View {
         NavigationStack {
             VStack {
-                Text(K.AddAnEvent.navigationTitle)
+                Text(K.EditorView.navigationTitle)
                     .fontWeight(.bold)
                     .padding(5)
                 Spacer()
                 Form {
                     HStack(alignment: .top) {
-                        AsyncImage(url: vm.imageName) { image in
-                            image.resizable()
-                        } placeholder: {
-                            ProgressView()
+                        Group {
+                            if vm.imageName.isLocalImage {
+                                // Image locale
+                                if let filename = vm.imageName.localFilename,
+                                   let fileURL = URL.localImageURL(filename: filename),
+                                   let uiImage = UIImage(contentsOfFile: fileURL.path) {
+                                    Image(uiImage: uiImage)
+                                        .resizable()
+                                        .scaledToFill()
+                                } else {
+                                    Image(systemName: K.EditorView.photo)
+                                        .resizable()
+                                }
+                            } else {
+                                // Image en ligne
+                                AsyncImage(url: vm.imageName) { image in
+                                    image.resizable()
+                                } placeholder: {
+                                    ProgressView()
+                                }
+                            }
                         }
                         .frame(width: 50, height: 50)
                         .clipShape(Circle())
                         .overlay(Circle().stroke(Color.black, lineWidth: 5))
                         
                         .onTapGesture {
-                                isShowingImageSheet = true
-                            }
+                            isShowingImageSheet = true
+                        }
                         
                         VStack(alignment: .leading) {
-                            Text(K.AddAnEvent.title)
-                            TextField(K.AddAnEvent.textfieldPlaceholder, text: $vm.name )
+                            Text(K.EditorView.title)
+                            TextField(K.EditorView.textfieldPlaceholder, text: $vm.name )
                                 .textFieldStyle(RoundedBorderTextFieldStyle())
                         }
                         .frame(maxWidth: .infinity, alignment: .leading)
@@ -67,7 +83,7 @@ struct EventEditorView: View {
             }
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
-                    Button(K.AddAnEvent.doneButton) {
+                    Button(K.EditorView.doneButton) {
                         if vm.canSave {
                             if let event = try? vm.save() {
                                 onSave(event)
@@ -80,7 +96,7 @@ struct EventEditorView: View {
             }
         }
         .sheet(isPresented: $isShowingImageSheet) {
-            EventImagePickerSheet(
+            ImagePickerSheetView(
                 onGallerySelect: { url in
                     vm.imageName = url
                     isShowingImageSheet = false

@@ -14,7 +14,7 @@ struct HomeView: View {
     var body: some View {
         NavigationStack {
             VStack {
-                Text(K.Home.navigationTitle)
+                Text(K.HomeView.navigationTitle)
                     .fontWeight(.bold)
                     .padding(5)
                 
@@ -23,7 +23,7 @@ struct HomeView: View {
                         ForEach(vm.events) { event in
                             NavigationLink {
 
-                                EventEditorView(event: event) { updatedEvent in
+                                EditorView(event: event) { updatedEvent in
                                     vm.updateEvent(updatedEvent)
                                 }
                                 
@@ -39,7 +39,7 @@ struct HomeView: View {
                 } else {
                     
                     Spacer()
-                    Text(K.Home.noEventsYet)
+                    Text(K.HomeView.noEventsYet)
                         .foregroundColor(.secondary)
                     Spacer()
                 }
@@ -49,7 +49,7 @@ struct HomeView: View {
                     Button {
                         showingAddEvent = true
                     } label: {
-                        Image(systemName: "plus")
+                        Image(systemName: K.HomeView.plusButon)
                     }
                     .buttonStyle(.borderedProminent)
                 }
@@ -59,7 +59,7 @@ struct HomeView: View {
                 vm.sortEvents()
             }
             .sheet(isPresented: $showingAddEvent) {
-                EventEditorView { newEvent in
+                EditorView { newEvent in
                     vm.addEvent(newEvent)
                 }
             }

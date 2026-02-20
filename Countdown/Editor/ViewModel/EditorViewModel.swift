@@ -1,18 +1,20 @@
 //
-//  EventEditorViewModel.swift
+//  EditorViewModel.swift
 //  Countdown
 //
 //  Created by Antoine Coilliaux on 05/02/2026.
 //
 
-import Foundation
 import Combine
+import Foundation
 
-final class EventEditorViewModel: ObservableObject {
+final class EditorViewModel: ObservableObject {
     @Published var name: String
     @Published var date: Date
     @Published var imageName: URL
-    var randomNumber = Int.random(in: 0...50)
+    
+    var randomNumber = Int.random(in: 0...100)
+    let characterLimit : Int = 35
 
       enum Mode {
           case add
@@ -36,7 +38,7 @@ final class EventEditorViewModel: ObservableObject {
       }
 
       var canSave: Bool {
-          !name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+          !name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty && name.count < characterLimit
       }
 
       func save() throws -> Event {

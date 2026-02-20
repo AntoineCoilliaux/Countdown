@@ -1,5 +1,5 @@
 //
-//  EventImagePickerView.swift
+//  OnlinePicturesPickerView.swift
 //  Countdown
 //
 //  Created by Antoine Coilliaux on 18/02/2026.
@@ -7,14 +7,22 @@
 
 import SwiftUI
 
-struct EventImagePickerView: View {
-    @StateObject var vm = EventImagePickerViewModel()
+struct OnlinePicturesPickerView: View {
+    @StateObject var vm = OnlinePicturesPickerViewModel()
     var onSelect: (URL) -> Void
 
     let columns = [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]
 
     var body: some View {
         ScrollView {
+            picGrid
+        }
+        .onAppear {
+            vm.loadRandomImages()
+        }
+    }
+    
+    private var picGrid : some View {
             LazyVGrid(columns: columns, spacing: 10) {
                 ForEach(vm.images, id: \.self) { image in
                     AsyncImage(url: image) { phase in
@@ -48,14 +56,11 @@ struct EventImagePickerView: View {
             }
             .padding()
         }
-        .onAppear {
-            vm.loadRandomImages()
-        }
     }
-}
+
 
 #Preview {
-    EventImagePickerView { selectedUrl in
+    OnlinePicturesPickerView { selectedUrl in
         print("Selected image URL:", selectedUrl)
     }
 }
