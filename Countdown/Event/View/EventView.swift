@@ -31,9 +31,9 @@ struct EventView: View {
                     }
                 }
             }
-            .frame(width: 50, height: 50)
+            .frame(width: 60, height: 60)
             .clipShape(Circle())
-            .overlay(Circle().stroke(Color.black, lineWidth: 5))
+            .overlay(Circle().stroke(Color.black, lineWidth: 2))
 
             VStack(alignment: .leading) {
                 Text(viewModel.event.name)

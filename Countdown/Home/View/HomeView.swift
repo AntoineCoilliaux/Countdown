@@ -19,23 +19,7 @@ struct HomeView: View {
                     .padding(5)
                 
                 if !vm.events.isEmpty {
-                    List {
-                        ForEach(vm.events) { event in
-                            NavigationLink {
-
-                                EditorView(event: event) { updatedEvent in
-                                    vm.updateEvent(updatedEvent)
-                                }
-                                
-                            } label: {
-                                EventView(viewModel: EventViewModel(event: event))
-                            }
-                        }
-                        .onDelete { indexSet in
-                            vm.deleteEvent(indexSet)
-                        }
-                    }
-                    
+                    eventList
                 } else {
                     
                     Spacer()
@@ -62,6 +46,25 @@ struct HomeView: View {
                 EditorView { newEvent in
                     vm.addEvent(newEvent)
                 }
+            }
+        }
+    }
+    
+    private var eventList: some View {
+        List {
+            ForEach(vm.events) { event in
+                NavigationLink {
+
+                    EditorView(event: event) { updatedEvent in
+                        vm.updateEvent(updatedEvent)
+                    }
+                    
+                } label: {
+                    EventView(viewModel: EventViewModel(event: event))
+                }
+            }
+            .onDelete { indexSet in
+                vm.deleteEvent(indexSet)
             }
         }
     }

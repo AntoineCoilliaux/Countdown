@@ -36,29 +36,16 @@ struct EditorView: View {
                     HStack(alignment: .top) {
                         Group {
                             if vm.imageName.isLocalImage {
-                                // Image locale
-                                if let filename = vm.imageName.localFilename,
-                                   let fileURL = URL.localImageURL(filename: filename),
-                                   let uiImage = UIImage(contentsOfFile: fileURL.path) {
-                                    Image(uiImage: uiImage)
-                                        .resizable()
-                                        .scaledToFill()
-                                } else {
-                                    Image(systemName: K.EditorView.photo)
-                                        .resizable()
-                                }
+                               localImage
+                                
+                                
                             } else {
-                                // Image en ligne
-                                AsyncImage(url: vm.imageName) { image in
-                                    image.resizable()
-                                } placeholder: {
-                                    ProgressView()
-                                }
+                               onlineImage
                             }
                         }
-                        .frame(width: 50, height: 50)
+                        .frame(width: 60, height: 60)
                         .clipShape(Circle())
-                        .overlay(Circle().stroke(Color.black, lineWidth: 5))
+                        .overlay(Circle().stroke(Color.black, lineWidth: 2))
                         
                         .onTapGesture {
                             isShowingImageSheet = true
@@ -71,13 +58,7 @@ struct EditorView: View {
                         }
                         .frame(maxWidth: .infinity, alignment: .leading)
                     }
-                    
-                    DatePicker(
-                        "",
-                        selection: $vm.date,
-                        displayedComponents: [.date, .hourAndMinute]
-                    )
-                    .datePickerStyle(.graphical)
+                    datePicker
                 }
                 
             }
@@ -110,8 +91,42 @@ struct EditorView: View {
             .presentationDetents([.medium, .large])
         }
     }
+    
+    @ViewBuilder
+    private var localImage: some View {
+        if let filename = vm.imageName.localFilename,
+           let fileURL = URL.localImageURL(filename: filename),
+           let uiImage = UIImage(contentsOfFile: fileURL.path) {
+            Image(uiImage: uiImage)
+                .resizable()
+                .scaledToFill()
+        } else {
+            Image(systemName: K.EditorView.photo)
+                .resizable()
+                .scaledToFill()
+        }
+    }
+    
+    private var onlineImage: some View {
+        
+        AsyncImage(url: vm.imageName) { image in
+            image.resizable()
+        } placeholder: {
+            ProgressView()
+        }
+    }
+    
+    private var datePicker : some View {
+        DatePicker(
+            "",
+            selection: $vm.date,
+            displayedComponents: [.date, .hourAndMinute]
+        )
+        .datePickerStyle(.graphical)
+    }
 }
 
 //#Preview {
 //    AddAnEventView(, onSave)
 //}
+

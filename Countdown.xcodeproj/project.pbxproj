@@ -55,9 +55,9 @@
 		FA1D973C2F30FCFC00585250 = {
 			isa = PBXGroup;
 			children = (
-				FA1D97472F30FCFC00585250 /* Countdown */,
 				FA7D6FD82F3B8C1400134003 /* CountdownTests */,
 				FA1D97462F30FCFC00585250 /* Products */,
+				FA1D97472F30FCFC00585250 /* Countdown */,
 			);
 			sourceTree = "<group>";
 		};
