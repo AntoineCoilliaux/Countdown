@@ -21,6 +21,21 @@ class EventViewModel: ObservableObject {
         updateRemainingTime()
     }
     
+    var displayImage: UIImage? {
+        if event.imageName.isLocalImage {
+            guard let filename = event.imageName.localFilename,
+                  let fileURL = URL.localImageURL(filename: filename) else {
+                return nil
+            }
+            return UIImage(contentsOfFile: fileURL.path)
+        }
+        return nil
+    }
+    
+    var isLocalImage: Bool {
+        event.imageName.isLocalImage
+    }
+    
     private func updateRemainingTime() {
         let now = Date()
         let interval = event.date.timeIntervalSince(now)

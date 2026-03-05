@@ -9,13 +9,24 @@ import Foundation
 
 struct K {
     struct HomeView {
-        static let navigationTitle = "Events"
         static let noEventsYet = "No events yet"
         static let plusButon = "plus"
     }
     
     struct HomeViewModel {
-        static let userDefaultsKey = "events"
+        static let userDefaultsKeyEvents = "events"
+    }
+    
+    struct CategoryManager {
+        static let userDefaultsKeyCategories = "categories"
+    }
+    
+    struct CreateCategoryView {
+        static let sectionTitle = "Category Name"
+        static let namePlaceholder = "Enter category name"
+        static let navigationTitle = "New Category"
+        static let cancelButton = "Cancel"
+        static let saveButton = "Save"
     }
     
     struct EventView {
@@ -26,10 +37,18 @@ struct K {
     
     struct EditorView {
         static let navigationTitle = "New event"
-        static let title = "Title:"
+        static let titleHeader = "Title"
+        static let categoryHeader = "Category"
+        static let dateHeader = "Date"
         static let textfieldPlaceholder = "E.g. Holidays in Paris"
         static let doneButton = "Done"
         static let photo = "photo"
+        static let plusCircleFillSymbol = "plus.circle.fill"
+        static let plusCircleSymbol = "plus.circle"
+        static let createACategory = "Create a category"
+        static let categoryPicker = "Category"
+        static let none = "None"
+        static let addAnotherCategory = "Add another category"
     }
     
     struct UserPicturesPickerView {

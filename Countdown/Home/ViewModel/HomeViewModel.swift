@@ -10,6 +10,7 @@ import SwiftUI
 
 class HomeViewModel: ObservableObject {
     @Published var events: [Event] = []
+
     private var updateTimer: Timer?
     
     init() {
@@ -29,11 +30,13 @@ class HomeViewModel: ObservableObject {
         }
     }
     
+    //MARK - Events
     func addEvent(_ event: Event) {
         events.append(event)
         sortEvents()
         saveEvents()
     }
+    
     
     func sortEvents() {
         let now = Date()
@@ -56,7 +59,7 @@ class HomeViewModel: ObservableObject {
     private func saveEvents() {
         do {
             let data = try JSONEncoder().encode(events)
-            UserDefaults.standard.set(data, forKey: K.HomeViewModel.userDefaultsKey)
+            UserDefaults.standard.set(data, forKey: K.HomeViewModel.userDefaultsKeyEvents)
             UserDefaults.standard.synchronize()
         } catch {
             print("Failed to encode events:", error)
@@ -69,10 +72,9 @@ class HomeViewModel: ObservableObject {
             saveEvents()
         }
     }
-
     
     func loadEvents() -> [Event] {
-        guard let data = UserDefaults.standard.data(forKey: K.HomeViewModel.userDefaultsKey) else {
+        guard let data = UserDefaults.standard.data(forKey: K.HomeViewModel.userDefaultsKeyEvents) else {
             return []
         }
         do {
@@ -81,10 +83,9 @@ class HomeViewModel: ObservableObject {
             for event in events {
                
                 if event.imageName.isFileURL {
-                    let exists = FileManager.default.fileExists(atPath: event.imageName.path)
+                    let _ = FileManager.default.fileExists(atPath: event.imageName.path)
                 }
             }
-            
             return events
         } catch {
             return []
@@ -101,4 +102,40 @@ class HomeViewModel: ObservableObject {
         events.remove(atOffsets: indexSet)
         saveEvents()
     }
+    
+    //MARK: - Categories
+    
+    func deleteCategory(id: UUID, deleteEvents: Bool, categoryManager: CategoryManager) {
+        if deleteEvents {
+            events.removeAll { $0.categoryID == id }
+        } else {
+            for i in 0..<events.count {
+                if events[i].categoryID == id {
+                    events[i] = Event(
+                        id: events[i].id,
+                        name: events[i].name,
+                        date: events[i].date,
+                        imageName: events[i].imageName,
+                        categoryID: nil
+                    )
+                }
+            }
+        }
+        
+        saveEvents()
+        categoryManager.deleteCategory(id: id)
+    }
+     
+     func deleteEvents(withIds ids: [UUID]) {
+         for id in ids {
+             if let index = events.firstIndex(where: { $0.id == id }) {
+                 let event = events[index]
+                 if event.imageName.isFileURL {
+                     try? FileManager.default.removeItem(at: event.imageName)
+                 }
+             }
+         }
+         events.removeAll { ids.contains($0.id) }
+         saveEvents()
+     }
 }

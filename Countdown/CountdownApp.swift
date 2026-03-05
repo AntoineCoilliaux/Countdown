@@ -9,9 +9,13 @@ import SwiftUI
 
 @main
 struct CountdownApp: App {
+    
+    @StateObject private var categoryManager = CategoryManager()  // ✅ Singleton global
+
     var body: some Scene {
         WindowGroup {
             HomeView()
+                .environmentObject(categoryManager)
         }
     }
 }

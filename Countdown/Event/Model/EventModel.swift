@@ -12,4 +12,5 @@ struct Event: Codable, Identifiable {
     let name: String
     let date: Date
     let imageName: URL
+    var categoryID: UUID?
 }

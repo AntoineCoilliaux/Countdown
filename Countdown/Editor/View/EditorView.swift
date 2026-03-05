@@ -8,10 +8,14 @@
 import SwiftUI
 
 struct EditorView: View {
-    @StateObject var vm = EditorViewModel(mode: .add)
+    @StateObject var vm: EditorViewModel
+    
     @Environment(\.dismiss) private var dismiss
+    
+    @EnvironmentObject var categoryManager: CategoryManager
+    
     @State private var isShowingImageSheet = false
-    @State private var selectedImageURL: URL?
+    @State private var isShowingNewCategorySheet = false
     
     let onSave: (Event) -> Void
     
@@ -28,39 +32,15 @@ struct EditorView: View {
     var body: some View {
         NavigationStack {
             VStack {
-                Text(K.EditorView.navigationTitle)
+                Text(vm.name.isEmpty ? K.EditorView.navigationTitle : vm.name)
                     .fontWeight(.bold)
                     .padding(5)
                 Spacer()
                 Form {
-                    HStack(alignment: .top) {
-                        Group {
-                            if vm.imageName.isLocalImage {
-                               localImage
-                                
-                                
-                            } else {
-                               onlineImage
-                            }
-                        }
-                        .frame(width: 60, height: 60)
-                        .clipShape(Circle())
-                        .overlay(Circle().stroke(Color.black, lineWidth: 2))
-                        
-                        .onTapGesture {
-                            isShowingImageSheet = true
-                        }
-                        
-                        VStack(alignment: .leading) {
-                            Text(K.EditorView.title)
-                            TextField(K.EditorView.textfieldPlaceholder, text: $vm.name )
-                                .textFieldStyle(RoundedBorderTextFieldStyle())
-                        }
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                    }
-                    datePicker
+                    titleSection
+                    categorySection
+                    datePickerSection
                 }
-                
             }
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
@@ -82,7 +62,6 @@ struct EditorView: View {
                     vm.imageName = url
                     isShowingImageSheet = false
                 },
-                
                 onPhotosSelect: { url in
                     vm.imageName = url
                     isShowingImageSheet = false
@@ -90,39 +69,136 @@ struct EditorView: View {
             )
             .presentationDetents([.medium, .large])
         }
+        .alert(
+            "New Category",
+            isPresented: $isShowingNewCategorySheet
+        ) {
+            newCategoryActions
+        }
     }
+    
+    //MARK: - Alert
+    
+    private var newCategoryActions: some View {
+        Group {
+            TextField("e.g. Birthdays", text: $vm.newCategoryName)
+            Button("Save") {
+                _ = vm.createCategory(in: categoryManager)
+            }
+            .disabled(!vm.canSaveCategory)
+
+            Button("Cancel", role: .cancel) {
+                vm.resetNewCategoryName()
+            }
+        }
+    }
+    
+//MARK: - Image View
     
     @ViewBuilder
-    private var localImage: some View {
-        if let filename = vm.imageName.localFilename,
-           let fileURL = URL.localImageURL(filename: filename),
-           let uiImage = UIImage(contentsOfFile: fileURL.path) {
-            Image(uiImage: uiImage)
-                .resizable()
-                .scaledToFill()
+    private var imageView: some View {
+        if vm.isLocalImage {
+            if let uiImage = vm.displayImage {
+                Image(uiImage: uiImage)
+                    .resizable()
+                    .scaledToFill()
+            } else {
+                Image(systemName: K.EditorView.photo)
+                    .resizable()
+                    .scaledToFill()
+            }
         } else {
-            Image(systemName: K.EditorView.photo)
-                .resizable()
-                .scaledToFill()
+            AsyncImage(url: vm.imageName) { image in
+                image.resizable()
+            } placeholder: {
+                ProgressView()
+            }
         }
     }
     
-    private var onlineImage: some View {
-        
-        AsyncImage(url: vm.imageName) { image in
-            image.resizable()
-        } placeholder: {
-            ProgressView()
+    // MARK: - Sections
+    
+    private var titleSection: some View {
+        Section {
+            HStack(alignment: .top) {
+                imageView
+                    .frame(width: 60, height: 60)
+                    .clipShape(Circle())
+                    .overlay(Circle().stroke(Color.black, lineWidth: 2))
+                    .onTapGesture {
+                        isShowingImageSheet = true
+                    }
+                
+                VStack(alignment: .center) {
+                    Spacer()
+                    TextField(K.EditorView.textfieldPlaceholder, text: $vm.name)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                    Spacer()
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+            }
+        } header: {
+            Text(K.EditorView.titleHeader)
         }
     }
     
-    private var datePicker : some View {
-        DatePicker(
-            "",
-            selection: $vm.date,
-            displayedComponents: [.date, .hourAndMinute]
-        )
-        .datePickerStyle(.graphical)
+    private var categorySection: some View {
+        Section {
+            if categoryManager.categories.isEmpty {
+                Button {
+                    vm.resetNewCategoryName()  // ✅
+                    isShowingNewCategorySheet = true
+                } label: {
+                    HStack {
+                        Image(systemName: K.EditorView.plusCircleFillSymbol)
+                            .foregroundColor(.blue)
+                        Text(K.EditorView.createACategory)
+                    }
+                }
+            } else {
+                Picker(K.EditorView.categoryPicker, selection: $vm.selectedCategoryId) {
+                    Text(K.EditorView.none)
+                        .tag(nil as UUID?)
+                    
+                    ForEach(categoryManager.categories) { category in
+                        HStack {
+                            Circle()
+                                .fill(.yellow)
+                                .frame(width: 12, height: 12)
+                            Text(category.name)
+                        }
+                        .tag(category.id as UUID?)
+                    }
+                }
+                
+                Button {
+                    vm.resetNewCategoryName()  // ✅
+                    isShowingNewCategorySheet = true
+                } label: {
+                    HStack {
+                        Image(systemName: K.EditorView.plusCircleSymbol)
+                        Text(K.EditorView.addAnotherCategory)
+                    }
+                    .font(.subheadline)
+                    .foregroundColor(.blue)
+                }
+            }
+        } header: {
+            Text(K.EditorView.categoryHeader)
+        }
+    }
+    
+    private var datePickerSection: some View {
+        Section {
+            DatePicker(
+                "",
+                selection: $vm.date,
+                displayedComponents: [.date, .hourAndMinute]
+            )
+            .datePickerStyle(.graphical)
+        } header: {
+            Text(K.EditorView.dateHeader)
+        }
     }
 }
 

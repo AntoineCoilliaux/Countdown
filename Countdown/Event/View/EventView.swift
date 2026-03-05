@@ -9,14 +9,12 @@ import SwiftUI
 
 struct EventView: View {
     @ObservedObject var viewModel: EventViewModel
-
+    
     var body: some View {
         HStack {
             Group {
-                if viewModel.event.imageName.isLocalImage {
-                    if let filename = viewModel.event.imageName.localFilename,
-                       let fileURL = URL.localImageURL(filename: filename),
-                       let uiImage = UIImage(contentsOfFile: fileURL.path) {
+                if viewModel.isLocalImage {
+                    if let uiImage = viewModel.displayImage {
                         Image(uiImage: uiImage)
                             .resizable()
                     } else {
@@ -34,7 +32,7 @@ struct EventView: View {
             .frame(width: 60, height: 60)
             .clipShape(Circle())
             .overlay(Circle().stroke(Color.black, lineWidth: 2))
-
+            
             VStack(alignment: .leading) {
                 Text(viewModel.event.name)
                     .font(.headline)
@@ -62,11 +60,11 @@ struct EventView: View {
                     .foregroundColor(viewModel.isInFuture ? .green : .red)
             }
         }
-        .padding()
-
+        .padding(.vertical, 3)
+        
     }
 }
 
-#Preview {
-    EventView(viewModel: EventViewModel(event: Event(id: UUID(), name: "Weekend in Paris", date: Date(), imageName: URL(string: "https://fastly.picsum.photos/id/998/300/300.jpg?hmac=CqTPyw23mdWCpY1vSNoWUU5ipnTa6BtTsGc_ztfonWI")!)))
-}
+//#Preview {
+//    EventView(viewModel: EventViewModel(event: Event(id: UUID(), name: "Weekend in Paris", date: Date(), imageName: URL(string: "https://fastly.picsum.photos/id/998/300/300.jpg?hmac=CqTPyw23mdWCpY1vSNoWUU5ipnTa6BtTsGc_ztfonWI")!)))
+//}
