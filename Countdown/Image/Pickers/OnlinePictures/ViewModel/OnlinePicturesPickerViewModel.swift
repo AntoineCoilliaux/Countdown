@@ -9,7 +9,7 @@ import Combine
 import Foundation
 
 class OnlinePicturesPickerViewModel: ObservableObject {
-    var images: [URL] = []
+    @Published var images: [URL] = []
 
     func loadRandomImages() {
         var newImages: [URL] = []

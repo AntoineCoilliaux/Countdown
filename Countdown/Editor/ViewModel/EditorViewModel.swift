@@ -14,7 +14,7 @@ final class EditorViewModel: ObservableObject {
     @Published var date: Date
     @Published var imageName: URL
     @Published var selectedCategoryId: UUID?
-    @Published var newCategoryName: String = ""  // ✅ Déplace ici
+    @Published var newCategoryName: String = ""
     
     var randomNumber = Int.random(in: 0...100)
     let characterLimit: Int = 35
@@ -46,12 +46,10 @@ final class EditorViewModel: ObservableObject {
         !name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty && name.count < characterLimit
     }
     
-    // ✅ Logique de validation de catégorie
     var canSaveCategory: Bool {
-        !newCategoryName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+        !newCategoryName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty && newCategoryName.count < characterLimit
     }
     
-    // ✅ Computed properties pour l'affichage de l'image
     var isLocalImage: Bool {
         imageName.isLocalImage
     }
@@ -65,20 +63,18 @@ final class EditorViewModel: ObservableObject {
         return UIImage(contentsOfFile: fileURL.path)
     }
     
-    // ✅ Méthode pour créer une catégorie
     func createCategory(in categoryManager: CategoryManager) -> Category? {
         let trimmed = newCategoryName.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !trimmed.isEmpty else { return nil }
+        guard !trimmed.isEmpty, trimmed.count <= characterLimit else { return nil }
         
         let newCategory = Category(id: UUID(), name: trimmed)
         categoryManager.addCategory(newCategory)
         selectedCategoryId = newCategory.id
-        newCategoryName = ""  // Reset
+        newCategoryName = ""
         
         return newCategory
     }
     
-    // ✅ Méthode pour reset le nom de catégorie
     func resetNewCategoryName() {
         newCategoryName = ""
     }
@@ -91,7 +87,7 @@ final class EditorViewModel: ObservableObject {
                 name: name,
                 date: date,
                 imageName: imageName,
-                categoryID: selectedCategoryId  // ✅ Utilise la catégorie sélectionnée
+                categoryID: selectedCategoryId
             )
         case .edit(let existing):
             return Event(
@@ -99,7 +95,7 @@ final class EditorViewModel: ObservableObject {
                 name: name,
                 date: date,
                 imageName: imageName,
-                categoryID: selectedCategoryId  // ✅ Permet de changer la catégorie
+                categoryID: selectedCategoryId
             )
         }
     }

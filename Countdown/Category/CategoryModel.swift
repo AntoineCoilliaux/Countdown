@@ -9,5 +9,5 @@ import Foundation
 
 struct Category: Codable, Identifiable, Equatable {
     let id: UUID
-    let name: String
+    var name: String
 }

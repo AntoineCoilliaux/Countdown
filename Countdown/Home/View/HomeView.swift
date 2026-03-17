@@ -5,48 +5,55 @@
 //  Created by Antoine Coilliaux on 03/02/2026.
 //
 
+//
+//  HomeView.swift
+//  Countdown
+//
+//  Created by Antoine Coilliaux on 03/02/2026.
+//
+
 import SwiftUI
 
-struct HomeView: View {
-    @StateObject private var vm = HomeViewModel()
-    
+// MARK: - Wrapper
+
+struct HomeViewWrapper: View {
+    @EnvironmentObject private var eventStore: EventStore
     @EnvironmentObject private var categoryManager: CategoryManager
-    
+
+    var body: some View {
+        HomeView(vm: HomeViewModel(eventStore: eventStore, categoryManager: categoryManager))
+    }
+}
+
+// MARK: - HomeView
+
+struct HomeView: View {
+    @StateObject private var vm: HomeViewModel
+    @EnvironmentObject private var categoryManager: CategoryManager
+
     @State private var showingAddEvent = false
     @State private var showingManageCategories = false
-    @State private var selectedCategoryId: UUID?
-    @State private var categoryIndexPendingDeletion: IndexSet?
-    @State private var showDeleteCategoryAlert = false
-    
+
+    init(vm: HomeViewModel) {
+        _vm = StateObject(wrappedValue: vm)
+    }
+
     var body: some View {
         NavigationStack {
-            VStack {
-                if !vm.events.isEmpty {
-                    eventList
+            Group {
+                if vm.filteredEvents.isEmpty {
+                    emptyState
                 } else {
-                    Spacer()
-                    Text(K.HomeView.noEventsYet)
-                        .foregroundColor(.secondary)
-                    Spacer()
+                    eventList
                 }
             }
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
-                    categoryListView
+                    categoryMenuView
                 }
-                
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button {
-                        showingAddEvent = true
-                    } label: {
-                        Image(systemName: K.HomeView.plusButon)
-                    }
-                    .buttonStyle(.borderedProminent)
+                    addButton
                 }
-            }
-            .onAppear {
-                vm.events = vm.loadEvents()
-                vm.sortEvents()
             }
             .sheet(isPresented: $showingAddEvent) {
                 EditorView { newEvent in
@@ -54,48 +61,56 @@ struct HomeView: View {
                 }
             }
             .sheet(isPresented: $showingManageCategories) {
-                ManageCategoriesView(
-                    categoryManager: categoryManager,
-                    onDelete: { id, deleteEvents in
-                        vm.deleteCategory(
-                            id: id,
-                            deleteEvents: deleteEvents,
-                            categoryManager: categoryManager
-                        )
-                    }
-                )
+                ManageCategoriesView()
             }
         }
     }
-    
-    // MARK: - Sections
-    
-    private var categoryListView: some View {
+
+    // MARK: - Subviews
+
+    private var emptyState: some View {
+        ContentUnavailableView(
+            K.HomeView.noEventsYet,
+            systemImage: "calendar.badge.clock"
+        )
+    }
+
+    private var addButton: some View {
+        Button {
+            showingAddEvent = true
+        } label: {
+            Image(systemName: K.HomeView.plusButon)
+        }
+        .buttonStyle(.borderedProminent)
+        .tint(.blue)
+    }
+
+    private var categoryMenuView: some View {
         Menu {
-            Button(action: { selectedCategoryId = nil }) {
-                Label("All", systemImage: selectedCategoryId == nil ? "checkmark" : "")
+            Button {
+                categoryManager.selectedCategoryId = nil
+            } label: {
+                Label("All", systemImage: categoryManager.selectedCategoryId == nil ? "checkmark" : "")
             }
-            
+
             Divider()
-            
-            if !categoryManager.categories.isEmpty {
-                ForEach(categoryManager.categories) { category in
-                    Button(action: { selectedCategoryId = category.id }) {
-                        HStack {
-                            Circle().fill(.yellow).frame(width: 10, height: 10)
-                            Text(category.name)
-                            if selectedCategoryId == category.id {
-                                Image(systemName: "checkmark")
-                            }
-                        }
-                    }
+
+            ForEach(categoryManager.categories) { category in
+                Button {
+                    categoryManager.selectedCategoryId = category.id
+                } label: {
+                    Label(
+                        category.name,
+                        systemImage: categoryManager.selectedCategoryId == category.id ? "checkmark" : ""
+                    )
                 }
             }
-            
+
             Divider()
-            
-            // ✅ Bouton "Manage"
-            Button(action: { showingManageCategories = true }) {
+
+            Button {
+                showingManageCategories = true
+            } label: {
                 Label("Manage Categories", systemImage: "pencil")
             }
         } label: {
@@ -108,10 +123,10 @@ struct HomeView: View {
             }
         }
     }
-    
+
     private var eventList: some View {
         List {
-            ForEach(filteredEvents) { event in
+            ForEach(vm.filteredEvents) { event in
                 NavigationLink {
                     EditorView(event: event) { updatedEvent in
                         vm.updateEvent(updatedEvent)
@@ -121,48 +136,28 @@ struct HomeView: View {
                 }
             }
             .onDelete { indexSet in
-                handleDeleteEvents(indexSet)
+                let ids = indexSet.map { vm.filteredEvents[$0].id }
+                vm.deleteEvents(withIds: ids)
             }
         }
     }
-    
+
     // MARK: - Helpers
-    
+
     private var currentCategoryName: String {
-        if let id = selectedCategoryId,
-           let cat = categoryManager.categories.first(where: { $0.id == id }) {
-            return cat.name
-        }
-        return "All"
-    }
-    
-    private var filteredEvents: [Event] {
-        guard let selectedCategoryId else { return vm.events }
-        return vm.events.filter { $0.categoryID == selectedCategoryId }
-    }
-    
-    private func handleDeleteCategory(deleteEvents: Bool) {
-        guard let indexSet = categoryIndexPendingDeletion else { return }
-        
-        for index in indexSet {
-            let category = categoryManager.categories[index]
-            vm.deleteCategory(
-                id: category.id,
-                deleteEvents: deleteEvents,
-                categoryManager: categoryManager
-            )
-        }
-        
-        categoryIndexPendingDeletion = nil
-    }
-    
-    private func handleDeleteEvents(_ indexSet: IndexSet) {
-        let eventsToDelete = indexSet.map { filteredEvents[$0].id }
-        vm.deleteEvents(withIds: eventsToDelete)
+        guard let id = categoryManager.selectedCategoryId,
+              let category = categoryManager.categories.first(where: { $0.id == id })
+        else { return "All" }
+        return category.name
     }
 }
+
+// MARK: - Preview
 
 #Preview {
-    HomeView()
+    let eventStore = EventStore()
+    let categoryManager = CategoryManager(eventStore: eventStore)
+    HomeView(vm: HomeViewModel(eventStore: eventStore, categoryManager: categoryManager))
+        .environmentObject(categoryManager)
+        .environmentObject(eventStore)
 }
-

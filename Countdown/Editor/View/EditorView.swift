@@ -1,5 +1,5 @@
 //
-//  AddAnEventView.swift
+//  EditorView.swift
 //  Countdown
 //
 //  Created by Antoine Coilliaux on 03/02/2026.
@@ -32,10 +32,6 @@ struct EditorView: View {
     var body: some View {
         NavigationStack {
             VStack {
-                Text(vm.name.isEmpty ? K.EditorView.navigationTitle : vm.name)
-                    .fontWeight(.bold)
-                    .padding(5)
-                Spacer()
                 Form {
                     titleSection
                     categorySection
@@ -146,7 +142,7 @@ struct EditorView: View {
         Section {
             if categoryManager.categories.isEmpty {
                 Button {
-                    vm.resetNewCategoryName()  // ✅
+                    vm.resetNewCategoryName()
                     isShowingNewCategorySheet = true
                 } label: {
                     HStack {
@@ -172,7 +168,7 @@ struct EditorView: View {
                 }
                 
                 Button {
-                    vm.resetNewCategoryName()  // ✅
+                    vm.resetNewCategoryName()
                     isShowingNewCategorySheet = true
                 } label: {
                     HStack {

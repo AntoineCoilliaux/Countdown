@@ -10,8 +10,12 @@ import Foundation
 
 class CategoryManager: ObservableObject {
     @Published var categories: [Category] = []
+    @Published var selectedCategoryId: UUID?
     
-    init() {
+    private let eventStore: EventStore
+    
+    init(eventStore: EventStore) {
+        self.eventStore = eventStore
         self.categories = loadCategories()
     }
     
@@ -20,7 +24,28 @@ class CategoryManager: ObservableObject {
         saveCategories()
     }
     
-    func deleteCategory(id: UUID) {
+    func renameCategory(id: UUID, newName: String) {
+        let trimmedName = newName.trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        guard !trimmedName.isEmpty,
+              let index = categories.firstIndex(where: { $0.id == id })
+        else { return }
+        
+        categories[index].name = trimmedName
+        saveCategories()
+    }
+    
+    func deleteCategory(id: UUID, deleteEvents: Bool) {
+        if deleteEvents {
+            eventStore.deleteEvents(inCategory: id)
+        } else {
+            eventStore.moveEventsFromCategoryToAll(id)
+        }
+        
+        if selectedCategoryId == id {
+            selectedCategoryId = nil
+        }
+        
         categories.removeAll { $0.id == id }
         saveCategories()
     }

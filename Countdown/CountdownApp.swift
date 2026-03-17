@@ -9,12 +9,19 @@ import SwiftUI
 
 @main
 struct CountdownApp: App {
+    @StateObject private var eventStore = EventStore()
+    @StateObject private var categoryManager: CategoryManager
     
-    @StateObject private var categoryManager = CategoryManager()  // ✅ Singleton global
+    init() {
+        let store = EventStore()
+        _eventStore = StateObject(wrappedValue: store)
+        _categoryManager = StateObject(wrappedValue: CategoryManager(eventStore: store))
+    }
 
     var body: some Scene {
         WindowGroup {
-            HomeView()
+            HomeViewWrapper()
+                .environmentObject(eventStore)
                 .environmentObject(categoryManager)
         }
     }

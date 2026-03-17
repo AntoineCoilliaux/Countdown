@@ -8,12 +8,13 @@
 import SwiftUI
 
 struct ManageCategoriesView: View {
-    @ObservedObject var categoryManager: CategoryManager
+    @EnvironmentObject var categoryManager: CategoryManager
     @Environment(\.dismiss) private var dismiss
     @State private var categoryIndexPendingDeletion: IndexSet? = nil
     @State private var showDeleteAlert = false
-    
-    let onDelete: (UUID, Bool) -> Void
+    @State private var categoryToEdit: Category?
+    @State private var editedName: String = ""
+    @State private var showEditAlert = false
     
     var body: some View {
         NavigationStack {
@@ -22,6 +23,11 @@ struct ManageCategoriesView: View {
                     HStack {
                         Circle().fill(.yellow).frame(width: 10, height: 10)
                         Text(category.name)
+                    }
+                    .onTapGesture {
+                        categoryToEdit = category
+                        editedName = category.name
+                        showEditAlert = true
                     }
                 }
                 .onDelete { indexSet in
@@ -50,6 +56,18 @@ struct ManageCategoriesView: View {
             } message: {
                 Text("Do you want to delete only the category (events will move to All) or delete the category and all its events?")
             }
+            
+            .alert("Rename category", isPresented: $showEditAlert) {
+                TextField("Category name", text: $editedName)
+
+                Button("Save") {
+                    if let category = categoryToEdit {
+                        categoryManager.renameCategory(id: category.id, newName: editedName)
+                    }
+                }
+
+                Button("Cancel", role: .cancel) { }
+            }
         }
     }
     
@@ -58,7 +76,7 @@ struct ManageCategoriesView: View {
         
         for index in indexSet {
             let category = categoryManager.categories[index]
-            onDelete(category.id, deleteEvents)
+            categoryManager.deleteCategory(id: category.id, deleteEvents: deleteEvents)
         }
         
         categoryIndexPendingDeletion = nil
