@@ -1,8 +1,10 @@
-📱 Countdown
+# Countdown 📱
 
-Countdown is an iOS application that lets users create and track important events with a real-time countdown.
+**Countdown** is an iOS application that lets users create and track important events with a real-time countdown.
 
-✨ Features
+---
+
+## ✨ Features
 
 ➕ Create custom events with:
 
@@ -14,29 +16,37 @@ Image (photo or visual)
 
 Optional category
 
-⏳ Live countdown:
+##⏳ Live countdown:
 
 Displays time remaining for upcoming events
 
 Automatically updates in real time
 
-📊 Smart sorting:
+---
+
+## 📊 Smart sorting:
 
 Future events → sorted from the most imminent to the furthest
 
 Past events → sorted from the most recent to the oldest
 
-🗂 Category management:
+---
+
+## 🗂 Category management:
 
 Create, rename, and delete categories
 
 Filter events by category
 
-🖼 Flexible visuals:
+---
+
+## 🖼 Flexible visuals:
 
 Attach images to events for better personalization
 
-🧠 How it works
+---
+
+## 🧠 How it works
 
 The app continuously sorts events based on the current date:
 
@@ -46,7 +56,9 @@ Past events remain accessible and are sorted separately
 
 A timer ensures that the UI stays up to date without requiring manual refresh.
 
-🛠 Tech Stack
+---
+
+## 🛠 Tech Stack
 
 Swift
 
@@ -58,7 +70,9 @@ UserDefaults for local persistence
 
 MVVM architecture
 
-📂 Architecture Overview
+---
+
+## 📂 Architecture Overview
 
 EventStore
 Centralized data manager handling:
@@ -75,7 +89,9 @@ Handles category logic and interactions with events
 HomeViewModel
 Combines events and selected category to produce filtered data for the UI
 
-🚀 Future Improvements
+---
+
+## 🚀 Future Improvements
 
 Possibility to make widgets from events
 
@@ -85,7 +101,9 @@ iCloud sync
 
 Notifications for upcoming events
 
-📸 Example Use Cases
+---
+
+## 📸 Example Use Cases
 
 Track upcoming holidays ✈️
 
@@ -95,6 +113,8 @@ Remember past milestones 📅
 
 Organize events by category (F1 GPs, Trips, Work Deadlines..)
 
-📌 Notes
+---
+
+## 📌 Notes
 
 All data is stored locally on the device. No account or internet connection is required for core functionality.
