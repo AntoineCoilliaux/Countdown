@@ -15,7 +15,7 @@ struct EventView: View {
             eventImage
                 .frame(width: 60, height: 60)
                 .clipShape(Circle())
-                .overlay(Circle().stroke(Color.black, lineWidth: 2))
+                .overlay(Circle().stroke(Color.black, lineWidth: 1))
 
             VStack(alignment: .leading) {
                 Text(event.name)

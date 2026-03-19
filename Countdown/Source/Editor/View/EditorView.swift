@@ -114,7 +114,7 @@ struct EditorView: View {
                 imageView
                     .frame(width: 60, height: 60)
                     .clipShape(Circle())
-                    .overlay(Circle().stroke(Color.black, lineWidth: 2))
+                    .overlay(Circle().stroke(Color.black, lineWidth: 1))
                     .onTapGesture {
                         isShowingImageSheet = true
                     }

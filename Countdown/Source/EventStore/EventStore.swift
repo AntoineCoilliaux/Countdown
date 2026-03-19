@@ -38,7 +38,7 @@ final class EventStore: ObservableObject {
         for id in ids {
             if let index = events.firstIndex(where: { $0.id == id }) {
                 let event = events[index]
-                if event.imageName.isFileURL {
+                if event.imageName.isLocalImage {
                     try? FileManager.default.removeItem(at: event.imageName)
                 }
             }
@@ -49,7 +49,7 @@ final class EventStore: ObservableObject {
 
     func deleteEvents(inCategory id: UUID) {
         for event in events where event.categoryID == id {
-            if event.imageName.isFileURL {
+            if event.imageName.isLocalImage {
                 try? FileManager.default.removeItem(at: event.imageName)
             }
         }

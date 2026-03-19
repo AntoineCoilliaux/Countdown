@@ -5,43 +5,19 @@
 //  Created by Antoine Coilliaux on 03/02/2026.
 //
 
-//
-//  HomeView.swift
-//  Countdown
-//
-//  Created by Antoine Coilliaux on 03/02/2026.
-//
-
 import SwiftUI
 
-// MARK: - Wrapper
-
-struct HomeViewWrapper: View {
-    @EnvironmentObject private var eventStore: EventStore
-    @EnvironmentObject private var categoryManager: CategoryManager
-
-    var body: some View {
-        HomeView(vm: HomeViewModel(eventStore: eventStore, categoryManager: categoryManager))
-    }
-}
-
-// MARK: - HomeView
-
 struct HomeView: View {
-    @StateObject private var vm: HomeViewModel
+    @EnvironmentObject private var eventStore: EventStore
     @EnvironmentObject private var categoryManager: CategoryManager
 
     @State private var showingAddEvent = false
     @State private var showingManageCategories = false
 
-    init(vm: HomeViewModel) {
-        _vm = StateObject(wrappedValue: vm)
-    }
-
     var body: some View {
         NavigationStack {
             Group {
-                if vm.filteredEvents.isEmpty {
+                if filteredEvents.isEmpty {
                     emptyState
                 } else {
                     eventList
@@ -57,7 +33,7 @@ struct HomeView: View {
             }
             .sheet(isPresented: $showingAddEvent) {
                 EditorView { newEvent in
-                    vm.addEvent(newEvent)
+                    eventStore.add(newEvent)
                 }
             }
             .sheet(isPresented: $showingManageCategories) {
@@ -107,11 +83,12 @@ struct HomeView: View {
             }
 
             Divider()
-
-            Button {
-                showingManageCategories = true
-            } label: {
-                Label("Manage Categories", systemImage: "pencil")
+            if !categoryManager.categories.isEmpty {
+                Button {
+                    showingManageCategories = true
+                } label: {
+                    Label("Manage Categories", systemImage: "pencil")
+                }
             }
         } label: {
             HStack(spacing: 6) {
@@ -126,23 +103,30 @@ struct HomeView: View {
 
     private var eventList: some View {
         List {
-            ForEach(vm.filteredEvents) { event in
+            ForEach(filteredEvents) { event in
                 NavigationLink {
                     EditorView(event: event) { updatedEvent in
-                        vm.updateEvent(updatedEvent)
+                        eventStore.update(updatedEvent)
                     }
                 } label: {
                     EventView(event: event)
                 }
             }
             .onDelete { indexSet in
-                let ids = indexSet.map { vm.filteredEvents[$0].id }
-                vm.deleteEvents(withIds: ids)
+                let ids = indexSet.map { filteredEvents[$0].id }
+                eventStore.delete(withIds: ids)
             }
         }
     }
 
     // MARK: - Helpers
+
+    private var filteredEvents: [Event] {
+        guard let id = categoryManager.selectedCategoryId else {
+            return eventStore.events
+        }
+        return eventStore.events.filter { $0.categoryID == id }
+    }
 
     private var currentCategoryName: String {
         guard let id = categoryManager.selectedCategoryId,
@@ -157,7 +141,7 @@ struct HomeView: View {
 #Preview {
     let eventStore = EventStore()
     let categoryManager = CategoryManager(eventStore: eventStore)
-    HomeView(vm: HomeViewModel(eventStore: eventStore, categoryManager: categoryManager))
-        .environmentObject(categoryManager)
+    HomeView()
         .environmentObject(eventStore)
+        .environmentObject(categoryManager)
 }

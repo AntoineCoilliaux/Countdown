@@ -43,6 +43,11 @@ struct ManageCategoriesView: View {
                     }
                 }
             }
+            .onChange(of: categoryManager.categories.count) { oldValue, newValue in
+                if newValue == 0 {
+                    dismiss()
+                }
+            }
             .alert(K.ManageCategoriesView.alertDeleteCategory, isPresented: $showDeleteAlert) {
                 Button(K.ManageCategoriesView.alertDeleteCategoryOnly, role: .destructive) {
                     handleDelete(deleteEvents: false)
@@ -86,3 +91,4 @@ struct ManageCategoriesView: View {
 //#Preview {
 //    ManageCategoriesView()
 //}
+
