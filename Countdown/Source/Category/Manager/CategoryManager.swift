@@ -62,4 +62,9 @@ class CategoryManager: ObservableObject {
             UserDefaults.standard.set(data, forKey: K.CategoryManager.userDefaultsKeyCategories)
         }
     }
+    
+    func updateCategory(_ category: Category) {
+        guard let index = categories.firstIndex(where: { $0.id == category.id }) else { return }
+        categories[index] = category
+    }
 }

@@ -78,6 +78,16 @@ final class EditorViewModel: ObservableObject {
         return newCategory
     }
     
+    func updateCategory(in categoryManager: CategoryManager) {
+        guard let id = selectedCategoryId else { return }
+        let trimmed = newCategoryName.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmed.isEmpty, trimmed.count <= characterLimit else { return }
+        
+        let updatedCategory = Category(id: id, name: trimmed, colour: colour)
+        categoryManager.updateCategory(updatedCategory)
+        newCategoryName = ""
+    }
+    
     func resetNewCategoryName() {
         newCategoryName = ""
     }

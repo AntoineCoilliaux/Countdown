@@ -15,8 +15,10 @@ struct EditorView: View {
     
     @State private var isShowingImageSheet = false
     @State private var isShowingNewCategoryForm = false
+    @State private var isShowingEditCategoryForm = false
     @State private var selectedHex: String? = nil
     @State private var shouldShowAddCategoryButton = true
+    @State private var shouldShowEditCategoryButton = true
     
     private let categoryColors: [(name: String, hex: String)] = [
         ("Red",    "#FF453A"),
@@ -27,7 +29,8 @@ struct EditorView: View {
         ("Blue",   "#0A84FF"),
         ("Purple", "#BF5AF2"),
         ("Gray",   "#8E8E93"),
-        ("Brown",  "#A2845E")
+        ("Brown",  "#A2845E"),
+        ("Black",  "#000000")
     ]
     
     let onSave: (Event) -> Void
@@ -72,10 +75,10 @@ struct EditorView: View {
                 isShowingImageSheet = false
             }
         }
-        .alert("Error", isPresented: $vm.showSaveError) {
-            Button("OK", role: .cancel) { }
+        .alert(K.EditorView.saveErrorTitle, isPresented: $vm.showSaveError) {
+            Button(K.EditorView.saveErrorOKButton, role: .cancel) { }
         } message: {
-            Text("Could not save the image. Please check your connection.")
+            Text(K.EditorView.saveErrorDescription)
         }
     }
     
@@ -102,7 +105,7 @@ struct EditorView: View {
         }
     }
     
-    // MARK: - Sections
+    // MARK: - Form sections
     
     private var titleSection: some View {
         Section {
@@ -156,6 +159,18 @@ struct EditorView: View {
                     }
                 }
                 
+                if vm.selectedCategoryId != nil && shouldShowEditCategoryButton {
+                    Button {
+                        showEditCategoryForm()
+                    } label: {
+                        HStack {
+                            Image(systemName: "plus.circle")
+                            Text(K.EditorView.editCategory)
+                        }
+                        .font(.subheadline)
+                        .foregroundColor(.blue)
+                    }
+                }
                 if shouldShowAddCategoryButton {
                     Button {
                         showNewCategoryForm()
@@ -170,17 +185,33 @@ struct EditorView: View {
                 }
             }
             
-            if isShowingNewCategoryForm {
+            if isShowingNewCategoryForm || isShowingEditCategoryForm {
+                
                 TextField(K.EditorView.newCategoryPlaceholder, text: $vm.newCategoryName)
                 if !vm.newCategoryName.isEmpty {
-                    colorRow
+                    ColorRow(categoryColors: categoryColors, selectedHex: $selectedHex) { hex in
+                        if vm.canSaveCategory {
+                            vm.colour = hex
+                            if isShowingEditCategoryForm {
+                                tryUpdateCategory()
+                            } else {
+                                trySaveNewCategory()
+                            }
+                        }
+                    }
                 }
                 
                 Button(K.EditorView.newCategoryCancelButton, role: .cancel) {
                     vm.resetNewCategoryName()
-                    hideNewCategoryForm()
+                    
+                    if isShowingNewCategoryForm {
+                        hideNewCategoryForm()
+                    } else if isShowingEditCategoryForm {
+                        hideEditCategoryForm()
+                    }
                 }
             }
+            
         } header: {
             Text(K.EditorView.categoryHeader)
         }
@@ -199,55 +230,12 @@ struct EditorView: View {
         }
     }
     
-    // MARK: - Color Row
-    
-    private var colorRow: some View {
-        ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: 10) {
-                ZStack {
-                    Circle()
-                        .strokeBorder(style: StrokeStyle(lineWidth: 1.5, dash: [4]))
-                        .foregroundStyle(Color.secondary)
-                        .frame(width: 28, height: 28)
-                    
-                    if selectedHex == nil {
-                        Circle()
-                            .fill(Color.secondary.opacity(0.2))
-                            .frame(width: 28, height: 28)
-                    }
-                }
-                .onTapGesture { selectedHex = nil }
-                
-                ForEach(categoryColors, id: \.hex) { color in
-                    Circle()
-                        .fill(Color(hex: color.hex) ?? .clear)
-                        .frame(width: 28, height: 28)
-                        .overlay(
-                            Circle()
-                                .strokeBorder(
-                                    selectedHex == color.hex ? Color.primary : Color.clear,
-                                    lineWidth: 2
-                                )
-                        )
-                        .onTapGesture {
-                            selectedHex = color.hex
-                            if vm.canSaveCategory {
-                                vm.colour = color.hex
-                                trySaveCategory()
-                                
-                            }
-                        }
-                }
-            }
-            .padding(.vertical, 4)
-        }
-    }
-    
-    // MARK: - Helpers
+    // MARK: - Helpers new category
     
     private func showNewCategoryForm() {
         vm.resetNewCategoryName()
         shouldShowAddCategoryButton = false
+        shouldShowEditCategoryButton = false
         selectedHex = nil
         withAnimation {
             isShowingNewCategoryForm = true
@@ -256,16 +244,48 @@ struct EditorView: View {
     
     private func hideNewCategoryForm() {
         shouldShowAddCategoryButton = true
+        shouldShowEditCategoryButton = true
         selectedHex = nil
         withAnimation {
             isShowingNewCategoryForm = false
         }
     }
     
-    private func trySaveCategory() {
+    private func trySaveNewCategory() {
         guard vm.canSaveCategory, selectedHex != nil else { return }
         vm.colour = selectedHex
         _ = vm.createCategory(in: categoryManager)
         hideNewCategoryForm()
+    }
+    
+    // MARK: - Helpers update category
+
+    private func showEditCategoryForm() {
+        shouldShowAddCategoryButton = false
+        shouldShowEditCategoryButton = false
+        guard let id = vm.selectedCategoryId,
+              let category = categoryManager.categories.first(where: { $0.id == id }) else { return }
+        
+        vm.newCategoryName = category.name
+        selectedHex = category.colour
+        withAnimation {
+            isShowingEditCategoryForm = true
+        }
+    }
+    
+    private func hideEditCategoryForm() {
+        shouldShowAddCategoryButton = true
+        shouldShowEditCategoryButton = true
+        selectedHex = nil
+        withAnimation {
+            isShowingEditCategoryForm = false
+        }
+    }
+    
+    private func tryUpdateCategory() {
+        guard vm.canSaveCategory, selectedHex != nil else { return }
+        vm.colour = selectedHex
+        vm.updateCategory(in: categoryManager)
+        hideEditCategoryForm()
     }
 }

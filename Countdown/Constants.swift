@@ -30,7 +30,12 @@ struct K {
         static let createACategory = "Create a category"
         static let categoryPicker = "Category"
         static let none = "None"
+        static let editCategory = "Edit category"
         static let addAnotherCategory = "Add another category"
+        
+        static let saveErrorTitle = "Error"
+        static let saveErrorDescription = "Could not save the image. Please check your connection."
+        static let saveErrorOKButton = "OK"
         
         static let newCategory = "New category"
         static let newCategoryPlaceholder = "E.g. Birthdays"
