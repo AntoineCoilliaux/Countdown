@@ -9,13 +9,26 @@ import SwiftUI
 
 struct EditorView: View {
     @StateObject var vm: EditorViewModel
+    @EnvironmentObject var categoryManager: CategoryManager
     
     @Environment(\.dismiss) private var dismiss
     
-    @EnvironmentObject var categoryManager: CategoryManager
-    
     @State private var isShowingImageSheet = false
-    @State private var isShowingNewCategorySheet = false
+    @State private var isShowingNewCategoryForm = false
+    @State private var selectedHex: String? = nil
+    @State private var shouldShowAddCategoryButton = true
+    
+    private let categoryColors: [(name: String, hex: String)] = [
+        ("Red",    "#FF453A"),
+        ("Orange", "#FF9F0A"),
+        ("Yellow", "#FFD60A"),
+        ("Green",  "#30D158"),
+        ("Teal",   "#5AC8FA"),
+        ("Blue",   "#0A84FF"),
+        ("Purple", "#BF5AF2"),
+        ("Gray",   "#8E8E93"),
+        ("Brown",  "#A2845E")
+    ]
     
     let onSave: (Event) -> Void
     
@@ -42,7 +55,7 @@ struct EditorView: View {
                 ToolbarItem(placement: .confirmationAction) {
                     Button(K.EditorView.doneButton) {
                         Task {
-                            if let event = try? await vm.save() {
+                            if let event = await vm.save() {
                                 onSave(event)
                                 dismiss()
                             }
@@ -55,35 +68,18 @@ struct EditorView: View {
         
         .sheet(isPresented: $isShowingImageSheet) {
             ImagePickerSheetView { url in
-                    Task { await vm.selectRemoteImage(url) }
-                    isShowingImageSheet = false
-                }
+                Task { await vm.selectRemoteImage(url) }
+                isShowingImageSheet = false
+            }
         }
-        .alert(
-            K.EditorView.newCategory,
-            isPresented: $isShowingNewCategorySheet
-        ) {
-            newCategoryActions
+        .alert("Error", isPresented: $vm.showSaveError) {
+            Button("OK", role: .cancel) { }
+        } message: {
+            Text("Could not save the image. Please check your connection.")
         }
     }
     
-    //MARK: - Alert
-    
-    private var newCategoryActions: some View {
-        Group {
-            TextField(K.EditorView.newCategoryPlaceholder, text: $vm.newCategoryName)
-            Button(K.EditorView.newCategorySaveButton) {
-                _ = vm.createCategory(in: categoryManager)
-            }
-            .disabled(!vm.canSaveCategory)
-
-            Button(K.EditorView.newCategoryCancelButton, role: .cancel) {
-                vm.resetNewCategoryName()
-            }
-        }
-    }
-    
-//MARK: - Image View
+    // MARK: - Image View
     
     @ViewBuilder
     private var imageView: some View {
@@ -136,8 +132,7 @@ struct EditorView: View {
         Section {
             if categoryManager.categories.isEmpty {
                 Button {
-                    vm.resetNewCategoryName()
-                    isShowingNewCategorySheet = true
+                    showNewCategoryForm()
                 } label: {
                     HStack {
                         Image(systemName: "plus.circle.fill")
@@ -153,7 +148,7 @@ struct EditorView: View {
                     ForEach(categoryManager.categories) { category in
                         HStack {
                             Circle()
-                                .fill(.yellow)
+                                .fill(Color(hex: category.colour ?? "") ?? .yellow)
                                 .frame(width: 12, height: 12)
                             Text(category.name)
                         }
@@ -161,16 +156,29 @@ struct EditorView: View {
                     }
                 }
                 
-                Button {
-                    vm.resetNewCategoryName()
-                    isShowingNewCategorySheet = true
-                } label: {
-                    HStack {
-                        Image(systemName: "plus.circle")
-                        Text(K.EditorView.addAnotherCategory)
+                if shouldShowAddCategoryButton {
+                    Button {
+                        showNewCategoryForm()
+                    } label: {
+                        HStack {
+                            Image(systemName: "plus.circle")
+                            Text(K.EditorView.addAnotherCategory)
+                        }
+                        .font(.subheadline)
+                        .foregroundColor(.blue)
                     }
-                    .font(.subheadline)
-                    .foregroundColor(.blue)
+                }
+            }
+            
+            if isShowingNewCategoryForm {
+                TextField(K.EditorView.newCategoryPlaceholder, text: $vm.newCategoryName)
+                if !vm.newCategoryName.isEmpty {
+                    colorRow
+                }
+                
+                Button(K.EditorView.newCategoryCancelButton, role: .cancel) {
+                    vm.resetNewCategoryName()
+                    hideNewCategoryForm()
                 }
             }
         } header: {
@@ -190,9 +198,74 @@ struct EditorView: View {
             Text(K.EditorView.dateHeader)
         }
     }
+    
+    // MARK: - Color Row
+    
+    private var colorRow: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 10) {
+                ZStack {
+                    Circle()
+                        .strokeBorder(style: StrokeStyle(lineWidth: 1.5, dash: [4]))
+                        .foregroundStyle(Color.secondary)
+                        .frame(width: 28, height: 28)
+                    
+                    if selectedHex == nil {
+                        Circle()
+                            .fill(Color.secondary.opacity(0.2))
+                            .frame(width: 28, height: 28)
+                    }
+                }
+                .onTapGesture { selectedHex = nil }
+                
+                ForEach(categoryColors, id: \.hex) { color in
+                    Circle()
+                        .fill(Color(hex: color.hex) ?? .clear)
+                        .frame(width: 28, height: 28)
+                        .overlay(
+                            Circle()
+                                .strokeBorder(
+                                    selectedHex == color.hex ? Color.primary : Color.clear,
+                                    lineWidth: 2
+                                )
+                        )
+                        .onTapGesture {
+                            selectedHex = color.hex
+                            if vm.canSaveCategory {
+                                vm.colour = color.hex
+                                trySaveCategory()
+                                
+                            }
+                        }
+                }
+            }
+            .padding(.vertical, 4)
+        }
+    }
+    
+    // MARK: - Helpers
+    
+    private func showNewCategoryForm() {
+        vm.resetNewCategoryName()
+        shouldShowAddCategoryButton = false
+        selectedHex = nil
+        withAnimation {
+            isShowingNewCategoryForm = true
+        }
+    }
+    
+    private func hideNewCategoryForm() {
+        shouldShowAddCategoryButton = true
+        selectedHex = nil
+        withAnimation {
+            isShowingNewCategoryForm = false
+        }
+    }
+    
+    private func trySaveCategory() {
+        guard vm.canSaveCategory, selectedHex != nil else { return }
+        vm.colour = selectedHex
+        _ = vm.createCategory(in: categoryManager)
+        hideNewCategoryForm()
+    }
 }
-
-//#Preview {
-//    AddAnEventView(, onSave)
-//}
-

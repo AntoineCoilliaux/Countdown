@@ -10,4 +10,5 @@ import Foundation
 struct Category: Codable, Identifiable, Equatable {
     let id: UUID
     var name: String
+    var colour : String?
 }

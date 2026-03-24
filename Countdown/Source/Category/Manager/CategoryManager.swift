@@ -60,7 +60,6 @@ class CategoryManager: ObservableObject {
     private func saveCategories() {
         if let data = try? JSONEncoder().encode(categories) {
             UserDefaults.standard.set(data, forKey: K.CategoryManager.userDefaultsKeyCategories)
-            UserDefaults.standard.synchronize()
         }
     }
 }

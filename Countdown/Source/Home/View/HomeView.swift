@@ -111,12 +111,22 @@ struct HomeView: View {
                 } label: {
                     EventView(event: event)
                 }
+                .listRowInsets(EdgeInsets(top: 12, leading: 12, bottom: 12, trailing: 12))
+                .listRowBackground(
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 25)
+                            .fill(categoryColor(for: event).opacity(0.35))
+                        RoundedRectangle(cornerRadius: 25)
+                            .strokeBorder(Color.black, lineWidth: 1)
+                    }
+                )
             }
             .onDelete { indexSet in
                 let ids = indexSet.map { filteredEvents[$0].id }
                 eventStore.delete(withIds: ids)
             }
         }
+        .listRowSpacing(5)
     }
 
     // MARK: - Helpers
@@ -133,6 +143,15 @@ struct HomeView: View {
               let category = categoryManager.categories.first(where: { $0.id == id })
         else { return "All" }
         return category.name
+    }
+    
+    private func categoryColor(for event: Event) -> Color {
+        guard let id = event.categoryID,
+              let category = categoryManager.categories.first(where: { $0.id == id }),
+              let hex = category.colour else {
+            return .clear
+        }
+        return Color(hex: hex) ?? .clear
     }
 }
 

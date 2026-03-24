@@ -55,7 +55,7 @@ struct EventView: View {
             AsyncImage(url: event.imageName) { image in
                 image
                     .resizable()
-                
+                    .scaledToFill()
             } placeholder: {
                 ProgressView()
             }
@@ -72,7 +72,7 @@ struct EventView: View {
                 Image(systemName: isInFuture ? "arrow.down" : "arrow.up")
             }
             Text(remainingText)
-                .font(.caption)
+                .font(.default)
                 .foregroundColor(isInFuture ? .green : .red)
         }
     }
