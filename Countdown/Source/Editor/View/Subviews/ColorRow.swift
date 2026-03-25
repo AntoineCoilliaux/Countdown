@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct ColorRow: View {
-    let categoryColors: [(name: String, hex: String)]
     @Binding var selectedHex: String?
     let onColorSelected: (String) -> Void
 
@@ -29,7 +28,7 @@ struct ColorRow: View {
                 }
                 .onTapGesture { selectedHex = nil }
                 
-                ForEach(categoryColors, id: \.hex) { color in
+                ForEach(K.Colors.categoryColors, id: \.hex) { color in
                     Circle()
                         .fill(Color(hex: color.hex) ?? .clear)
                         .frame(width: 28, height: 28)

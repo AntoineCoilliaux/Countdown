@@ -20,6 +20,21 @@ struct K {
         static let saveButton = "Save"
     }
     
+    enum Colors {
+        static let categoryColors: [(name: String, hex: String)] = [
+            ("Red",    "#FF453A"),
+            ("Orange", "#FF9F0A"),
+            ("Yellow", "#FFD60A"),
+            ("Green",  "#30D158"),
+            ("Teal",   "#5AC8FA"),
+            ("Blue",   "#0A84FF"),
+            ("Purple", "#BF5AF2"),
+            ("Gray",   "#8E8E93"),
+            ("Brown",  "#A2845E"),
+            ("Black",  "#000000")
+        ]
+    }
+    
     struct EditorView {
         static let navigationTitle = "New event"
         static let titleHeader = "Title"
@@ -30,8 +45,10 @@ struct K {
         static let createACategory = "Create a category"
         static let categoryPicker = "Category"
         static let none = "None"
-        static let editCategory = "Edit category"
+        
         static let addAnotherCategory = "Add another category"
+        static let editCategory = "Edit category"
+        static let deleteCategory = "Delete category"
         
         static let saveErrorTitle = "Error"
         static let saveErrorDescription = "Could not save the image. Please check your connection."
@@ -41,6 +58,16 @@ struct K {
         static let newCategoryPlaceholder = "E.g. Birthdays"
         static let newCategorySaveButton = "Save"
         static let newCategoryCancelButton = "Cancel"
+        
+        static let alertDeleteCategory = "Delete category?"
+        static let alertDeleteCategoryOnly = "Delete category only"
+        static func alertDeleteCategoryAndEvents(count: Int) -> String {
+         "Delete category and events (\(count))"
+    }
+        static let alertDelete = "Delete category"
+        static let alertDeleteCategoryCancelButton = "Cancel"
+        static let alertDeleteCategoryWithEventsMessage = "Do you want to delete only the category (events will move to All) or delete the category and its event(s)?"
+        static let alertDeleteCategoryWithoutEventsMessage = "This category does not contain any event. Are you sure you want to delete it?"
     }
     
     struct EventStore {

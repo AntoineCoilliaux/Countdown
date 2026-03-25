@@ -10,28 +10,24 @@ import SwiftUI
 struct EditorView: View {
     @StateObject var vm: EditorViewModel
     @EnvironmentObject var categoryManager: CategoryManager
+    @EnvironmentObject var eventStore: EventStore
     
     @Environment(\.dismiss) private var dismiss
     
     @State private var isShowingImageSheet = false
+    
     @State private var isShowingNewCategoryForm = false
     @State private var isShowingEditCategoryForm = false
-    @State private var selectedHex: String? = nil
-    @State private var shouldShowAddCategoryButton = true
-    @State private var shouldShowEditCategoryButton = true
     
-    private let categoryColors: [(name: String, hex: String)] = [
-        ("Red",    "#FF453A"),
-        ("Orange", "#FF9F0A"),
-        ("Yellow", "#FFD60A"),
-        ("Green",  "#30D158"),
-        ("Teal",   "#5AC8FA"),
-        ("Blue",   "#0A84FF"),
-        ("Purple", "#BF5AF2"),
-        ("Gray",   "#8E8E93"),
-        ("Brown",  "#A2845E"),
-        ("Black",  "#000000")
-    ]
+    @State private var selectedHex: String?
+    @State private var shouldShowAddCategoryButton = true
+    @State private var shouldShowEditDeleteCategoryButton = true
+    @State private var showDeleteAlert = false
+        
+    private var selectedCategoryEventCount: Int {
+        guard let id = vm.selectedCategoryId else { return 0 }
+        return eventStore.events.filter { $0.categoryID == id }.count
+    }
     
     let onSave: (Event) -> Void
     
@@ -71,14 +67,43 @@ struct EditorView: View {
         
         .sheet(isPresented: $isShowingImageSheet) {
             ImagePickerSheetView { url in
-                Task { await vm.selectRemoteImage(url) }
+                Task {
+                    await vm.selectRemoteImage(url)
+                }
                 isShowingImageSheet = false
             }
         }
+        
         .alert(K.EditorView.saveErrorTitle, isPresented: $vm.showSaveError) {
             Button(K.EditorView.saveErrorOKButton, role: .cancel) { }
         } message: {
             Text(K.EditorView.saveErrorDescription)
+        }
+        
+        .alert(K.EditorView.alertDeleteCategory, isPresented: $showDeleteAlert) {
+            
+            if selectedCategoryEventCount != 0 {
+                
+                Button(K.EditorView.alertDeleteCategoryOnly, role: .destructive) {
+                    handleDelete(deleteEvents: false)
+                }
+                Button(K.EditorView.alertDeleteCategoryAndEvents(count: selectedCategoryEventCount), role: .destructive) {
+                    handleDelete(deleteEvents: true)
+                }
+            } else {
+                Button(K.EditorView.alertDelete, role: .destructive) {
+                    handleDelete(deleteEvents: false)
+                }
+            }
+            
+            Button(K.EditorView.alertDeleteCategoryCancelButton, role: .cancel) {
+            }
+        } message: {
+            if selectedCategoryEventCount != 0 {
+                Text(K.EditorView.alertDeleteCategoryWithEventsMessage)
+            } else {
+                Text(K.EditorView.alertDeleteCategoryWithoutEventsMessage)
+            }
         }
     }
     
@@ -159,18 +184,6 @@ struct EditorView: View {
                     }
                 }
                 
-                if vm.selectedCategoryId != nil && shouldShowEditCategoryButton {
-                    Button {
-                        showEditCategoryForm()
-                    } label: {
-                        HStack {
-                            Image(systemName: "plus.circle")
-                            Text(K.EditorView.editCategory)
-                        }
-                        .font(.subheadline)
-                        .foregroundColor(.blue)
-                    }
-                }
                 if shouldShowAddCategoryButton {
                     Button {
                         showNewCategoryForm()
@@ -183,13 +196,38 @@ struct EditorView: View {
                         .foregroundColor(.blue)
                     }
                 }
+                
+                if vm.selectedCategoryId != nil && shouldShowEditDeleteCategoryButton {
+                    Button {
+                        showEditCategoryForm()
+                    } label: {
+                        HStack {
+                            Image(systemName: "pencil")
+                            Text(K.EditorView.editCategory)
+                        }
+                        .font(.subheadline)
+                        .foregroundColor(.blue)
+                    }
+                    
+                    Button {
+                        showDeleteAlert = true
+                    } label: {
+                        HStack {
+                            Image(systemName: "trash")
+                            Text(K.EditorView.deleteCategory)
+                        }
+                        .font(.subheadline)
+                        .foregroundColor(.red)
+                    }
+                }
+ 
             }
             
             if isShowingNewCategoryForm || isShowingEditCategoryForm {
                 
                 TextField(K.EditorView.newCategoryPlaceholder, text: $vm.newCategoryName)
                 if !vm.newCategoryName.isEmpty {
-                    ColorRow(categoryColors: categoryColors, selectedHex: $selectedHex) { hex in
+                    ColorRow(selectedHex: $selectedHex) { hex in
                         if vm.canSaveCategory {
                             vm.colour = hex
                             if isShowingEditCategoryForm {
@@ -235,7 +273,7 @@ struct EditorView: View {
     private func showNewCategoryForm() {
         vm.resetNewCategoryName()
         shouldShowAddCategoryButton = false
-        shouldShowEditCategoryButton = false
+        shouldShowEditDeleteCategoryButton = false
         selectedHex = nil
         withAnimation {
             isShowingNewCategoryForm = true
@@ -244,7 +282,7 @@ struct EditorView: View {
     
     private func hideNewCategoryForm() {
         shouldShowAddCategoryButton = true
-        shouldShowEditCategoryButton = true
+        shouldShowEditDeleteCategoryButton = true
         selectedHex = nil
         withAnimation {
             isShowingNewCategoryForm = false
@@ -262,7 +300,7 @@ struct EditorView: View {
 
     private func showEditCategoryForm() {
         shouldShowAddCategoryButton = false
-        shouldShowEditCategoryButton = false
+        shouldShowEditDeleteCategoryButton = false
         guard let id = vm.selectedCategoryId,
               let category = categoryManager.categories.first(where: { $0.id == id }) else { return }
         
@@ -275,7 +313,7 @@ struct EditorView: View {
     
     private func hideEditCategoryForm() {
         shouldShowAddCategoryButton = true
-        shouldShowEditCategoryButton = true
+        shouldShowEditDeleteCategoryButton = true
         selectedHex = nil
         withAnimation {
             isShowingEditCategoryForm = false
@@ -287,5 +325,14 @@ struct EditorView: View {
         vm.colour = selectedHex
         vm.updateCategory(in: categoryManager)
         hideEditCategoryForm()
+    }
+    
+    //MARK: - Delete category
+    
+    private func handleDelete(deleteEvents: Bool) {
+        guard let id = vm.selectedCategoryId else { return }
+        categoryManager.deleteCategory(id: id, deleteEvents: deleteEvents)
+        vm.selectedCategoryId = nil
+        showDeleteAlert = false
     }
 }
