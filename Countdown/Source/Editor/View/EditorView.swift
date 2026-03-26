@@ -23,7 +23,9 @@ struct EditorView: View {
     @State private var shouldShowAddCategoryButton = true
     @State private var shouldShowEditDeleteCategoryButton = true
     @State private var showDeleteAlert = false
-        
+    
+    @State private var categoryColor: Color?
+    
     private var selectedCategoryEventCount: Int {
         guard let id = vm.selectedCategoryId else { return 0 }
         return eventStore.events.filter { $0.categoryID == id }.count
@@ -49,6 +51,9 @@ struct EditorView: View {
                     categorySection
                     datePickerSection
                 }
+                .scrollContentBackground(.hidden)
+                .background(Color(hex: K.Colors.appBackground) ?? .black)
+                .colorScheme(.dark)
             }
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
@@ -64,6 +69,9 @@ struct EditorView: View {
                 }
             }
         }
+        .toolbarBackground(Color(hex: K.Colors.appBackground) ?? .black, for: .navigationBar)
+        .toolbarBackground(.visible, for: .navigationBar)
+        .toolbarColorScheme(.dark, for: .navigationBar)
         
         .sheet(isPresented: $isShowingImageSheet) {
             ImagePickerSheetView { url in
@@ -105,6 +113,23 @@ struct EditorView: View {
                 Text(K.EditorView.alertDeleteCategoryWithoutEventsMessage)
             }
         }
+        
+        .onAppear {
+            guard let id = vm.selectedCategoryId,
+                  let category = categoryManager.categories.first(where: { $0.id == id }),
+                  let hex = category.colour else { return }
+            categoryColor = Color(hex: hex)
+        }
+        
+        .onChange(of: vm.selectedCategoryId) { _, newId in
+            guard let id = newId,
+                  let category = categoryManager.categories.first(where: { $0.id == id }),
+                  let hex = category.colour else {
+                categoryColor = nil
+                return
+            }
+            categoryColor = Color(hex: hex)
+        }
     }
     
     // MARK: - Image View
@@ -136,9 +161,10 @@ struct EditorView: View {
         Section {
             HStack(alignment: .top) {
                 imageView
-                    .frame(width: 60, height: 60)
-                    .clipShape(Circle())
-                    .overlay(Circle().stroke(Color.black, lineWidth: 1))
+                    .frame(width: 62, height: 47)
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                    .overlay(RoundedRectangle(cornerRadius: 10).stroke(.white, lineWidth: 1))
+                    .padding(.horizontal, 12)
                     .onTapGesture {
                         isShowingImageSheet = true
                     }
@@ -153,7 +179,9 @@ struct EditorView: View {
             }
         } header: {
             Text(K.EditorView.titleHeader)
+                .foregroundStyle(.white)
         }
+        .listRowBackground(categoryColor ?? Color(hex: K.Colors.editorBackground) ?? .black)
     }
     
     private var categorySection: some View {
@@ -169,7 +197,7 @@ struct EditorView: View {
                     }
                 }
             } else {
-                Picker(K.EditorView.categoryPicker, selection: $vm.selectedCategoryId) {
+                Picker(K.EditorView.categoryPicker, selection: isShowingNewCategoryForm ? .constant(nil) : $vm.selectedCategoryId) {
                     Text(K.EditorView.none)
                         .tag(nil as UUID?)
                     
@@ -183,6 +211,7 @@ struct EditorView: View {
                         .tag(category.id as UUID?)
                     }
                 }
+                .disabled(isShowingEditCategoryForm)
                 
                 if shouldShowAddCategoryButton {
                     Button {
@@ -226,7 +255,7 @@ struct EditorView: View {
             if isShowingNewCategoryForm || isShowingEditCategoryForm {
                 
                 TextField(K.EditorView.newCategoryPlaceholder, text: $vm.newCategoryName)
-                if !vm.newCategoryName.isEmpty {
+                if vm.canSaveCategory {
                     ColorRow(selectedHex: $selectedHex) { hex in
                         if vm.canSaveCategory {
                             vm.colour = hex
@@ -252,7 +281,9 @@ struct EditorView: View {
             
         } header: {
             Text(K.EditorView.categoryHeader)
+                .foregroundStyle(.white)
         }
+        .listRowBackground(Color(hex: K.Colors.editorBackground) ?? .black)
     }
     
     private var datePickerSection: some View {
@@ -265,7 +296,9 @@ struct EditorView: View {
             .datePickerStyle(.graphical)
         } header: {
             Text(K.EditorView.dateHeader)
+                .foregroundStyle(.white)
         }
+        .listRowBackground(Color(hex: K.Colors.editorBackground) ?? .black)
     }
     
     // MARK: - Helpers new category
@@ -293,6 +326,7 @@ struct EditorView: View {
         guard vm.canSaveCategory, selectedHex != nil else { return }
         vm.colour = selectedHex
         _ = vm.createCategory(in: categoryManager)
+        categoryColor = Color(hex: selectedHex ?? "")
         hideNewCategoryForm()
     }
     
@@ -324,6 +358,7 @@ struct EditorView: View {
         guard vm.canSaveCategory, selectedHex != nil else { return }
         vm.colour = selectedHex
         vm.updateCategory(in: categoryManager)
+        categoryColor = Color(hex: selectedHex ?? "")
         hideEditCategoryForm()
     }
     

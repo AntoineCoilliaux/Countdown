@@ -35,6 +35,9 @@ struct ManageCategoriesView: View {
                     showDeleteAlert = true
                 }
             }
+            .scrollContentBackground(.hidden)
+            .background(Color(hex: K.Colors.appBackground) ?? .black)
+            .colorScheme(.dark)
             .navigationTitle(K.ManageCategoriesView.manageCategoriesTitle)
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {

@@ -22,17 +22,20 @@ struct K {
     
     enum Colors {
         static let categoryColors: [(name: String, hex: String)] = [
-            ("Red",    "#FF453A"),
-            ("Orange", "#FF9F0A"),
-            ("Yellow", "#FFD60A"),
-            ("Green",  "#30D158"),
-            ("Teal",   "#5AC8FA"),
-            ("Blue",   "#0A84FF"),
-            ("Purple", "#BF5AF2"),
-            ("Gray",   "#8E8E93"),
-            ("Brown",  "#A2845E"),
-            ("Black",  "#000000")
+            ("Red",    "#7F1D1D"),
+            ("Yellow", "#854D0E"),
+            ("Green",  "#14532D"),
+            ("Teal",   "#134E4A"),
+            ("Blue",   "#1E3A5F"),
+            ("Purple", "#3B0764"),
+            ("Pink",   "#831843"),
+            ("Gray",   "#1F2937"),
+            ("Brown",  "#431407")
         ]
+        static let appBackground = "#121826"
+        static let editorBackground = "#1C1C2E"
+        static let red = "#F87171"
+        static let green = "#4ADE80"
     }
     
     struct EditorView {
@@ -43,12 +46,12 @@ struct K {
         static let textfieldPlaceholder = "E.g. Holidays in Paris"
         static let doneButton = "Done"
         static let createACategory = "Create a category"
-        static let categoryPicker = "Category"
+        static let categoryPicker = "Pick a category"
         static let none = "None"
         
-        static let addAnotherCategory = "Add another category"
-        static let editCategory = "Edit category"
-        static let deleteCategory = "Delete category"
+        static let addAnotherCategory = "Add"
+        static let editCategory = "Edit"
+        static let deleteCategory = "Delete"
         
         static let saveErrorTitle = "Error"
         static let saveErrorDescription = "Could not save the image. Please check your connection."

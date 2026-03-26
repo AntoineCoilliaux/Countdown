@@ -16,28 +16,34 @@ struct HomeView: View {
 
     var body: some View {
         NavigationStack {
-            Group {
-                if filteredEvents.isEmpty {
-                    emptyState
-                } else {
-                    eventList
+            ZStack {
+                Color(hex: K.Colors.appBackground)
+                    .ignoresSafeArea()
+                Group {
+                    
+                    if filteredEvents.isEmpty {
+                        emptyState
+                    } else {
+                        eventList
+                    }
+                    
                 }
-            }
-            .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
-                    categoryMenuView
+                .toolbar {
+                    ToolbarItem(placement: .topBarLeading) {
+                        categoryMenuView
+                    }
+                    ToolbarItem(placement: .topBarTrailing) {
+                        addButton
+                    }
                 }
-                ToolbarItem(placement: .topBarTrailing) {
-                    addButton
+                .sheet(isPresented: $showingAddEvent) {
+                    EditorView { newEvent in
+                        eventStore.add(newEvent)
+                    }
                 }
-            }
-            .sheet(isPresented: $showingAddEvent) {
-                EditorView { newEvent in
-                    eventStore.add(newEvent)
+                .sheet(isPresented: $showingManageCategories) {
+                    ManageCategoriesView()
                 }
-            }
-            .sheet(isPresented: $showingManageCategories) {
-                ManageCategoriesView()
             }
         }
     }
@@ -45,10 +51,16 @@ struct HomeView: View {
     // MARK: - Subviews
 
     private var emptyState: some View {
-        ContentUnavailableView(
-            K.HomeView.noEventsYet,
-            systemImage: "calendar.badge.clock"
-        )
+        ContentUnavailableView {
+            Label {
+                Text(K.HomeView.noEventsYet)
+                    .font(.title)
+                    .fontWeight(.medium)
+            } icon: {
+                Image(systemName: "calendar.badge.clock")
+            }
+        }
+        .foregroundStyle(.white)
     }
 
     private var addButton: some View {
@@ -115,10 +127,11 @@ struct HomeView: View {
                 .listRowBackground(
                     ZStack {
                         RoundedRectangle(cornerRadius: 25)
-                            .fill(categoryColor(for: event).opacity(0.35))
+                            .fill(categoryColor(for: event))
                         RoundedRectangle(cornerRadius: 25)
                             .strokeBorder(Color.black, lineWidth: 1)
                     }
+                        .padding(.horizontal, 8)
                 )
             }
             .onDelete { indexSet in
@@ -126,7 +139,9 @@ struct HomeView: View {
                 eventStore.delete(withIds: ids)
             }
         }
-        .listRowSpacing(5)
+        .listRowSpacing(8)
+        .listStyle(.plain)
+        .scrollContentBackground(.hidden)
     }
 
     // MARK: - Helpers
@@ -149,9 +164,9 @@ struct HomeView: View {
         guard let id = event.categoryID,
               let category = categoryManager.categories.first(where: { $0.id == id }),
               let hex = category.colour else {
-            return .clear
+            return .black
         }
-        return Color(hex: hex) ?? .clear
+        return Color(hex: hex) ?? .black
     }
 }
 
