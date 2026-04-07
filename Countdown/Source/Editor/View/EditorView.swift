@@ -83,34 +83,34 @@ struct EditorView: View {
         }
         
         .alert(K.EditorView.saveErrorTitle, isPresented: $vm.showSaveError) {
-            Button(K.EditorView.saveErrorOKButton, role: .cancel) { }
+            Button(K.Common.Buttons.ok, role: .cancel) { }
         } message: {
             Text(K.EditorView.saveErrorDescription)
         }
         
-        .alert(K.EditorView.alertDeleteCategory, isPresented: $showDeleteAlert) {
+        .alert(K.Common.Category.deleteTitle, isPresented: $showDeleteAlert) {
             
             if selectedCategoryEventCount != 0 {
                 
-                Button(K.EditorView.alertDeleteCategoryOnly, role: .destructive) {
+                Button(K.Common.Category.deleteOnly, role: .destructive) {
                     handleDelete(deleteEvents: false)
                 }
-                Button(K.EditorView.alertDeleteCategoryAndEvents(count: selectedCategoryEventCount), role: .destructive) {
+                Button(K.Common.Category.deleteWithEvents(count: selectedCategoryEventCount), role: .destructive) {
                     handleDelete(deleteEvents: true)
                 }
             } else {
-                Button(K.EditorView.alertDelete, role: .destructive) {
+                Button(K.Common.Category.deleteButton, role: .destructive) {
                     handleDelete(deleteEvents: false)
                 }
             }
             
-            Button(K.EditorView.alertDeleteCategoryCancelButton, role: .cancel) {
+            Button(K.Common.Buttons.cancel, role: .cancel) {
             }
         } message: {
             if selectedCategoryEventCount != 0 {
-                Text(K.EditorView.alertDeleteCategoryWithEventsMessage)
+                Text(K.Common.Category.deleteWithEventsMessage)
             } else {
-                Text(K.EditorView.alertDeleteCategoryWithoutEventsMessage)
+                Text(K.Common.Category.deleteWithoutEventsMessage)
             }
         }
         
@@ -254,7 +254,7 @@ struct EditorView: View {
             
             if isShowingNewCategoryForm || isShowingEditCategoryForm {
                 
-                TextField(K.EditorView.newCategoryPlaceholder, text: $vm.newCategoryName)
+                TextField(K.Common.Category.namePlaceholder, text: $vm.newCategoryName)
                 if vm.canSaveCategory {
                     ColorRow(selectedHex: $selectedHex) { hex in
                         if vm.canSaveCategory {
@@ -268,7 +268,7 @@ struct EditorView: View {
                     }
                 }
                 
-                Button(K.EditorView.newCategoryCancelButton, role: .cancel) {
+                Button(K.Common.Buttons.cancel, role: .cancel) {
                     vm.resetNewCategoryName()
                     
                     if isShowingNewCategoryForm {

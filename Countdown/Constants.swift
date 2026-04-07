@@ -12,12 +12,26 @@ struct K {
         static let userDefaultsKeyCategories = "categories"
     }
     
-    struct CreateCategoryView {
-        static let sectionTitle = "Category Name"
-        static let namePlaceholder = "Enter category name"
-        static let navigationTitle = "New Category"
-        static let cancelButton = "Cancel"
-        static let saveButton = "Save"
+    struct Common {
+        struct Category {
+            static let deleteTitle = "Delete category?"
+            static let deleteOnly = "Delete category only"
+            static func deleteWithEvents(count: Int) -> String {
+                "Delete category and event(s) (\(count))"
+            }
+            
+            static let deleteButton = "Delete category"
+            static let deleteWithEventsMessage = "Do you want to delete only the category (events will move to All) or delete the category and its event(s)?"
+            static let deleteWithoutEventsMessage = "This category does not contain any event. Are you sure you want to delete it?"
+            static let namePlaceholder = "E.g. Birthdays"
+            }
+        
+        struct Buttons {
+            static let done = "Done"
+            static let cancel = "Cancel"
+            static let save = "Save"
+            static let ok = "OK"
+        }
     }
     
     enum Colors {
@@ -55,22 +69,6 @@ struct K {
         
         static let saveErrorTitle = "Error"
         static let saveErrorDescription = "Could not save the image. Please check your connection."
-        static let saveErrorOKButton = "OK"
-        
-        static let newCategory = "New category"
-        static let newCategoryPlaceholder = "E.g. Birthdays"
-        static let newCategorySaveButton = "Save"
-        static let newCategoryCancelButton = "Cancel"
-        
-        static let alertDeleteCategory = "Delete category?"
-        static let alertDeleteCategoryOnly = "Delete category only"
-        static func alertDeleteCategoryAndEvents(count: Int) -> String {
-         "Delete category and events (\(count))"
-    }
-        static let alertDelete = "Delete category"
-        static let alertDeleteCategoryCancelButton = "Cancel"
-        static let alertDeleteCategoryWithEventsMessage = "Do you want to delete only the category (events will move to All) or delete the category and its event(s)?"
-        static let alertDeleteCategoryWithoutEventsMessage = "This category does not contain any event. Are you sure you want to delete it?"
     }
     
     struct EventStore {
@@ -93,18 +91,8 @@ struct K {
     
     struct ManageCategoriesView {
         static let manageCategoriesTitle = "Manage Categories"
-        static let doneButton = "Done"
-        
-        static let alertDeleteCategory = "Delete category?"
-        static let alertDeleteCategoryOnly = "Delete category only"
-        static let alertDeleteCategoryAndEvents = "Delete category and events"
-        static let alertDeleteCategoryCancelButton = "Cancel"
-        static let alertMessage = "Do you want to delete only the category (events will move to All) or delete the category and all its events?"
-        
         static let alertRenameCategory = "Rename category"
-        static let alertRenameCategoryNameText = "Category name"
-        static let alertRenameCategorySaveButton = "Save"
-        static let alertRenameCategoryCancelButton = "Cancel"
+
     }
     
     struct UserPicturesPickerView {
