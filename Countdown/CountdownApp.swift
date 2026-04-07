@@ -21,7 +21,7 @@ struct CountdownApp: App {
 
     var body: some Scene {
         WindowGroup {
-            HomeViewWrapper()
+            HomeView()
                 .environmentObject(eventStore)
                 .environmentObject(categoryManager)
                 .environmentObject(flagsVM)

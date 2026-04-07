@@ -9,23 +9,39 @@ import SwiftUI
 
 struct EventView: View {
     let event: Event
+    @EnvironmentObject var categoryManager: CategoryManager
 
     var body: some View {
-        HStack {
+        HStack(spacing: 0) {
             eventImage
-                .frame(width: 60, height: 60)
-                .clipShape(Circle())
-                .overlay(Circle().stroke(Color.black, lineWidth: 2))
+                .frame(width: 62, height: 47)
+                .clipShape(RoundedRectangle(cornerRadius: 10))
+                .overlay(RoundedRectangle(cornerRadius: 10).stroke(.white, lineWidth: 1))
+                .padding(.horizontal, 12)
 
-            VStack(alignment: .leading) {
+            VStack(alignment: .leading, spacing: 3) {
                 Text(event.name)
-                    .font(.headline)
-                Text(event.date, style: .date)
-                    .font(.caption)
-                    .foregroundColor(.secondary)
-                Text(event.date, style: .time)
-                    .font(.caption)
-                    .foregroundColor(.secondary)
+                    .font(.system(size: 16, weight: .semibold))
+                    .foregroundStyle(.white)
+
+                HStack(spacing: 6) {
+                    Text(event.date, style: .date)
+                    Text("·")
+                    Text(event.date, style: .time)
+                }
+                .font(.system(size: 12, weight: .regular))
+                .foregroundStyle(.white.opacity(0.55))
+
+                if let id = event.categoryID,
+                   let category = categoryManager.categories.first(where: { $0.id == id }) {
+                    Text(category.name)
+                        .font(.system(size: 11, weight: .medium))
+                        .foregroundStyle(.white.opacity(0.9))
+                        .padding(.horizontal, 7)
+                        .padding(.vertical, 3)
+                        .background(.white.opacity(0.15))
+                        .clipShape(Capsule())
+                }
             }
 
             Spacer()
@@ -33,8 +49,9 @@ struct EventView: View {
             TimelineView(.everyMinute) { _ in
                 countdownView
             }
+            .padding(.trailing, 4)
         }
-        .padding(.vertical, 3)
+        .padding(.vertical, 8)
     }
 
     // MARK: - Subviews
@@ -55,7 +72,7 @@ struct EventView: View {
             AsyncImage(url: event.imageName) { image in
                 image
                     .resizable()
-                
+                    .scaledToFill()
             } placeholder: {
                 ProgressView()
             }
@@ -63,17 +80,18 @@ struct EventView: View {
     }
 
     private var countdownView: some View {
-        VStack(alignment: .trailing) {
-            HStack {
+        VStack(alignment: .trailing, spacing: 2) {
+            HStack(spacing: 3) {
                 Text(dayNumber)
-                    .font(.largeTitle)
-                    .bold()
-                    .foregroundColor(isInFuture ? .green : .red)
+                    .font(.system(size: 30, weight: .bold))
+                    .foregroundStyle(isInFuture ? Color(hex: K.Colors.green) ?? .green : Color(hex: K.Colors.red) ?? .red)
                 Image(systemName: isInFuture ? "arrow.down" : "arrow.up")
+                    .font(.system(size: 15, weight: .semibold))
+                    .foregroundStyle(.white)
             }
             Text(remainingText)
-                .font(.caption)
-                .foregroundColor(isInFuture ? .green : .red)
+                .font(.system(size: 12, weight: .regular))
+                .foregroundStyle(isInFuture ? Color(hex: K.Colors.green) ?? .green : Color(hex: K.Colors.red) ?? .red)
         }
     }
 

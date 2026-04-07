@@ -11,10 +11,12 @@ import SwiftUI
 
 final class EditorViewModel: ObservableObject {
     @Published var name: String
+    @Published var colour: String?
     @Published var date: Date
     @Published var imageName: URL
     @Published var selectedCategoryId: UUID?
     @Published var newCategoryName: String = ""
+    @Published var showSaveError: Bool = false
     
     var randomNumber = Int.random(in: 1...100)
     let characterLimit: Int = 35
@@ -67,22 +69,38 @@ final class EditorViewModel: ObservableObject {
         let trimmed = newCategoryName.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmed.isEmpty, trimmed.count <= characterLimit else { return nil }
         
-        let newCategory = Category(id: UUID(), name: trimmed)
+        let newCategory = Category(id: UUID(), name: trimmed, colour: colour)
         categoryManager.addCategory(newCategory)
         selectedCategoryId = newCategory.id
         newCategoryName = ""
+        colour = nil
         
         return newCategory
+    }
+    
+    func updateCategory(in categoryManager: CategoryManager) {
+        guard let id = selectedCategoryId else { return }
+        let trimmed = newCategoryName.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmed.isEmpty, trimmed.count <= characterLimit else { return }
+        
+        let updatedCategory = Category(id: id, name: trimmed, colour: colour)
+        categoryManager.updateCategory(updatedCategory)
+        newCategoryName = ""
     }
     
     func resetNewCategoryName() {
         newCategoryName = ""
     }
 
-    func save() async throws -> Event {
+    func save() async -> Event? {
         var finalImageURL = imageName
         if !imageName.isLocalImage {
-            finalImageURL = await URL.saveImageFromURL(imageName) ?? imageName
+            if let localURL = await URL.saveImageFromURL(imageName) {
+                finalImageURL = localURL
+            } else {
+                showSaveError = true
+                return nil
+            }
         }
         
         switch mode {
@@ -91,7 +109,7 @@ final class EditorViewModel: ObservableObject {
                 id: UUID(),
                 name: name,
                 date: date,
-                imageName: imageName,
+                imageName: finalImageURL,
                 categoryID: selectedCategoryId
             )
         case .edit(let existing):
@@ -99,7 +117,7 @@ final class EditorViewModel: ObservableObject {
                 id: existing.id,
                 name: name,
                 date: date,
-                imageName: imageName,
+                imageName: finalImageURL,
                 categoryID: selectedCategoryId
             )
         }

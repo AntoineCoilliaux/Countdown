@@ -60,7 +60,12 @@ class CategoryManager: ObservableObject {
     private func saveCategories() {
         if let data = try? JSONEncoder().encode(categories) {
             UserDefaults.standard.set(data, forKey: K.CategoryManager.userDefaultsKeyCategories)
-            UserDefaults.standard.synchronize()
         }
+    }
+    
+    func updateCategory(_ category: Category) {
+        guard let index = categories.firstIndex(where: { $0.id == category.id }) else { return }
+        categories[index] = category
+        saveCategories()
     }
 }
