@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct FlagsPickerView: View {
-    @EnvironmentObject private var vm: FlagsPickerViewModel
+    @StateObject private var vm = FlagsPickerViewModel()
     var onSelect: (URL) -> Void
 
     let columns = [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]

@@ -11,7 +11,6 @@ import SwiftUI
 struct CountdownApp: App {
     @StateObject private var eventStore = EventStore()
     @StateObject private var categoryManager: CategoryManager
-    @StateObject private var flagsVM = FlagsPickerViewModel()
     
     init() {
         let store = EventStore()
@@ -24,7 +23,6 @@ struct CountdownApp: App {
             HomeView()
                 .environmentObject(eventStore)
                 .environmentObject(categoryManager)
-                .environmentObject(flagsVM)
         }
     }
 }

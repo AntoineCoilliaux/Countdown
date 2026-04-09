@@ -11,50 +11,57 @@ struct EditorView: View {
     @StateObject var vm: EditorViewModel
     @EnvironmentObject var categoryManager: CategoryManager
     @EnvironmentObject var eventStore: EventStore
-    
+
     @Environment(\.dismiss) private var dismiss
-    
+
     @State private var isShowingImageSheet = false
-    
+
     @State private var isShowingNewCategoryForm = false
     @State private var isShowingEditCategoryForm = false
-    
+
     @State private var selectedHex: String?
+    
+    @State private var shouldShowCreateFirstCategoryButton = true
     @State private var shouldShowAddCategoryButton = true
     @State private var shouldShowEditDeleteCategoryButton = true
+    @State private var shouldShowPicker = true
+
     @State private var showDeleteAlert = false
-    
+    @State private var isExpanded = false
+
     @State private var categoryColor: Color?
-    
+
     private var selectedCategoryEventCount: Int {
         guard let id = vm.selectedCategoryId else { return 0 }
         return eventStore.events.filter { $0.categoryID == id }.count
     }
-    
+
     let onSave: (Event) -> Void
-    
+
     init(onSave: @escaping (Event) -> Void) {
         _vm = StateObject(wrappedValue: EditorViewModel(mode: .add))
         self.onSave = onSave
     }
-    
+
     init(event: Event, onSave: @escaping (Event) -> Void) {
         _vm = StateObject(wrappedValue: EditorViewModel(mode: .edit(existing: event)))
         self.onSave = onSave
     }
-    
+
     var body: some View {
         NavigationStack {
-            VStack {
-                Form {
+            ScrollView {
+                VStack(spacing: 34) {
                     titleSection
                     categorySection
-                    datePickerSection
+                    dateSection
+                    
                 }
-                .scrollContentBackground(.hidden)
-                .background(Color(hex: K.Colors.appBackground) ?? .black)
-                .colorScheme(.dark)
+                .padding(.horizontal, 16)
+                .padding(.vertical, 20)
             }
+            .background(Color(hex: K.Colors.appBackground) ?? .black)
+            .colorScheme(.dark)
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
                     Button(K.EditorView.doneButton) {
@@ -72,26 +79,22 @@ struct EditorView: View {
         .toolbarBackground(Color(hex: K.Colors.appBackground) ?? .black, for: .navigationBar)
         .toolbarBackground(.visible, for: .navigationBar)
         .toolbarColorScheme(.dark, for: .navigationBar)
-        
+
         .sheet(isPresented: $isShowingImageSheet) {
             ImagePickerSheetView { url in
-                Task {
-                    await vm.selectRemoteImage(url)
-                }
+                Task { await vm.selectRemoteImage(url) }
                 isShowingImageSheet = false
             }
         }
-        
+
         .alert(K.EditorView.saveErrorTitle, isPresented: $vm.showSaveError) {
             Button(K.Common.Buttons.ok, role: .cancel) { }
         } message: {
             Text(K.EditorView.saveErrorDescription)
         }
-        
+
         .alert(K.Common.Category.deleteTitle, isPresented: $showDeleteAlert) {
-            
             if selectedCategoryEventCount != 0 {
-                
                 Button(K.Common.Category.deleteOnly, role: .destructive) {
                     handleDelete(deleteEvents: false)
                 }
@@ -103,8 +106,8 @@ struct EditorView: View {
                     handleDelete(deleteEvents: false)
                 }
             }
-            
             Button(K.Common.Buttons.cancel, role: .cancel) {
+                shouldShowPicker = true
             }
         } message: {
             if selectedCategoryEventCount != 0 {
@@ -113,14 +116,14 @@ struct EditorView: View {
                 Text(K.Common.Category.deleteWithoutEventsMessage)
             }
         }
-        
+
         .onAppear {
             guard let id = vm.selectedCategoryId,
                   let category = categoryManager.categories.first(where: { $0.id == id }),
                   let hex = category.colour else { return }
             categoryColor = Color(hex: hex)
         }
-        
+
         .onChange(of: vm.selectedCategoryId) { _, newId in
             guard let id = newId,
                   let category = categoryManager.categories.first(where: { $0.id == id }),
@@ -131,9 +134,9 @@ struct EditorView: View {
             categoryColor = Color(hex: hex)
         }
     }
-    
+
     // MARK: - Image View
-    
+
     @ViewBuilder
     private var imageView: some View {
         if vm.isLocalImage {
@@ -154,182 +157,237 @@ struct EditorView: View {
             }
         }
     }
-    
-    // MARK: - Form sections
-    
+
+    // MARK: - Sections
+
     private var titleSection: some View {
-        Section {
-            HStack(alignment: .top) {
+        VStack(alignment: .leading, spacing: 8) {
+            Text(K.EditorView.titleHeader)
+                .font(.caption)
+                 .fontWeight(.medium)
+                 .textCase(.uppercase)
+                 .tracking(1.2)
+                 .foregroundStyle(.white.opacity(0.5))
+
+            HStack(alignment: .center, spacing: 12) {
                 imageView
                     .frame(width: 62, height: 47)
                     .clipShape(RoundedRectangle(cornerRadius: 10))
-                    .overlay(RoundedRectangle(cornerRadius: 10).stroke(.white, lineWidth: 1))
-                    .padding(.horizontal, 12)
+                    .overlay(RoundedRectangle(cornerRadius: 10).stroke(.white.opacity(0.4), lineWidth: 1))
                     .onTapGesture {
                         isShowingImageSheet = true
                     }
-                
-                VStack(alignment: .center) {
-                    Spacer()
-                    TextField(K.EditorView.textfieldPlaceholder, text: $vm.name)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                    Spacer()
-                }
-                .frame(maxWidth: .infinity, alignment: .leading)
+
+                TextField(K.EditorView.textfieldPlaceholder, text: $vm.name)
+                    .textFieldStyle(.plain)
+                    .foregroundStyle(.white)
+                    .overlay(
+                        Rectangle()
+                            .frame(height: 0.5)
+                            .foregroundStyle(.white.opacity(0.3)),
+                        alignment: .bottom
+                    )
             }
-        } header: {
-            Text(K.EditorView.titleHeader)
-                .foregroundStyle(.white)
+            .padding(.horizontal, 16)
+            .padding(.vertical, 14)
+            .background(CardBackground())
         }
-        .listRowBackground(categoryColor ?? Color(hex: K.Colors.editorBackground) ?? .black)
     }
-    
+
     private var categorySection: some View {
-        Section {
-            if categoryManager.categories.isEmpty {
-                Button {
-                    showNewCategoryForm()
-                } label: {
-                    HStack {
-                        Image(systemName: "plus.circle.fill")
-                            .foregroundColor(.blue)
-                        Text(K.EditorView.createACategory)
-                    }
-                }
-            } else {
-                Picker(K.EditorView.categoryPicker, selection: isShowingNewCategoryForm ? .constant(nil) : $vm.selectedCategoryId) {
-                    Text(K.EditorView.none)
-                        .tag(nil as UUID?)
-                    
-                    ForEach(categoryManager.categories) { category in
-                        HStack {
-                            Circle()
-                                .fill(Color(hex: category.colour ?? "") ?? .yellow)
-                                .frame(width: 12, height: 12)
-                            Text(category.name)
-                        }
-                        .tag(category.id as UUID?)
-                    }
-                }
-                .disabled(isShowingEditCategoryForm)
-                
-                if shouldShowAddCategoryButton {
-                    Button {
+        VStack(alignment: .leading, spacing: 8) {
+            Text(K.EditorView.categoryHeader)
+                .font(.caption)
+                 .fontWeight(.medium)
+                 .textCase(.uppercase)
+                 .tracking(1.2)
+                 .foregroundStyle(.white.opacity(0.5))
+
+            VStack(spacing: 0) {
+                if categoryManager.categories.isEmpty && shouldShowCreateFirstCategoryButton {
+                    makeCategoryButton(imageName: "plus.circle.fill", text: K.EditorView.createFirstCategory, color: .blue) {
                         showNewCategoryForm()
-                    } label: {
-                        HStack {
-                            Image(systemName: "plus.circle")
-                            Text(K.EditorView.addAnotherCategory)
+                    }
+                } else {
+                    if shouldShowPicker {
+                        categoryPicker
+                    }
+
+                    if shouldShowAddCategoryButton {
+                        Divider().background(.white.opacity(0.08))
+                        makeCategoryButton(imageName: "plus.circle", text: K.EditorView.addAnotherCategory, color: .blue) {
+                            showNewCategoryForm()
                         }
-                        .font(.subheadline)
-                        .foregroundColor(.blue)
+                    }
+
+                    if vm.selectedCategoryId != nil && shouldShowEditDeleteCategoryButton {
+                        Divider().background(.white.opacity(0.08))
+                        makeCategoryButton(imageName: "pencil", text: K.EditorView.editCategory, color: .blue) {
+                            showEditCategoryForm()
+                        }
+
+                        Divider().background(.white.opacity(0.08))
+                        makeCategoryButton(imageName: "trash", text: K.EditorView.deleteCategory, color: .red) {
+                            showDeleteAlert = true
+                        }
                     }
                 }
-                
-                if vm.selectedCategoryId != nil && shouldShowEditDeleteCategoryButton {
-                    Button {
-                        showEditCategoryForm()
-                    } label: {
-                        HStack {
-                            Image(systemName: "pencil")
-                            Text(K.EditorView.editCategory)
-                        }
-                        .font(.subheadline)
-                        .foregroundColor(.blue)
-                    }
-                    
-                    Button {
-                        showDeleteAlert = true
-                    } label: {
-                        HStack {
-                            Image(systemName: "trash")
-                            Text(K.EditorView.deleteCategory)
-                        }
-                        .font(.subheadline)
-                        .foregroundColor(.red)
-                    }
-                }
- 
-            }
-            
-            if isShowingNewCategoryForm || isShowingEditCategoryForm {
-                
-                TextField(K.Common.Category.namePlaceholder, text: $vm.newCategoryName)
-                if vm.canSaveCategory {
-                    ColorRow(selectedHex: $selectedHex) { hex in
-                        if vm.canSaveCategory {
-                            vm.colour = hex
-                            if isShowingEditCategoryForm {
-                                tryUpdateCategory()
-                            } else {
-                                trySaveNewCategory()
+
+                if isShowingNewCategoryForm || isShowingEditCategoryForm {
+                    Divider().background(.white.opacity(0.08))
+
+                    TextField(K.Common.Category.namePlaceholder, text: $vm.newCategoryName)
+                        .foregroundStyle(.white)
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 12)
+
+                    if vm.canSaveCategory {
+                        Divider().background(.white.opacity(0.08))
+
+                        ColorRow(selectedHex: $selectedHex) { hex in
+                            if vm.canSaveCategory {
+                                vm.colour = hex
+                                if isShowingEditCategoryForm {
+                                    tryUpdateCategory()
+                                } else {
+                                    trySaveNewCategory()
+                                }
                             }
                         }
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 8)
                     }
-                }
-                
-                Button(K.Common.Buttons.cancel, role: .cancel) {
-                    vm.resetNewCategoryName()
-                    
-                    if isShowingNewCategoryForm {
-                        hideNewCategoryForm()
-                    } else if isShowingEditCategoryForm {
-                        hideEditCategoryForm()
+
+                    Divider().background(.white.opacity(0.08))
+
+                    Button(K.Common.Buttons.cancel, role: .cancel) {
+                        vm.resetNewCategoryName()
+                        if isShowingNewCategoryForm {
+                            hideNewCategoryForm()
+                        } else if isShowingEditCategoryForm {
+                            hideEditCategoryForm()
+                        }
                     }
+                    .foregroundStyle(.red)
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 12)
+                    .frame(maxWidth: .infinity, alignment: .leading)
                 }
             }
-            
-        } header: {
-            Text(K.EditorView.categoryHeader)
-                .foregroundStyle(.white)
+            .background(CardBackground())
         }
-        .listRowBackground(Color(hex: K.Colors.editorBackground) ?? .black)
+    }
+    private func makeCategoryButton(imageName: String, text: String, color: Color, action: @escaping () -> Void) -> some View {
+        Button(action: action) {
+            HStack {
+                Image(systemName: imageName)
+                    .foregroundColor(color)
+                Text(text)
+                    .foregroundStyle(color)
+            }
+            .padding(.horizontal, 16)
+            .padding(.vertical, 12)
+            .frame(maxWidth: .infinity, alignment: .leading)
+        }
     }
     
-    private var datePickerSection: some View {
-        Section {
-            DatePicker(
-                "",
-                selection: $vm.date,
-                displayedComponents: [.date, .hourAndMinute]
-            )
-            .datePickerStyle(.graphical)
-        } header: {
+    private var categoryPicker: some View {
+        Picker("", selection: isShowingNewCategoryForm ? .constant(nil) : $vm.selectedCategoryId) {
+            Text(K.EditorView.none)
+                .tag(nil as UUID?)
+            ForEach(categoryManager.categories) { category in
+                HStack {
+                    Circle()
+                        .fill(Color(hex: category.colour ?? "") ?? .yellow)
+                        .frame(width: 12, height: 12)
+                    Text(category.name)
+                }
+                .tag(category.id as UUID?)
+            }
+        }
+        .tint(.white)
+        .disabled(isShowingEditCategoryForm)
+        .padding(.horizontal, 6)
+        .padding(.vertical, 6)
+        .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
+    private var dateSection: some View {
+        VStack(alignment: .leading, spacing: 8) {
             Text(K.EditorView.dateHeader)
-                .foregroundStyle(.white)
+                .font(.caption)
+                .fontWeight(.medium)
+                .textCase(.uppercase)
+                .tracking(1.2)
+                .foregroundStyle(.white.opacity(0.5))
+
+            VStack(spacing: 0) {
+
+                Button {
+                    withAnimation(.easeInOut) {
+                        isExpanded.toggle()
+                    }
+                } label: {
+                    HStack {
+                        Text(vm.date.formatted(date: .abbreviated, time: .shortened))
+                            .foregroundStyle(.white)
+
+                        Spacer()
+
+                        Image(systemName: "chevron.down")
+                            .rotationEffect(.degrees(isExpanded ? 180 : 0))
+                            .animation(.easeInOut, value: isExpanded)
+                    }
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 14)
+                }
+
+                if isExpanded {
+                    Divider().background(.white.opacity(0.08))
+
+                    DatePicker(
+                        "",
+                        selection: $vm.date,
+                        displayedComponents: [.date, .hourAndMinute]
+                    )
+                    .datePickerStyle(.graphical)
+                    .padding(12)
+                }
+            }
+            .background(CardBackground())
         }
-        .listRowBackground(Color(hex: K.Colors.editorBackground) ?? .black)
     }
-    
+
     // MARK: - Helpers new category
-    
+
     private func showNewCategoryForm() {
         vm.resetNewCategoryName()
+        shouldShowPicker = false
+        shouldShowCreateFirstCategoryButton = false
         shouldShowAddCategoryButton = false
         shouldShowEditDeleteCategoryButton = false
         selectedHex = nil
-        withAnimation {
-            isShowingNewCategoryForm = true
-        }
+        isShowingNewCategoryForm = true
     }
-    
+
     private func hideNewCategoryForm() {
+        shouldShowPicker = true
+        shouldShowCreateFirstCategoryButton = true
         shouldShowAddCategoryButton = true
         shouldShowEditDeleteCategoryButton = true
         selectedHex = nil
-        withAnimation {
-            isShowingNewCategoryForm = false
-        }
+        isShowingNewCategoryForm = false
     }
-    
+
     private func trySaveNewCategory() {
         guard vm.canSaveCategory, selectedHex != nil else { return }
+        shouldShowPicker = true
         vm.colour = selectedHex
         _ = vm.createCategory(in: categoryManager)
         categoryColor = Color(hex: selectedHex ?? "")
         hideNewCategoryForm()
     }
-    
+
     // MARK: - Helpers update category
 
     private func showEditCategoryForm() {
@@ -337,14 +395,13 @@ struct EditorView: View {
         shouldShowEditDeleteCategoryButton = false
         guard let id = vm.selectedCategoryId,
               let category = categoryManager.categories.first(where: { $0.id == id }) else { return }
-        
         vm.newCategoryName = category.name
         selectedHex = category.colour
         withAnimation {
             isShowingEditCategoryForm = true
         }
     }
-    
+
     private func hideEditCategoryForm() {
         shouldShowAddCategoryButton = true
         shouldShowEditDeleteCategoryButton = true
@@ -353,7 +410,7 @@ struct EditorView: View {
             isShowingEditCategoryForm = false
         }
     }
-    
+
     private func tryUpdateCategory() {
         guard vm.canSaveCategory, selectedHex != nil else { return }
         vm.colour = selectedHex

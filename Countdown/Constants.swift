@@ -59,8 +59,7 @@ struct K {
         static let dateHeader = "Date"
         static let textfieldPlaceholder = "E.g. Holidays in Paris"
         static let doneButton = "Done"
-        static let createACategory = "Create a category"
-        static let categoryPicker = "Pick a category"
+        static let createFirstCategory = "Create your first category"
         static let none = "None"
         
         static let addAnotherCategory = "Add"

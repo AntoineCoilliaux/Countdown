@@ -45,11 +45,15 @@ final class EditorViewModel: ObservableObject {
     }
 
     var canSave: Bool {
-        !name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty && name.count < characterLimit
+        !name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty && name.count <= characterLimit
+    }
+    
+    var titleIsTooLong: Bool {
+        name.count > characterLimit
     }
     
     var canSaveCategory: Bool {
-        !newCategoryName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty && newCategoryName.count < characterLimit
+        !newCategoryName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty && newCategoryName.count <= characterLimit
     }
     
     var isLocalImage: Bool {
