@@ -8,30 +8,16 @@
 import SwiftUI
 
 struct ColorRow: View {
-    @Binding var selectedHex: String?
-    let onColorSelected: (String) -> Void
+    @Binding var selectedHex: String
 
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 10) {
-                ZStack {
-                    Circle()
-                        .strokeBorder(style: StrokeStyle(lineWidth: 1.5, dash: [4]))
-                        .foregroundStyle(Color.secondary)
-                        .frame(width: 28, height: 28)
-                    
-                    if selectedHex == nil {
-                        Circle()
-                            .fill(Color.secondary.opacity(0.2))
-                            .frame(width: 28, height: 28)
-                    }
-                }
-                .onTapGesture { selectedHex = nil }
-                
                 ForEach(K.Colors.categoryColors, id: \.hex) { color in
                     Circle()
                         .fill(Color(hex: color.hex) ?? .clear)
                         .frame(width: 28, height: 28)
+                        .padding(5)
                         .overlay(
                             Circle()
                                 .strokeBorder(
@@ -41,8 +27,6 @@ struct ColorRow: View {
                         )
                         .onTapGesture {
                             selectedHex = color.hex
-                            onColorSelected(color.hex)
-
                         }
                 }
             }
