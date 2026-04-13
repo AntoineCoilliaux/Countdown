@@ -10,49 +10,26 @@ import Foundation
 import SwiftUI
 
 final class EditorViewModel: ObservableObject {
-    @Published var selectionState: CategorySelectionState = .normal
+    @Published var selectionState: CategorySelectionState = .reading
 
     @Published var name: String
-    @Published var colour: String?
+    @Published var color: String?
     @Published var date: Date
     @Published var imageName: URL
     @Published var selectedCategoryId: UUID?
     @Published var categoryName: String = ""
     @Published var showSaveError: Bool = false
     
+    let mode: Mode
+    
     enum CategorySelectionState {
-        case normal, creating, editing
+        case reading, creating, editing
     }
     
-    func startCreating() {
-        resetNewCategoryName()
-        selectionState = .creating
-    }
-
-    func startEditing(category: Category) {
-        categoryName = category.name
-        colour = category.colour
-        selectionState = .editing
-    }
-
-    func cancelCategoryAction() {
-        resetNewCategoryName()
-        selectionState = .normal
-    }
-    
-    var formattedDate: String {
-        date.formatted(date: .abbreviated, time: .shortened)
-    }
-    
-    let randomNumber = Int.random(in: 1...100)
-    let characterLimit: Int = 35
-
     enum Mode {
         case add
         case edit(existing: Event)
     }
-
-    let mode: Mode
 
     init(mode: Mode) {
         self.mode = mode
@@ -70,16 +47,44 @@ final class EditorViewModel: ObservableObject {
         }
     }
 
-    var canSave: Bool {
-        !name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty && name.count <= characterLimit
+    
+    func startCreating() {
+        resetNewCategoryName()
+        selectionState = .creating
+    }
+
+    func startEditing(category: Category) {
+        categoryName = category.name
+        color = category.color
+        selectionState = .editing
+    }
+
+    func cancelCategoryAction() {
+        resetNewCategoryName()
+        selectionState = .reading
     }
     
-    var titleIsTooLong: Bool {
+    var formattedDate: String {
+        date.formatted(date: .abbreviated, time: .shortened)
+    }
+    
+    let randomNumber = Int.random(in: 1...100)
+    let characterLimit: Int = 35
+    
+    var canSave: Bool {
+        !name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty && !eventTitleIsTooLong
+    }
+    
+    var eventTitleIsTooLong: Bool {
         name.count > characterLimit
     }
     
+    var categoryNameIsTooLong : Bool {
+        categoryName.count > characterLimit
+    }
+    
     var categoryNameIsValid: Bool {
-        !categoryName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty && categoryName.count <= characterLimit
+        !categoryName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty && !categoryNameIsTooLong
     }
     
     var isLocalImage: Bool {
@@ -99,26 +104,26 @@ final class EditorViewModel: ObservableObject {
         let trimmed = categoryName.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmed.isEmpty, trimmed.count <= characterLimit else { return nil }
         
-        let newCategory = Category(id: UUID(), name: trimmed, colour: colour)
+        let newCategory = Category(id: UUID(), name: trimmed, color: color ?? K.Colors.defaultCategoryHex)
         categoryManager.addCategory(newCategory)
         selectedCategoryId = newCategory.id
-        categoryName = ""
-        colour = nil
+        resetNewCategoryName()
+        color = nil
         
         return newCategory
     }
     
     func saveCategory(in categoryManager: CategoryManager, hex: String) {
-        colour = hex
+        color = hex
         switch selectionState {
         case .editing:
             updateCategory(in: categoryManager)
         case .creating:
             _ = createCategory(in: categoryManager)
-        case .normal:
+        case .reading:
             break
         }
-        selectionState = .normal
+        selectionState = .reading
     }
     
     func updateCategory(in categoryManager: CategoryManager) {
@@ -126,9 +131,9 @@ final class EditorViewModel: ObservableObject {
         let trimmed = categoryName.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmed.isEmpty, trimmed.count <= characterLimit else { return }
         
-        let updatedCategory = Category(id: id, name: trimmed, colour: colour)
+        let updatedCategory = Category(id: id, name: trimmed, color: color ?? K.Colors.defaultCategoryHex)
         categoryManager.updateCategory(updatedCategory)
-        categoryName = ""
+        resetNewCategoryName()
     }
     
     func resetNewCategoryName() {

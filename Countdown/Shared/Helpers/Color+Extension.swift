@@ -1,5 +1,5 @@
 //
-//  Colour+Extension.swift
+//  Color+Extension.swift
 //  Countdown
 //
 //  Created by Antoine Coilliaux on 24/03/2026.

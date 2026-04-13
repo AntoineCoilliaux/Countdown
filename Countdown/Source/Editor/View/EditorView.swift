@@ -11,34 +11,34 @@ struct EditorView: View {
     @StateObject var vm: EditorViewModel
     @EnvironmentObject var categoryManager: CategoryManager
     @EnvironmentObject var eventStore: EventStore
-
+    
     @Environment(\.dismiss) private var dismiss
-
+    
     @State private var isShowingImageSheet = false
-    @State private var selectedHex: String?
+    @State private var selectedHex: String = K.Colors.defaultCategoryHex
     @State private var showDeleteAlert = false
     @State private var isExpanded = false
     @State private var currentCategoryColor: Color?
-
-
+    
+    
     private var selectedCategoryEventCount: Int {
         guard let id = vm.selectedCategoryId else { return 0 }
         return eventStore.events.filter { $0.categoryID == id }.count
     }
-
+    
     let onSave: (Event) -> Void
-
+    
     init(onSave: @escaping (Event) -> Void) {
         _vm = StateObject(wrappedValue: EditorViewModel(mode: .add))
         self.onSave = onSave
     }
-
+    
     init(event: Event, initialCategoryColor: Color?, onSave: @escaping (Event) -> Void) {
         _vm = StateObject(wrappedValue: EditorViewModel(mode: .edit(existing: event)))
         _currentCategoryColor = State(initialValue: initialCategoryColor)
         self.onSave = onSave
     }
-
+    
     var body: some View {
         NavigationStack {
             ScrollView {
@@ -63,14 +63,16 @@ struct EditorView: View {
                             }
                         }
                     }
-                    .disabled(!vm.canSave)
+                    .disabled(!vm.canSave || vm.selectionState != .reading)
                 }
             }
         }
-        .toolbarBackground(currentCategoryColor ?? Color(hex: K.Colors.appBackground) ?? .black, for: .navigationBar)
+        .toolbarBackground(
+            currentCategoryColor ?? Color(hex: K.Colors.appBackground) ?? .black, for: .navigationBar
+        )
         .toolbarBackground(.visible, for: .navigationBar)
         .toolbarColorScheme(.dark, for: .navigationBar)
-
+        
         .sheet(isPresented: $isShowingImageSheet) {
             ImagePickerSheetView { url in
                 Task {
@@ -79,13 +81,13 @@ struct EditorView: View {
                 isShowingImageSheet = false
             }
         }
-
+        
         .alert(K.EditorView.saveErrorTitle, isPresented: $vm.showSaveError) {
             Button(K.Common.Buttons.ok, role: .cancel) { }
         } message: {
             Text(K.EditorView.saveErrorDescription)
         }
-
+        
         .alert(K.Common.Category.deleteTitle, isPresented: $showDeleteAlert) {
             if selectedCategoryEventCount != 0 {
                 Button(K.Common.Category.deleteOnly, role: .destructive) {
@@ -100,6 +102,7 @@ struct EditorView: View {
                 }
             }
             Button(K.Common.Buttons.cancel, role: .cancel) {}
+            
         } message: {
             if selectedCategoryEventCount != 0 {
                 Text(K.Common.Category.deleteWithEventsMessage)
@@ -107,27 +110,23 @@ struct EditorView: View {
                 Text(K.Common.Category.deleteWithoutEventsMessage)
             }
         }
-
+        
         .onAppear {
-            guard let id = vm.selectedCategoryId,
-                  let category = categoryManager.categories.first(where: { $0.id == id }),
-                  let hex = category.colour else { return }
-            currentCategoryColor = Color(hex: hex)
+            refreshCurrentColor()
         }
-
-        .onChange(of: vm.selectedCategoryId) { _, newId in
-            guard let id = newId,
-                  let category = categoryManager.categories.first(where: { $0.id == id }),
-                  let hex = category.colour else {
-                currentCategoryColor = nil
-                return
+        .onChange(of: vm.selectedCategoryId) { _, _ in
+            refreshCurrentColor()
+        }
+        
+        .onChange(of: selectedHex) { _, newHex in
+            if vm.selectionState == .creating || vm.selectionState == .editing {
+                currentCategoryColor = Color(hex: newHex)
             }
-            currentCategoryColor = Color(hex: hex)
         }
     }
-
+    
     // MARK: - Image View
-
+    
     @ViewBuilder
     private var imageView: some View {
         if vm.isLocalImage {
@@ -148,13 +147,13 @@ struct EditorView: View {
             }
         }
     }
-
+    
     // MARK: - Sections
-
+    //MARK - Title
     private var titleSection: some View {
         VStack(alignment: .leading, spacing: 8) {
             sectionHeader(K.EditorView.titleHeader)
-               
+            
             HStack(alignment: .center, spacing: 12) {
                 imageView
                     .frame(width: 62, height: 47)
@@ -171,32 +170,31 @@ struct EditorView: View {
                             Rectangle()
                                 .frame(height: 0.5)
                                 .foregroundStyle(.white.opacity(0.3)), alignment: .bottom)
-                    
-                    if vm.titleIsTooLong {
-                        Text(K.EditorView.titleIsTooLongMessage)
-                            .font(.caption)
-                            .foregroundStyle(.red)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-
-                    }
                 }
             }
             .padding(.horizontal, 16)
             .padding(.vertical, 14)
-            .background(CardBackground(borderColor: (vm.titleIsTooLong ? .red : .white)))
+            .background(CardBackground(borderColor: (vm.eventTitleIsTooLong ? .red : .white)))
+            
+            if vm.eventTitleIsTooLong {
+                titleTooLongError
+            }
+            
         }
     }
-
+    
+    //MARK - Category
     private var categorySection: some View {
         VStack(alignment: .leading, spacing: 8) {
             sectionHeader(K.EditorView.categoryHeader)
-
+            
             VStack(spacing: 0) {
                 switch vm.selectionState {
-                case .normal:
+                case .reading:
                     if categoryManager.categories.isEmpty {
                         MakeCategoryButton(imageName: "plus.circle.fill", text: K.EditorView.createFirstCategory, color: .blue) {
                             vm.startCreating()
+                            
                         }
                     } else {
                         categoryPicker
@@ -204,49 +202,69 @@ struct EditorView: View {
                         divider
                         MakeCategoryButton(imageName: "plus.circle", text: K.EditorView.addAnotherCategory, color: .blue) {
                             vm.startCreating()
+                            selectedHex = K.Colors.defaultCategoryHex
+                            currentCategoryColor = Color(hex: selectedHex)
                         }
-
+                        
                         if let id = vm.selectedCategoryId,
                            let category = categoryManager.categories.first(where: { $0.id == id }) {
                             divider
                             MakeCategoryButton(imageName: "pencil", text: K.EditorView.editCategory, color: .blue) {
                                 vm.startEditing(category: category)
+                                selectedHex = category.color
+                                currentCategoryColor = Color(hex: selectedHex)
                             }
-
+                            
                             divider
                             MakeCategoryButton(imageName: "trash", text: K.EditorView.deleteCategory, color: .red) {
                                 showDeleteAlert = true
                             }
                         }
                     }
-
+                    
                 case .creating, .editing:
                     VStack(spacing: 0) {
                         TextField(K.Common.Category.namePlaceholder, text: $vm.categoryName)
                             .foregroundStyle(.white)
                             .paddingStyle()
-
-                        if vm.categoryNameIsValid {
-                            divider
-                            ColorRow(selectedHex: $selectedHex) { hex in
-                                vm.saveCategory(in: categoryManager, hex: hex)
-                                currentCategoryColor = Color(hex: hex)
-                                selectedHex = nil
-                            }
+                        
+                        divider
+                        ColorRow(selectedHex: $selectedHex)
                             .padding(.horizontal, 16)
                             .padding(.vertical, 8)
-                        }
-
+                        
                         divider
-                        Button(K.Common.Buttons.cancel, role: .cancel) {
-                            vm.cancelCategoryAction()
+                        HStack {
+                            
+                            Button(K.Common.Buttons.cancel, role: .cancel) {
+                                vm.cancelCategoryAction()
+                                refreshCurrentColor()
+                            }
+                            .foregroundStyle(.red)
+                            .paddingStyle()
+                            if vm.categoryNameIsValid {
+                                divider
+                                Button {
+                                    vm.saveCategory(in: categoryManager, hex: selectedHex)
+                                    currentCategoryColor = Color(hex: selectedHex)
+                                    selectedHex = K.Colors.defaultCategoryHex
+                                } label: {
+                                    Text(K.Common.Buttons.save)
+                                        .foregroundStyle(.blue)
+                                        .paddingStyle()
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                }
+                            }
+                            
                         }
-                        .foregroundStyle(.red)
-                        .paddingStyle()
                     }
                 }
             }
-            .background(CardBackground(borderColor: .white))
+            .background(CardBackground(borderColor: vm.categoryNameIsTooLong ? .red : .white))
+            
+            if vm.categoryNameIsTooLong {
+                titleTooLongError
+            }
         }
     }
     
@@ -257,7 +275,7 @@ struct EditorView: View {
             ForEach(categoryManager.categories) { category in
                 HStack {
                     Circle()
-                        .fill(Color(hex: category.colour ?? "") ?? .white)
+                        .fill(Color(hex: category.color) ?? .white)
                         .frame(width: 12, height: 12)
                     Text(category.name)
                 }
@@ -265,18 +283,19 @@ struct EditorView: View {
             }
         }
         .tint(.white)
-        .disabled(vm.selectionState != .normal)
+        .disabled(vm.selectionState != .reading)
         .padding(.horizontal, 6)
         .padding(.vertical, 6)
         .frame(maxWidth: .infinity, alignment: .leading)
     }
-
+    
+    //MARK - Date
     private var dateSection: some View {
         VStack(alignment: .leading, spacing: 8) {
             sectionHeader(K.EditorView.dateHeader)
-
+            
             VStack(spacing: 0) {
-
+                
                 Button {
                     withAnimation(.easeInOut) {
                         isExpanded.toggle()
@@ -285,9 +304,9 @@ struct EditorView: View {
                     HStack {
                         Text(vm.formattedDate)
                             .foregroundStyle(.white)
-
+                        
                         Spacer()
-
+                        
                         Image(systemName: "chevron.down")
                             .rotationEffect(.degrees(isExpanded ? 180 : 0))
                             .animation(.easeInOut, value: isExpanded)
@@ -295,7 +314,7 @@ struct EditorView: View {
                     .padding(.horizontal, 16)
                     .padding(.vertical, 14)
                 }
-
+                
                 if isExpanded {
                     divider
                     DatePicker(
@@ -310,14 +329,23 @@ struct EditorView: View {
             .background(CardBackground(borderColor: .white))
         }
     }
-
+    
     // MARK: - Helpers
-        
+    
     private func handleDelete(deleteEvents: Bool) {
         guard let id = vm.selectedCategoryId else { return }
         categoryManager.deleteCategory(id: id, deleteEvents: deleteEvents)
         vm.selectedCategoryId = nil
         showDeleteAlert = false
+    }
+    
+    private func refreshCurrentColor() {
+        if let id = vm.selectedCategoryId,
+           let category = categoryManager.categories.first(where: { $0.id == id }) {
+            currentCategoryColor = Color(hex: category.color)
+        } else {
+            currentCategoryColor = nil
+        }
     }
     
     private func sectionHeader(_ title: String) -> some View {
@@ -328,9 +356,17 @@ struct EditorView: View {
             .tracking(1.2)
             .foregroundStyle(.white.opacity(0.5))
     }
-
+    
     private var divider: some View {
         Divider().background(.white.opacity(0.08))
+    }
+    
+    private var titleTooLongError: some View {
+        Text(K.EditorView.titleIsTooLongMessage)
+            .font(.footnote)
+            .foregroundStyle(.red)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.leading, 4)
     }
 }
 

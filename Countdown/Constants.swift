@@ -46,6 +46,7 @@ struct K {
             ("Gray",   "#1F2937"),
             ("Brown",  "#431407")
         ]
+        static let defaultCategoryHex: String = "#7F1D1D"
         static let appBackground = "#121826"
         static let editorBackground = "#1C1C2E"
         static let red = "#F87171"
@@ -82,6 +83,8 @@ struct K {
     
     struct HomeView {
         static let noEventsYet = "No events yet"
+        static let all = "All"
+        static let manageCategories = "Manage categories"
     }
     
     struct ImagePickerSheetView {

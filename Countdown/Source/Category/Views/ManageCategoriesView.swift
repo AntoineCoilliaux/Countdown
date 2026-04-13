@@ -67,7 +67,7 @@ struct ManageCategoriesView: View {
                     } label: {
                         HStack {
                             Circle()
-                                .fill(Color(hex: category.colour ?? "") ?? .gray)
+                                .fill(Color(hex: category.color) ?? .gray)
                                 .frame(width: 10, height: 10)
                             Text(category.name)
                         }

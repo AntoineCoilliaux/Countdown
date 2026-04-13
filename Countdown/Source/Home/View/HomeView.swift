@@ -11,7 +11,6 @@ struct HomeView: View {
     @EnvironmentObject private var eventStore: EventStore
     @EnvironmentObject private var categoryManager: CategoryManager
 
-    @State private var showingAddEvent = false
     @State private var showingManageCategories = false
 
     var body: some View {
@@ -33,12 +32,15 @@ struct HomeView: View {
                         categoryMenuView
                     }
                     ToolbarItem(placement: .topBarTrailing) {
-                        addButton
-                    }
-                }
-                .sheet(isPresented: $showingAddEvent) {
-                    EditorView { newEvent in
-                        eventStore.add(newEvent)
+                        NavigationLink {
+                            EditorView { newEvent in
+                                eventStore.add(newEvent)
+                            }
+                        } label: {
+                            Image(systemName: "plus")
+                        }
+                        .buttonStyle(.borderedProminent)
+                        .tint(.blue)
                     }
                 }
                 .sheet(isPresented: $showingManageCategories) {
@@ -63,22 +65,18 @@ struct HomeView: View {
         .foregroundStyle(.white)
     }
 
-    private var addButton: some View {
-        Button {
-            showingAddEvent = true
-        } label: {
-            Image(systemName: "plus")
-        }
-        .buttonStyle(.borderedProminent)
-        .tint(.blue)
-    }
-
     private var categoryMenuView: some View {
         Menu {
             Button {
                 categoryManager.selectedCategoryId = nil
             } label: {
-                Label("All", systemImage: categoryManager.selectedCategoryId == nil ? "checkmark" : "")
+                HStack {
+                    Text(K.HomeView.all)
+                    if categoryManager.selectedCategoryId == nil {
+                        Spacer()
+                        Image(systemName: "checkmark")
+                    }
+                }
             }
 
             Divider()
@@ -87,10 +85,13 @@ struct HomeView: View {
                 Button {
                     categoryManager.selectedCategoryId = category.id
                 } label: {
-                    Label(
-                        category.name,
-                        systemImage: categoryManager.selectedCategoryId == category.id ? "checkmark" : ""
-                    )
+                    HStack {
+                        Text(category.name)
+                        if categoryManager.selectedCategoryId == category.id {
+                            Spacer()
+                            Image(systemName: "checkmark")
+                        }
+                    }
                 }
             }
 
@@ -99,7 +100,7 @@ struct HomeView: View {
                 Button {
                     showingManageCategories = true
                 } label: {
-                    Label("Manage Categories", systemImage: "pencil")
+                    Label(K.HomeView.manageCategories, systemImage: "pencil")
                 }
             }
         } label: {
@@ -156,17 +157,16 @@ struct HomeView: View {
     private var currentCategoryName: String {
         guard let id = categoryManager.selectedCategoryId,
               let category = categoryManager.categories.first(where: { $0.id == id })
-        else { return "All" }
+        else { return K.HomeView.all }
         return category.name
     }
     
     private func categoryColor(for event: Event) -> Color {
         guard let id = event.categoryID,
-              let category = categoryManager.categories.first(where: { $0.id == id }),
-              let hex = category.colour else {
+              let category = categoryManager.categories.first(where: { $0.id == id }) else {
             return .black
         }
-        return Color(hex: hex) ?? .black
+        return Color(hex: category.color) ?? .black
     }
 }
 

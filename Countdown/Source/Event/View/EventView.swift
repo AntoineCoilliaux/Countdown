@@ -16,7 +16,7 @@ struct EventView: View {
             eventImage
                 .frame(width: 62, height: 47)
                 .clipShape(RoundedRectangle(cornerRadius: 10))
-                .overlay(RoundedRectangle(cornerRadius: 10).stroke(.white, lineWidth: 1))
+                .overlay(RoundedRectangle(cornerRadius: 10).stroke(.white.opacity(0.4), lineWidth: 1))
                 .padding(.horizontal, 12)
 
             VStack(alignment: .leading, spacing: 3) {

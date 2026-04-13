@@ -8,8 +8,7 @@
 import SwiftUI
 
 struct ColorRow: View {
-    @Binding var selectedHex: String?
-    let onColorSelected: (String) -> Void
+    @Binding var selectedHex: String
 
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
@@ -28,8 +27,6 @@ struct ColorRow: View {
                         )
                         .onTapGesture {
                             selectedHex = color.hex
-                            onColorSelected(color.hex)
-
                         }
                 }
             }
