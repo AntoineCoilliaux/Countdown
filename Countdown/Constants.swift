@@ -68,6 +68,8 @@ struct K {
         
         static let saveErrorTitle = "Error"
         static let saveErrorDescription = "Could not save the image. Please check your connection."
+        
+        static let titleIsTooLongMessage = "Title is too long!"
     }
     
     struct EventStore {

@@ -8,16 +8,17 @@
 import SwiftUI
 
 struct CardBackground: View {
+    let borderColor: Color
     var body: some View {
         RoundedRectangle(cornerRadius: 12)
             .fill(Color(hex: K.Colors.editorBackground) ?? .black)
             .overlay(
                 RoundedRectangle(cornerRadius: 12)
-                    .strokeBorder(.white.opacity(0.5), lineWidth: 1)
+                    .strokeBorder(borderColor.opacity(0.5), lineWidth: 1)
             )
     }
 }
 
 #Preview {
-    CardBackground()
+    CardBackground(borderColor: .white)
 }

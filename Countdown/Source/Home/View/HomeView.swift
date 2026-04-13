@@ -117,7 +117,7 @@ struct HomeView: View {
         List {
             ForEach(filteredEvents) { event in
                 NavigationLink {
-                    EditorView(event: event) { updatedEvent in
+                    EditorView(event: event, initialCategoryColor: categoryColor(for: event)) { updatedEvent in
                         eventStore.update(updatedEvent)
                     }
                 } label: {
