@@ -15,6 +15,13 @@ struct ManageCategoriesView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var currentCategoryColor: Color?
     
+    private var sortedCategories: [Category] {
+        categoryManager.categories.sorted {
+            vm.events(for: $0, from: eventStore).count >
+            vm.events(for: $1, from: eventStore).count
+        }
+    }
+    
     var body: some View {
             NavigationStack {
                 ZStack {
@@ -62,7 +69,7 @@ struct ManageCategoriesView: View {
         ScrollView {
             VStack(spacing: 12) {
                 
-                ForEach(categoryManager.categories) { category in
+                ForEach(sortedCategories) { category in
                     VStack(spacing: 0) {
                         
                         DisclosureGroup {
@@ -83,9 +90,7 @@ struct ManageCategoriesView: View {
                         ))
                     .clipShape(RoundedRectangle(cornerRadius: 16))
                 }
-                if !categoryManager.categories.isEmpty {
                     addCategoryButtonView
-                }
                 
             }
             .padding(.horizontal, 16)
