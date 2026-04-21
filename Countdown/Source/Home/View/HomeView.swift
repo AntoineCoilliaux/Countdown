@@ -18,34 +18,31 @@ struct HomeView: View {
             ZStack {
                 Color(hex: K.Colors.appBackground)
                     .ignoresSafeArea()
-                Group {
-                    
-                    if filteredEvents.isEmpty {
-                        emptyState
-                    } else {
-                        eventList
-                    }
-                    
+                
+                if filteredEvents.isEmpty {
+                    emptyState
+                } else {
+                    eventList
                 }
-                .toolbar {
-                    ToolbarItem(placement: .topBarLeading) {
-                        categoryMenuView
-                    }
-                    ToolbarItem(placement: .topBarTrailing) {
-                        NavigationLink {
-                            EditorView { newEvent in
-                                eventStore.add(newEvent)
-                            }
-                        } label: {
-                            Image(systemName: "plus")
+            }
+            .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    categoryMenuView
+                }
+                ToolbarItem(placement: .topBarTrailing) {
+                    NavigationLink {
+                        EditorView { newEvent in
+                            eventStore.add(newEvent)
                         }
-                        .buttonStyle(.borderedProminent)
-                        .tint(.blue)
+                    } label: {
+                        Image(systemName: "plus")
                     }
+                    .buttonStyle(.borderedProminent)
+                    .tint(.blue)
                 }
-                .sheet(isPresented: $showingManageCategories) {
-                    ManageCategoriesView()
-                }
+            }
+            .sheet(isPresented: $showingManageCategories) {
+                ManageCategoriesView()
             }
         }
     }
@@ -96,13 +93,11 @@ struct HomeView: View {
             }
 
             Divider()
-            if !categoryManager.categories.isEmpty {
                 Button {
                     showingManageCategories = true
                 } label: {
                     Label(K.HomeView.manageCategories, systemImage: "pencil")
                 }
-            }
         } label: {
             HStack(spacing: 6) {
                 Text(currentCategoryName)
@@ -116,33 +111,39 @@ struct HomeView: View {
 
     private var eventList: some View {
         List {
-            ForEach(filteredEvents) { event in
-                NavigationLink {
-                    EditorView(event: event, initialCategoryColor: categoryColor(for: event)) { updatedEvent in
-                        eventStore.update(updatedEvent)
-                    }
-                } label: {
-                    EventView(event: event)
-                }
-                .listRowInsets(EdgeInsets(top: 12, leading: 12, bottom: 12, trailing: 12))
-                .listRowBackground(
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 25)
-                            .fill(categoryColor(for: event))
-                        RoundedRectangle(cornerRadius: 25)
-                            .strokeBorder(Color.black, lineWidth: 1)
-                    }
-                        .padding(.horizontal, 8)
-                )
-            }
-            .onDelete { indexSet in
-                let ids = indexSet.map { filteredEvents[$0].id }
-                eventStore.delete(withIds: ids)
-            }
-        }
+            ForEach(futureEvents) { event in
+                     eventRow(for: event)
+                 }
+                 .onDelete { indexSet in
+                     let ids = indexSet.map { futureEvents[$0].id }
+                     eventStore.delete(withIds: ids)
+                 }
+                 
+                 if !futureEvents.isEmpty && !pastEvents.isEmpty {
+                     pastSeparator
+                         .listRowBackground(Color.clear)
+                         .listRowInsets(EdgeInsets(top: 4, leading: 0, bottom: 4, trailing: 0))
+                         .deleteDisabled(true)
+                 }
+                 
+                 ForEach(pastEvents) { event in
+                     eventRow(for: event)
+                 }
+                 .onDelete { indexSet in
+                     let ids = indexSet.map { pastEvents[$0].id }
+                     eventStore.delete(withIds: ids)
+                 }
+             }
         .listRowSpacing(8)
         .listStyle(.plain)
         .scrollContentBackground(.hidden)
+        .safeAreaInset(edge: .top) {
+            VStack(spacing: 0) {
+                Color.clear.frame(height: 8)
+                Divider().background(Color.white.opacity(0.2))
+            }
+            .background(Color(hex: K.Colors.appBackground) ?? .black)
+        }
     }
 
     // MARK: - Helpers
@@ -167,6 +168,56 @@ struct HomeView: View {
             return .black
         }
         return Color(hex: category.color) ?? .black
+    }
+    
+    private var futureEvents: [Event] {
+        filteredEvents.filter { $0.date >= Date() }.sorted { $0.date < $1.date }
+    }
+
+    private var pastEvents: [Event] {
+        filteredEvents.filter { $0.date < Date() }.sorted { $0.date > $1.date }
+    }
+    
+    private var pastSeparator: some View {
+        HStack(spacing: 8) {
+            Rectangle()
+                .fill(Color.red.opacity(0.5))
+                .frame(height: 0.5)
+                .overlay(
+                    GeometryReader { geo in
+                        Path { path in
+                            var x: CGFloat = 0
+                            while x < geo.size.width {
+                                path.move(to: CGPoint(x: x, y: 0))
+                                path.addLine(to: CGPoint(x: x + 4, y: 0))
+                                x += 8
+                            }
+                        }
+                        .stroke(Color.red.opacity(0.5), style: StrokeStyle(lineWidth: 1, dash: [4, 4]))
+                    }
+                )
+            }
+        .padding(.horizontal, 12)
+    }
+
+    private func eventRow(for event: Event) -> some View {
+        NavigationLink {
+            EditorView(event: event, initialCategoryColor: categoryColor(for: event) != .black ? categoryColor(for: event) : Color(hex: K.Colors.appBackground) ?? .black) { updatedEvent in
+                eventStore.update(updatedEvent)
+            }
+        } label: {
+            EventView(event: event)
+        }
+        .listRowInsets(EdgeInsets(top: 12, leading: 12, bottom: 12, trailing: 12))
+        .listRowBackground(
+            ZStack {
+                RoundedRectangle(cornerRadius: 25)
+                    .fill(categoryColor(for: event))
+                RoundedRectangle(cornerRadius: 25)
+                    .strokeBorder(Color.black, lineWidth: 1)
+            }
+            .padding(.horizontal, 8)
+        )
     }
 }
 

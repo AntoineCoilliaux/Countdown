@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ColorRow: View {
-    @Binding var selectedHex: String
+    @Binding var selectedHex: String?
 
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
@@ -16,7 +16,7 @@ struct ColorRow: View {
                 ForEach(K.Colors.categoryColors, id: \.hex) { color in
                     Circle()
                         .fill(Color(hex: color.hex) ?? .clear)
-                        .frame(width: 28, height: 28)
+                        .frame(width: 35, height: 35)
                         .padding(5)
                         .overlay(
                             Circle()
