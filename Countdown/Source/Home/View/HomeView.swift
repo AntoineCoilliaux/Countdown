@@ -96,13 +96,11 @@ struct HomeView: View {
             }
 
             Divider()
-            if !categoryManager.categories.isEmpty {
                 Button {
                     showingManageCategories = true
                 } label: {
                     Label(K.HomeView.manageCategories, systemImage: "pencil")
                 }
-            }
         } label: {
             HStack(spacing: 6) {
                 Text(currentCategoryName)
@@ -118,7 +116,7 @@ struct HomeView: View {
         List {
             ForEach(filteredEvents) { event in
                 NavigationLink {
-                    EditorView(event: event, initialCategoryColor: categoryColor(for: event)) { updatedEvent in
+                    EditorView(event: event, initialCategoryColor: categoryColor(for: event) != .black ? categoryColor(for: event) : Color(hex: K.Colors.appBackground) ?? .black) { updatedEvent in
                         eventStore.update(updatedEvent)
                     }
                 } label: {

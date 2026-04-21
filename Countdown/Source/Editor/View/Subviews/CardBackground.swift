@@ -14,7 +14,7 @@ struct CardBackground: View {
             .fill(Color(hex: K.Colors.editorBackground) ?? .black)
             .overlay(
                 RoundedRectangle(cornerRadius: 12)
-                    .strokeBorder(borderColor.opacity(0.5), lineWidth: 1)
+                    .strokeBorder(borderColor.opacity(0.5), lineWidth: 2)
             )
     }
 }

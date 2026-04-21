@@ -14,7 +14,7 @@ struct K {
     
     struct Common {
         struct Category {
-            static let deleteTitle = "Delete category?"
+            static let deleteAlertTitle = "Delete category?"
             static let deleteOnly = "Delete category only"
             static func deleteWithEvents(count: Int) -> String {
                 "Delete category and event(s) (\(count))"
@@ -31,6 +31,11 @@ struct K {
             static let cancel = "Cancel"
             static let save = "Save"
             static let ok = "OK"
+            
+            static let createFirstCategory = "Create your first category"
+            static let addAnotherCategory = "Add"
+            static let editCategory = "Edit"
+            static let deleteCategory = "Delete"
         }
     }
     
@@ -60,12 +65,7 @@ struct K {
         static let dateHeader = "Date"
         static let textfieldPlaceholder = "E.g. Holidays in Paris"
         static let doneButton = "Done"
-        static let createFirstCategory = "Create your first category"
         static let none = "None"
-        
-        static let addAnotherCategory = "Add"
-        static let editCategory = "Edit"
-        static let deleteCategory = "Delete"
         
         static let saveErrorTitle = "Error"
         static let saveErrorDescription = "Could not save the image. Please check your connection."
@@ -96,7 +96,9 @@ struct K {
     struct ManageCategoriesView {
         static let manageCategoriesTitle = "Manage Categories"
         static let alertRenameCategory = "Rename category"
-
+        static let noCategories = "No categories yet"
+        static let newCategory = "New category"
+        static let editCategory = "Edit category"
     }
     
     struct UserPicturesPickerView {

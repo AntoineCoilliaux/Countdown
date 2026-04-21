@@ -15,7 +15,7 @@ struct EditorView: View {
     @Environment(\.dismiss) private var dismiss
     
     @State private var isShowingImageSheet = false
-    @State private var selectedHex: String = K.Colors.defaultCategoryHex
+    @State private var selectedHex: String?
     @State private var showDeleteAlert = false
     @State private var isExpanded = false
     @State private var currentCategoryColor: Color?
@@ -46,7 +46,6 @@ struct EditorView: View {
                     titleSection
                     categorySection
                     dateSection
-                    
                 }
                 .padding(.horizontal, 16)
                 .padding(.vertical, 20)
@@ -88,7 +87,7 @@ struct EditorView: View {
             Text(K.EditorView.saveErrorDescription)
         }
         
-        .alert(K.Common.Category.deleteTitle, isPresented: $showDeleteAlert) {
+        .alert(K.Common.Category.deleteAlertTitle, isPresented: $showDeleteAlert) {
             if selectedCategoryEventCount != 0 {
                 Button(K.Common.Category.deleteOnly, role: .destructive) {
                     handleDelete(deleteEvents: false)
@@ -118,7 +117,7 @@ struct EditorView: View {
             refreshCurrentColor()
         }
         
-        .onChange(of: selectedHex) { _, newHex in
+        .onChange(of: selectedHex ?? K.Colors.appBackground) { _, newHex in
             if vm.selectionState == .creating || vm.selectionState == .editing {
                 currentCategoryColor = Color(hex: newHex)
             }
@@ -177,7 +176,7 @@ struct EditorView: View {
             .background(CardBackground(borderColor: (vm.eventTitleIsTooLong ? .red : .white)))
             
             if vm.eventTitleIsTooLong {
-                titleTooLongError
+                ErrorText()
             }
             
         }
@@ -192,78 +191,56 @@ struct EditorView: View {
                 switch vm.selectionState {
                 case .reading:
                     if categoryManager.categories.isEmpty {
-                        MakeCategoryButton(imageName: "plus.circle.fill", text: K.EditorView.createFirstCategory, color: .blue) {
+                        MakeCategoryButton(imageName: "plus.circle.fill", text: K.Common.Buttons.createFirstCategory, color: .blue) {
                             vm.startCreating()
-                            
                         }
                     } else {
                         categoryPicker
                         
-                        divider
-                        MakeCategoryButton(imageName: "plus.circle", text: K.EditorView.addAnotherCategory, color: .blue) {
+                        AppDivider()
+                        MakeCategoryButton(imageName: "plus.circle", text: K.Common.Buttons.addAnotherCategory, color: .blue) {
                             vm.startCreating()
-                            selectedHex = K.Colors.defaultCategoryHex
-                            currentCategoryColor = Color(hex: selectedHex)
+                            selectedHex = nil
+                            currentCategoryColor = nil
                         }
                         
                         if let id = vm.selectedCategoryId,
                            let category = categoryManager.categories.first(where: { $0.id == id }) {
-                            divider
-                            MakeCategoryButton(imageName: "pencil", text: K.EditorView.editCategory, color: .blue) {
+                            AppDivider()
+                            MakeCategoryButton(imageName: "pencil", text: K.Common.Buttons.editCategory, color: .blue) {
                                 vm.startEditing(category: category)
                                 selectedHex = category.color
-                                currentCategoryColor = Color(hex: selectedHex)
+                                currentCategoryColor = Color(hex: selectedHex ?? K.Colors.appBackground)
                             }
                             
-                            divider
-                            MakeCategoryButton(imageName: "trash", text: K.EditorView.deleteCategory, color: .red) {
+                            AppDivider()
+                            MakeCategoryButton(imageName: "trash", text: K.Common.Buttons.deleteCategory, color: .red) {
                                 showDeleteAlert = true
                             }
                         }
                     }
                     
                 case .creating, .editing:
-                    VStack(spacing: 0) {
-                        TextField(K.Common.Category.namePlaceholder, text: $vm.categoryName)
-                            .foregroundStyle(.white)
-                            .paddingStyle()
-                        
-                        divider
-                        ColorRow(selectedHex: $selectedHex)
-                            .padding(.horizontal, 16)
-                            .padding(.vertical, 8)
-                        
-                        divider
-                        HStack {
-                            
-                            Button(K.Common.Buttons.cancel, role: .cancel) {
-                                vm.cancelCategoryAction()
-                                refreshCurrentColor()
-                            }
-                            .foregroundStyle(.red)
-                            .paddingStyle()
-                            if vm.categoryNameIsValid {
-                                divider
-                                Button {
-                                    vm.saveCategory(in: categoryManager, hex: selectedHex)
-                                    currentCategoryColor = Color(hex: selectedHex)
-                                    selectedHex = K.Colors.defaultCategoryHex
-                                } label: {
-                                    Text(K.Common.Buttons.save)
-                                        .foregroundStyle(.blue)
-                                        .paddingStyle()
-                                        .frame(maxWidth: .infinity, alignment: .leading)
-                                }
-                            }
-                            
+                    CategoryFormView(
+                        categoryName: $vm.categoryName,
+                        selectedHex: $selectedHex,
+                        categoryNameIsValid: vm.categoryNameIsValid,
+                        categoryNameIsTooLong: vm.categoryNameIsTooLong,
+                        onCancel: {
+                            vm.cancelCategoryAction()
+                            refreshCurrentColor()
+                        },
+                        onSave: { hex in
+                            vm.saveCategory(in: categoryManager, hex: hex)
+                            currentCategoryColor = Color(hex: hex)
                         }
-                    }
+                    )
                 }
             }
             .background(CardBackground(borderColor: vm.categoryNameIsTooLong ? .red : .white))
             
             if vm.categoryNameIsTooLong {
-                titleTooLongError
+                ErrorText()
             }
         }
     }
@@ -316,7 +293,7 @@ struct EditorView: View {
                 }
                 
                 if isExpanded {
-                    divider
+                    AppDivider()
                     DatePicker(
                         "",
                         selection: $vm.date,
@@ -356,17 +333,4 @@ struct EditorView: View {
             .tracking(1.2)
             .foregroundStyle(.white.opacity(0.5))
     }
-    
-    private var divider: some View {
-        Divider().background(.white.opacity(0.08))
-    }
-    
-    private var titleTooLongError: some View {
-        Text(K.EditorView.titleIsTooLongMessage)
-            .font(.footnote)
-            .foregroundStyle(.red)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(.leading, 4)
-    }
 }
-
