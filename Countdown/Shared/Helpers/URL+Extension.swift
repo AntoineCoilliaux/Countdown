@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 extension URL {
     static func localImageURL(filename: String) -> URL? {
@@ -23,6 +24,9 @@ extension URL {
     static func saveImageFromURL(_ remoteURL: URL) async -> URL? {
         guard let (data, _) = try? await URLSession.shared.data(from: remoteURL) else { return nil }
         
+        guard let image = UIImage(data: data),
+              let compressed = image.jpegData(compressionQuality: 0.8) else { return nil }
+        
         let filename = UUID().uuidString + ".jpg"
         guard let appSupportURL = FileManager.default.urls(
             for: .applicationSupportDirectory,
@@ -33,7 +37,8 @@ extension URL {
         try? FileManager.default.createDirectory(at: eventImagesURL, withIntermediateDirectories: true)
         
         let fileURL = eventImagesURL.appendingPathComponent(filename)
-        guard (try? data.write(to: fileURL)) != nil else { return nil }
+        
+        guard (try? compressed.write(to: fileURL)) != nil else { return nil }
         
         return URL(string: "local://\(filename)")
     }

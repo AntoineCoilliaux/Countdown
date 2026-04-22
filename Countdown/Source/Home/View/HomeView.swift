@@ -179,25 +179,11 @@ struct HomeView: View {
     }
     
     private var pastSeparator: some View {
-        HStack(spacing: 8) {
-            Rectangle()
-                .fill(Color.red.opacity(0.5))
-                .frame(height: 0.5)
-                .overlay(
-                    GeometryReader { geo in
-                        Path { path in
-                            var x: CGFloat = 0
-                            while x < geo.size.width {
-                                path.move(to: CGPoint(x: x, y: 0))
-                                path.addLine(to: CGPoint(x: x + 4, y: 0))
-                                x += 8
-                            }
-                        }
-                        .stroke(Color.red.opacity(0.5), style: StrokeStyle(lineWidth: 1, dash: [4, 4]))
-                    }
-                )
-            }
-        .padding(.horizontal, 12)
+        Rectangle()
+            .stroke(style: StrokeStyle(lineWidth: 1, dash: [4, 4]))
+            .foregroundStyle(.white.opacity(0.5))
+            .frame(height: 1)
+            .padding(.horizontal, 12)
     }
 
     private func eventRow(for event: Event) -> some View {

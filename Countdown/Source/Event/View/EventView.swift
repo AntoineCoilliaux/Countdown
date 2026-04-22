@@ -105,7 +105,9 @@ struct EventView: View {
         guard isLocalImage,
               let filename = event.imageName.localFilename,
               let fileURL = URL.localImageURL(filename: filename) else { return nil }
-        return UIImage(contentsOfFile: fileURL.path)
+        
+        let targetSize = CGSize(width: 56 * 3, height: 56 * 3)
+        return UIImage().downsampledImage(at: fileURL, targetSize: targetSize)
     }
 
     private var isInFuture: Bool {
