@@ -4,7 +4,7 @@
 //
 //  Created by Antoine Coilliaux on 18/02/2026.
 //
-
+import Kingfisher
 import SwiftUI
 
 struct OnlinePicturesPickerView: View {
@@ -18,40 +18,30 @@ struct OnlinePicturesPickerView: View {
             picGrid
         }
         .onAppear {
-            vm.loadRandomImages()
+            Task {
+                await vm.loadImages()
+            }
         }
     }
     
     private var picGrid : some View {
             LazyVGrid(columns: columns, spacing: 10) {
                 ForEach(vm.images, id: \.self) { image in
-                    AsyncImage(url: image) { phase in
-                        switch phase {
-                        case .empty:
-                            ProgressView()
-                                .frame(width: 100, height: 100)
-                            
-                        case .success(let img):
-                            img
-                                .resizable()
-                                .scaledToFill()
-                                .frame(width: 100, height: 100)
-                                .clipped()
-                                .cornerRadius(8)
-                            
-                                .onTapGesture {
-                                    onSelect(image)
-                                }
-                            
-                        case .failure:
-                            Color.gray
-                                .frame(width: 100, height: 100)
-                                .cornerRadius(8)
-                            
-                        @unknown default:
-                            EmptyView()
+                    KFImage(image)
+                        .placeholder {
+                            Group {
+                                ProgressView()
+                                    .frame(width: 100, height: 100)
+                            }
                         }
-                    }
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 100, height: 100)
+                        .clipped()
+                        .cornerRadius(8)
+                        .onTapGesture {
+                            onSelect(image)
+                        }
                 }
             }
             .padding()

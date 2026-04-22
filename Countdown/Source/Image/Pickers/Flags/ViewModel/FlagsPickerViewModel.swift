@@ -12,11 +12,16 @@ class FlagsPickerViewModel: ObservableObject {
     @Published var countries: [FlagData] = []
     @Published var isLoading = false
     @Published var errorMessage: String?
+    private static var cachedCountries: [FlagData] = []
 
     private let urlString = "https://restcountries.com/v3.1/independent?status=true&fields=flags"
 
     func fetchFlags() async {
-        guard countries.isEmpty else { return }
+        if !Self.cachedCountries.isEmpty {
+            self.countries = Self.cachedCountries
+            return
+        }
+
         isLoading = true
         defer { isLoading = false }
 
@@ -25,7 +30,9 @@ class FlagsPickerViewModel: ObservableObject {
         do {
             let (data, _) = try await URLSession.shared.data(from: url)
             let decoded = try JSONDecoder().decode([FlagData].self, from: data)
-            self.countries = decoded.sorted { $0.flags.png < $1.flags.png }
+            let sorted = decoded.sorted { $0.flags.png < $1.flags.png }
+            Self.cachedCountries = sorted
+            self.countries = sorted
         } catch {
             self.errorMessage = error.localizedDescription
         }

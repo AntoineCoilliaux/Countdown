@@ -10,16 +10,35 @@ import Foundation
 
 class OnlinePicturesPickerViewModel: ObservableObject {
     @Published var images: [URL] = []
+    private static var cachedImages: [URL] = []
+    
+    func loadImages() async {
+        if !Self.cachedImages.isEmpty {
+            await MainActor.run {
+                self.images = Self.cachedImages
+            }
+            return
+        }
 
-    func loadRandomImages() {
-        guard images.isEmpty else { return }
-        var newImages: [URL] = []
+        guard let url = URL(string: "https://picsum.photos/v2/list?page=2&limit=99") else { return }
 
-        for i in 1..<100 {
-            if let url = URL(string: "https://picsum.photos/seed/\(i)/300/300") {
-                newImages.append(url)
+        do {
+            let (data, _) = try await URLSession.shared.data(from: url)
+            let results = try JSONDecoder().decode([PicsumImage].self, from: data)
+
+            let urls: [URL] = results.compactMap {
+                URL(string: "https://picsum.photos/id/\($0.id)/300/300")
+            }
+
+            await MainActor.run {
+                Self.cachedImages = urls
+                self.images = urls
+            }
+        } catch {
+            let fallback = [URL(string: "https://picsum.photos/id/1/300/300")].compactMap { $0 }
+            await MainActor.run {
+                self.images.append(contentsOf: fallback)
             }
         }
-        self.images = newImages
     }
 }

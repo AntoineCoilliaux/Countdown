@@ -39,23 +39,34 @@ class UserPicturesPickerViewModel: ObservableObject {
     }
     
     private func saveImageLocally(imageData: Data) -> String? {
+        guard let image = UIImage(data: imageData) else { return nil }
+        
+        let maxSize: CGFloat = 600
+        let scale = min(maxSize / image.size.width, maxSize / image.size.height, 1.0)
+        let newSize = CGSize(width: image.size.width * scale, height: image.size.height * scale)
+        
+        let renderer = UIGraphicsImageRenderer(size: newSize)
+        let resized = renderer.image { _ in
+            image.draw(in: CGRect(origin: .zero, size: newSize))
+        }
+        
+        guard let compressed = resized.jpegData(compressionQuality: 0.8) else { return nil }
         let filename = UUID().uuidString + ".jpg"
-
+        
         guard let appSupportURL = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first else {
-                return nil
-            }
+            return nil
+        }
         
         let eventImagesURL = appSupportURL.appendingPathComponent("EventImages", isDirectory: true)
-           try? FileManager.default.createDirectory(at: eventImagesURL, withIntermediateDirectories: true)
-           
-           let fileURL = eventImagesURL.appendingPathComponent(filename)
-           
-           do {
-               try imageData.write(to: fileURL)
-               return filename
-           } catch {
-               print("Error saving image:", error)
-               return nil
-           }
-       }
+        try? FileManager.default.createDirectory(at: eventImagesURL, withIntermediateDirectories: true)
+        
+        let fileURL = eventImagesURL.appendingPathComponent(filename)
+        
+        do {
+            try compressed.write(to: fileURL)
+            return filename
+        } catch {
+            return nil
+        }
+    }
 }
