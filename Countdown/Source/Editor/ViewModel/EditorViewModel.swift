@@ -94,10 +94,10 @@ final class EditorViewModel: ObservableObject {
     var displayImage: UIImage? {
         guard isLocalImage,
               let filename = imageName.localFilename,
-              let fileURL = URL.localImageURL(filename: filename) else {
-            return nil
-        }
-        return UIImage(contentsOfFile: fileURL.path)
+              let fileURL = URL.localImageURL(filename: filename) else { return nil }
+        
+        let targetSize = CGSize(width: 62 * 3, height: 47 * 3)
+        return UIImage().downsampledImage(at: fileURL, targetSize: targetSize)
     }
     
     func createCategory(in categoryManager: CategoryManager) -> Category? {

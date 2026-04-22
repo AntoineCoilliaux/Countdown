@@ -9,7 +9,7 @@ import SwiftUI
 
 @main
 struct CountdownApp: App {
-    @StateObject private var eventStore = EventStore()
+    @StateObject private var eventStore: EventStore
     @StateObject private var categoryManager: CategoryManager
     
     init() {
