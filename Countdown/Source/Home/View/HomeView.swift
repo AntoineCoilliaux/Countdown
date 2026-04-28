@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import WidgetKit
 
 struct HomeView: View {
     @EnvironmentObject private var eventStore: EventStore
@@ -43,6 +44,13 @@ struct HomeView: View {
             }
             .sheet(isPresented: $showingManageCategories) {
                 ManageCategoriesView()
+            }
+            
+            .onChange(of: eventStore.events) { _, _ in
+                syncWidgetEvents()
+            }
+            .onChange(of: categoryManager.categories) { _, _ in
+                syncWidgetEvents()
             }
         }
     }
@@ -170,6 +178,12 @@ struct HomeView: View {
         return Color(hex: category.color) ?? .black
     }
     
+    private func categoryColorHex(for event: Event) -> String? {
+        guard let id = event.categoryID,
+              let category = categoryManager.categories.first(where: { $0.id == id }) else { return nil }
+        return category.color
+    }
+    
     private var futureEvents: [Event] {
         filteredEvents.filter { $0.date >= Date() }.sorted { $0.date < $1.date }
     }
@@ -198,12 +212,28 @@ struct HomeView: View {
         .listRowBackground(
             ZStack {
                 RoundedRectangle(cornerRadius: 25)
-                    .fill(categoryColor(for: event))
+                    .fill(categoryGradient(hex: categoryColorHex(for: event), opacity: 0.25))
                 RoundedRectangle(cornerRadius: 25)
                     .strokeBorder(Color.black, lineWidth: 1)
             }
             .padding(.horizontal, 8)
         )
+    }
+    
+    private func syncWidgetEvents() {
+        let widgetEvents = eventStore.events.map { event in
+            let category = categoryManager.categories.first { $0.id == event.categoryID }
+            return WidgetEvent(
+                id: event.id,
+                name: event.name,
+                date: event.date,
+                categoryName: category?.name,
+                categoryColor: category?.color
+            )
+        }
+        WidgetDataStore.saveAllEvents(widgetEvents)
+        WidgetCenter.shared.reloadAllTimelines()
+        print("✅ Synced \(widgetEvents.count) events to widget")
     }
 }
 

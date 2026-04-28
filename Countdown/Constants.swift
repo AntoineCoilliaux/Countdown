@@ -5,6 +5,7 @@
 //  Created by Antoine Coilliaux on 03/02/2026.
 //
 
+import AppIntents
 import Foundation
 
 struct K {
@@ -58,6 +59,20 @@ struct K {
         static let green = "#4ADE80"
     }
     
+    struct CountdownWidget {
+        static let appIntentTitle : LocalizedStringResource = "Pick an event"
+        
+        static let appIntentDescription : LocalizedStringResource = "Pick an event for your widget."
+        static let parameterTitle : LocalizedStringResource = "Events"
+        
+        static let typeDisplayRepresentation : TypeDisplayRepresentation = "Event"
+        
+        static let noEventSelected = "No event selected"
+        
+        static let displayName = "Countdown"
+        static let description = "Choose the event you want to create a widget from."
+    }
+    
     struct EditorView {
         static let navigationTitle = "New event"
         static let titleHeader = "Title"
@@ -107,4 +122,9 @@ struct K {
         static let pickerDescription = "Select an image from your photo library"
     }
     
+    struct WidgetDataStore {
+        static let suiteName = "group.com.antoine.coilliaux.Countdown"
+        static let key = "widgetEvent"
+        static let allWidgetsKey = "allWidgetEvents"
+    }
 }

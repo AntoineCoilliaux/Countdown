@@ -13,7 +13,6 @@ struct ManageCategoriesView: View {
     @StateObject var vm = ManageCategoriesViewModel()
     
     @Environment(\.dismiss) private var dismiss
-    @State private var currentCategoryColor: Color?
     
     private var sortedCategories: [Category] {
         categoryManager.categories.sorted {
