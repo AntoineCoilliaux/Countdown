@@ -47,7 +47,6 @@ final class EditorViewModel: ObservableObject {
         }
     }
 
-    
     func startCreating() {
         resetNewCategoryName()
         selectionState = .creating
