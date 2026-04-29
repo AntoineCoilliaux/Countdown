@@ -6,12 +6,16 @@
 //
 
 import SwiftUI
+import TipKit
+import WidgetKit
 
 struct HomeView: View {
     @EnvironmentObject private var eventStore: EventStore
     @EnvironmentObject private var categoryManager: CategoryManager
 
     @State private var showingManageCategories = false
+    
+    private let widgetTip = WidgetTip()
 
     var body: some View {
         NavigationStack {
@@ -43,6 +47,19 @@ struct HomeView: View {
             }
             .sheet(isPresented: $showingManageCategories) {
                 ManageCategoriesView()
+            }
+            
+            .onChange(of: eventStore.events) { oldEvents, newEvents in
+                if oldEvents.isEmpty && newEvents.count == 1 {
+                    Task {
+                        await WidgetTip.firstEventCreated.donate()
+
+                    }
+                }
+                syncWidgetEvents()
+            }
+            .onChange(of: categoryManager.categories) { _, _ in
+                syncWidgetEvents()
             }
         }
     }
@@ -110,41 +127,44 @@ struct HomeView: View {
     }
 
     private var eventList: some View {
-        List {
-            ForEach(futureEvents) { event in
-                     eventRow(for: event)
-                 }
-                 .onDelete { indexSet in
-                     let ids = indexSet.map { futureEvents[$0].id }
-                     eventStore.delete(withIds: ids)
-                 }
-                 
-                 if !futureEvents.isEmpty && !pastEvents.isEmpty {
-                     pastSeparator
-                         .listRowBackground(Color.clear)
-                         .listRowInsets(EdgeInsets(top: 4, leading: 0, bottom: 4, trailing: 0))
-                         .deleteDisabled(true)
-                 }
-                 
-                 ForEach(pastEvents) { event in
-                     eventRow(for: event)
-                 }
-                 .onDelete { indexSet in
-                     let ids = indexSet.map { pastEvents[$0].id }
-                     eventStore.delete(withIds: ids)
-                 }
-             }
-        .listRowSpacing(8)
-        .listStyle(.plain)
-        .scrollContentBackground(.hidden)
-        .safeAreaInset(edge: .top) {
-            VStack(spacing: 0) {
-                Color.clear.frame(height: 8)
-                Divider().background(Color.white.opacity(0.2))
-            }
-            .background(Color(hex: K.Colors.appBackground) ?? .black)
-        }
-    }
+           List {
+               ForEach(futureEvents) { event in
+                   eventRow(for: event)
+               }
+               .onDelete { indexSet in
+                   let ids = indexSet.map { futureEvents[$0].id }
+                   eventStore.delete(withIds: ids)
+               }
+    
+               if !futureEvents.isEmpty && !pastEvents.isEmpty {
+                   pastSeparator
+                       .listRowBackground(Color.clear)
+                       .listRowInsets(EdgeInsets(top: 4, leading: 0, bottom: 4, trailing: 0))
+                       .deleteDisabled(true)
+               }
+    
+               ForEach(pastEvents) { event in
+                   eventRow(for: event)
+               }
+               .onDelete { indexSet in
+                   let ids = indexSet.map { pastEvents[$0].id }
+                   eventStore.delete(withIds: ids)
+               }
+           }
+           .listRowSpacing(8)
+           .listStyle(.plain)
+           .scrollContentBackground(.hidden)
+           .safeAreaInset(edge: .top) {
+               VStack(spacing: 0) {
+                   TipView(widgetTip)
+                       .padding(.horizontal, 16)
+                       .padding(.top, 8)
+                   Color.clear.frame(height: 8)
+                   Divider().background(Color.white.opacity(0.2))
+               }
+               .background(Color(hex: K.Colors.appBackground) ?? .black)
+           }
+       }
 
     // MARK: - Helpers
 
@@ -168,6 +188,12 @@ struct HomeView: View {
             return .black
         }
         return Color(hex: category.color) ?? .black
+    }
+    
+    private func categoryColorHex(for event: Event) -> String? {
+        guard let id = event.categoryID,
+              let category = categoryManager.categories.first(where: { $0.id == id }) else { return nil }
+        return category.color
     }
     
     private var futureEvents: [Event] {
@@ -198,12 +224,28 @@ struct HomeView: View {
         .listRowBackground(
             ZStack {
                 RoundedRectangle(cornerRadius: 25)
-                    .fill(categoryColor(for: event))
+                    .fill(categoryGradient(hex: categoryColorHex(for: event), opacity: 0.25))
                 RoundedRectangle(cornerRadius: 25)
                     .strokeBorder(Color.black, lineWidth: 1)
             }
             .padding(.horizontal, 8)
         )
+    }
+    
+    private func syncWidgetEvents() {
+        let widgetEvents = eventStore.events.map { event in
+            let category = categoryManager.categories.first { $0.id == event.categoryID }
+            return WidgetEvent(
+                id: event.id,
+                name: event.name,
+                date: event.date,
+                categoryName: category?.name,
+                categoryColor: category?.color
+            )
+        }
+        WidgetDataStore.saveAllEvents(widgetEvents)
+        WidgetCenter.shared.reloadAllTimelines()
+        print("✅ Synced \(widgetEvents.count) events to widget")
     }
 }
 
