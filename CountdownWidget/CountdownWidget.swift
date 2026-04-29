@@ -12,11 +12,11 @@ import WidgetKit
 // MARK: - App Intent (La Configuration)
 
 struct SelectEventIntent: WidgetConfigurationIntent {
-    static var title = K.CountdownWidget.appIntentTitle
-    static var description = K.CountdownWidget.appIntentDescription
+    static var title : LocalizedStringResource = "Pick an event"
+    static var description = IntentDescription("Pick an event for your widget.") 
 
     // C'est ce paramètre qui crée le menu de sélection
-    @Parameter(title: K.CountdownWidget.parameterTitle)
+    @Parameter(title: "Select an event")
     var event: EventEntity?
 }
 
@@ -26,7 +26,7 @@ struct EventEntity: AppEntity, Identifiable {
     let id: UUID
     let name: String
     
-    static var typeDisplayRepresentation = K.CountdownWidget.typeDisplayRepresentation
+    static var typeDisplayRepresentation : TypeDisplayRepresentation = "Event"
     static var defaultQuery = EventQuery()
     
     var displayRepresentation: DisplayRepresentation {
@@ -131,7 +131,7 @@ struct CountdownWidgetView: View {
         
         return VStack(alignment: .center, spacing: 3) {
             Text(event.name)
-                .font(.system(size: 14, weight: .semibold))
+                .font(.system(size: 16, weight: .semibold))
                 .foregroundStyle(.white)
                 .lineLimit(3)
                 .multilineTextAlignment(.center)
@@ -148,6 +148,8 @@ struct CountdownWidgetView: View {
                 .font(.system(size: 20, weight: .bold))
                 .foregroundStyle(isActuallyInFuture ? (Color(hex: K.Colors.green) ?? .green) : (Color(hex: K.Colors.red) ?? .red))
                 .multilineTextAlignment(.center)
+                .lineLimit(2)
+                .minimumScaleFactor(0.7)
         }
         .padding(4)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)

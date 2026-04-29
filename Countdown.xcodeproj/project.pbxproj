@@ -69,6 +69,7 @@
 				"Shared/Helpers/Color+Extension.swift",
 				Shared/Widget/WidgetDataStore.swift,
 				Shared/Widget/WidgetEvent.swift,
+				Shared/Widget/WidgetTip.swift,
 			);
 			target = FA2B5FE02F98F4F600556647 /* CountdownWidgetExtension */;
 		};

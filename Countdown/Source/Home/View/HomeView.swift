@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import TipKit
 import WidgetKit
 
 struct HomeView: View {
@@ -13,6 +14,8 @@ struct HomeView: View {
     @EnvironmentObject private var categoryManager: CategoryManager
 
     @State private var showingManageCategories = false
+    
+    private let widgetTip = WidgetTip()
 
     var body: some View {
         NavigationStack {
@@ -46,7 +49,13 @@ struct HomeView: View {
                 ManageCategoriesView()
             }
             
-            .onChange(of: eventStore.events) { _, _ in
+            .onChange(of: eventStore.events) { oldEvents, newEvents in
+                if oldEvents.isEmpty && newEvents.count == 1 {
+                    Task {
+                        await WidgetTip.firstEventCreated.donate()
+
+                    }
+                }
                 syncWidgetEvents()
             }
             .onChange(of: categoryManager.categories) { _, _ in
@@ -118,41 +127,44 @@ struct HomeView: View {
     }
 
     private var eventList: some View {
-        List {
-            ForEach(futureEvents) { event in
-                     eventRow(for: event)
-                 }
-                 .onDelete { indexSet in
-                     let ids = indexSet.map { futureEvents[$0].id }
-                     eventStore.delete(withIds: ids)
-                 }
-                 
-                 if !futureEvents.isEmpty && !pastEvents.isEmpty {
-                     pastSeparator
-                         .listRowBackground(Color.clear)
-                         .listRowInsets(EdgeInsets(top: 4, leading: 0, bottom: 4, trailing: 0))
-                         .deleteDisabled(true)
-                 }
-                 
-                 ForEach(pastEvents) { event in
-                     eventRow(for: event)
-                 }
-                 .onDelete { indexSet in
-                     let ids = indexSet.map { pastEvents[$0].id }
-                     eventStore.delete(withIds: ids)
-                 }
-             }
-        .listRowSpacing(8)
-        .listStyle(.plain)
-        .scrollContentBackground(.hidden)
-        .safeAreaInset(edge: .top) {
-            VStack(spacing: 0) {
-                Color.clear.frame(height: 8)
-                Divider().background(Color.white.opacity(0.2))
-            }
-            .background(Color(hex: K.Colors.appBackground) ?? .black)
-        }
-    }
+           List {
+               ForEach(futureEvents) { event in
+                   eventRow(for: event)
+               }
+               .onDelete { indexSet in
+                   let ids = indexSet.map { futureEvents[$0].id }
+                   eventStore.delete(withIds: ids)
+               }
+    
+               if !futureEvents.isEmpty && !pastEvents.isEmpty {
+                   pastSeparator
+                       .listRowBackground(Color.clear)
+                       .listRowInsets(EdgeInsets(top: 4, leading: 0, bottom: 4, trailing: 0))
+                       .deleteDisabled(true)
+               }
+    
+               ForEach(pastEvents) { event in
+                   eventRow(for: event)
+               }
+               .onDelete { indexSet in
+                   let ids = indexSet.map { pastEvents[$0].id }
+                   eventStore.delete(withIds: ids)
+               }
+           }
+           .listRowSpacing(8)
+           .listStyle(.plain)
+           .scrollContentBackground(.hidden)
+           .safeAreaInset(edge: .top) {
+               VStack(spacing: 0) {
+                   TipView(widgetTip)
+                       .padding(.horizontal, 16)
+                       .padding(.top, 8)
+                   Color.clear.frame(height: 8)
+                   Divider().background(Color.white.opacity(0.2))
+               }
+               .background(Color(hex: K.Colors.appBackground) ?? .black)
+           }
+       }
 
     // MARK: - Helpers
 

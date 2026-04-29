@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import TipKit
 
 @main
 struct CountdownApp: App {
@@ -16,6 +17,10 @@ struct CountdownApp: App {
         let store = EventStore()
         _eventStore = StateObject(wrappedValue: store)
         _categoryManager = StateObject(wrappedValue: CategoryManager(eventStore: store))
+        try? Tips.configure([
+            .datastoreLocation(.applicationDefault),
+            .displayFrequency(.immediate)
+        ])
     }
 
     var body: some Scene {

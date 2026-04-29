@@ -60,17 +60,10 @@ struct K {
     }
     
     struct CountdownWidget {
-        static let appIntentTitle : LocalizedStringResource = "Pick an event"
-        
-        static let appIntentDescription : LocalizedStringResource = "Pick an event for your widget."
-        static let parameterTitle : LocalizedStringResource = "Events"
-        
-        static let typeDisplayRepresentation : TypeDisplayRepresentation = "Event"
-        
         static let noEventSelected = "No event selected"
         
         static let displayName = "Countdown"
-        static let description = "Choose the event you want to create a widget from."
+        static let description = "Make it a widget!"
     }
     
     struct EditorView {
@@ -126,5 +119,10 @@ struct K {
         static let suiteName = "group.com.antoine.coilliaux.Countdown"
         static let key = "widgetEvent"
         static let allWidgetsKey = "allWidgetEvents"
+    }
+    
+    struct WidgetTip {
+        static let title = "Did you know?"
+        static let message = "You can add a widget to your home screen for any event."
     }
 }
