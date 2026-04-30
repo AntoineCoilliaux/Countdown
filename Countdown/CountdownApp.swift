@@ -25,7 +25,7 @@ struct CountdownApp: App {
 
     var body: some Scene {
         WindowGroup {
-            HomeView()
+            SplashView()
                 .environmentObject(eventStore)
                 .environmentObject(categoryManager)
         }

@@ -37,7 +37,7 @@ final class EditorViewModel: ObservableObject {
         case .add:
             self.name = ""
             self.date = Date()
-            self.imageName = URL(string: "https://picsum.photos/seed/\(randomNumber)/300/300")!
+            self.imageName = URL(string: "https://picsum.photos/seed/\(randomNumber)/300/300") ?? URL(string: "https://picsum.photos/seed/1/300/300")!
             self.selectedCategoryId = nil
         case .edit(let existing):
             self.name = existing.name
@@ -178,3 +178,4 @@ final class EditorViewModel: ObservableObject {
         }
     }
 }
+

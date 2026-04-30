@@ -19,8 +19,8 @@ struct FlagsPickerView: View {
             if vm.isLoading {
                 ProgressView(K.FlagsPickerView.loadingMessage)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
-            } else if let error = vm.errorMessage {
-                ContentUnavailableView(error, systemImage: "wifi.slash")
+            } else if let _ = vm.errorMessage {
+                ContentUnavailableView(K.FlagsPickerView.errorMessage, systemImage: "exclamationmark.triangle")
             } else {
                 ScrollView {
                     LazyVGrid(columns: columns, spacing: 10) {
