@@ -87,6 +87,7 @@ struct K {
     
     struct FlagsPickerView {
         static let loadingMessage = "Loading flags..."
+        static let errorMessage = "Flags currently unavailable"
     }
     
     struct HomeView {
