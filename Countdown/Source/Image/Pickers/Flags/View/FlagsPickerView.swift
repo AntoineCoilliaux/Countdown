@@ -15,39 +15,28 @@ struct FlagsPickerView: View {
     let columns = [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]
 
     var body: some View {
-        Group {
-            if vm.isLoading {
-                ProgressView(K.FlagsPickerView.loadingMessage)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-            } else if let _ = vm.errorMessage {
-                ContentUnavailableView(K.FlagsPickerView.errorMessage, systemImage: "exclamationmark.triangle")
-            } else {
-                ScrollView {
-                    LazyVGrid(columns: columns, spacing: 10) {
-                        ForEach(vm.countries) { country in
-                            if let url = URL(string: country.flags.png) {
-                                KFImage(url)
-                                    .placeholder {
-                                        Group {
-                                            ProgressView()
-                                                .frame(width: 100, height: 100)
-                                        }
-                                    }
-                                    .resizable()
-                                    .scaledToFill()
-                                    .frame(width: 100, height: 67)
-                                    .clipShape(Rectangle())
-                                    .overlay(Rectangle().stroke(Color.black, lineWidth: 1))
-                                    .cornerRadius(8)
-                                    .onTapGesture { onSelect(url) }
-                            }
+        ScrollView {
+            LazyVGrid(columns: columns, spacing: 10) {
+                ForEach(vm.flagURLs, id: \.self) { url in
+                    KFImage(url)
+                        .placeholder {
+                            ProgressView()
+                                .frame(width: 100, height: 67)
                         }
-                    }
-                    .padding()
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 100, height: 67)
+                        .clipShape(Rectangle())
+                        .overlay(Rectangle().stroke(Color.black, lineWidth: 1))
+                        .cornerRadius(8)
+                        .onTapGesture { onSelect(url) }
                 }
             }
+            .padding()
         }
-        .task { await vm.fetchFlags() }
+        .onAppear {
+            vm.loadFlags()
+        }
     }
 }
 
