@@ -10,6 +10,7 @@ import SwiftUI
 struct EventView: View {
     let event: Event
     @EnvironmentObject var categoryManager: CategoryManager
+    @StateObject private var network = NetworkMonitor()
 
     var body: some View {
         HStack(spacing: 0) {
@@ -68,7 +69,7 @@ struct EventView: View {
                     .resizable()
                     .scaledToFit()
             }
-        } else {
+        } else if network.isConnected {
             AsyncImage(url: event.imageName) { image in
                 image
                     .resizable()
@@ -76,6 +77,11 @@ struct EventView: View {
             } placeholder: {
                 ProgressView()
             }
+        } else {
+            Image(systemName: "photo")
+                .resizable()
+                .scaledToFit()
+                .foregroundStyle(.secondary)
         }
     }
 
