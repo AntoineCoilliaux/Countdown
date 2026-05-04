@@ -9,6 +9,8 @@ import SwiftUI
 
 struct EditorView: View {
     @StateObject var vm: EditorViewModel
+    @StateObject private var network = NetworkMonitor()
+
     @EnvironmentObject var categoryManager: CategoryManager
     @EnvironmentObject var eventStore: EventStore
     
@@ -138,12 +140,17 @@ struct EditorView: View {
                     .resizable()
                     .scaledToFill()
             }
-        } else {
+        } else if network.isConnected {
             AsyncImage(url: vm.imageName) { image in
                 image.resizable()
             } placeholder: {
                 ProgressView()
             }
+        } else {
+            Image(systemName: "photo")
+                .resizable()
+                .scaledToFit()
+                .foregroundStyle(.secondary)
         }
     }
     

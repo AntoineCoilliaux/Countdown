@@ -11,6 +11,6 @@ struct Event: Codable, Identifiable, Equatable {
     let id: UUID
     let name: String
     let date: Date
-    let imageName: URL
+    var imageName: URL
     var categoryID: UUID?
 }
