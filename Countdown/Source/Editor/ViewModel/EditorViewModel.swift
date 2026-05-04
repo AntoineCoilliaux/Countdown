@@ -67,6 +67,10 @@ final class EditorViewModel: ObservableObject {
         date.formatted(date: .abbreviated, time: .shortened)
     }
     
+    var isPlaceholderImage: Bool {
+        imageName.absoluteString.contains("picsum.photos") && !imageName.isLocalImage
+    }
+    
     let randomNumber = Int.random(in: 1...100)
     let characterLimit: Int = 35
     
@@ -144,6 +148,8 @@ final class EditorViewModel: ObservableObject {
         if !imageName.isLocalImage {
             if let localURL = await URL.saveImageFromURL(imageName) {
                 finalImageURL = localURL
+            } else if isPlaceholderImage {
+                finalImageURL = imageName
             } else {
                 showSaveError = true
                 return nil

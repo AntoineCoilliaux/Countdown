@@ -12,6 +12,7 @@ import WidgetKit
 struct HomeView: View {
     @EnvironmentObject private var eventStore: EventStore
     @EnvironmentObject private var categoryManager: CategoryManager
+    @StateObject private var network = NetworkMonitor()
 
     @State private var showingManageCategories = false
     
@@ -60,6 +61,11 @@ struct HomeView: View {
             }
             .onChange(of: categoryManager.categories) { _, _ in
                 syncWidgetEvents()
+            }
+            
+            .onChange(of: network.isConnected) { _, isConnected in
+                guard isConnected else { return }
+                Task { await downloadPendingImages() }
             }
         }
     }
@@ -245,7 +251,16 @@ struct HomeView: View {
         }
         WidgetDataStore.saveAllEvents(widgetEvents)
         WidgetCenter.shared.reloadAllTimelines()
-        print("✅ Synced \(widgetEvents.count) events to widget")
+    }
+    
+    private func downloadPendingImages() async {
+        for event in eventStore.events where !event.imageName.isLocalImage {
+            if let localURL = await URL.saveImageFromURL(event.imageName) {
+                var updatedEvent = event
+                updatedEvent.imageName = localURL
+                eventStore.update(updatedEvent)
+            }
+        }
     }
 }
 
