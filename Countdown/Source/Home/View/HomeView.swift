@@ -136,6 +136,7 @@ struct HomeView: View {
            List {
                ForEach(futureEvents) { event in
                    eventRow(for: event)
+                       .listRowSeparator(.hidden)
                }
                .onDelete { indexSet in
                    let ids = indexSet.map { futureEvents[$0].id }
@@ -151,6 +152,7 @@ struct HomeView: View {
     
                ForEach(pastEvents) { event in
                    eventRow(for: event)
+                       .listRowSeparator(.hidden)
                }
                .onDelete { indexSet in
                    let ids = indexSet.map { pastEvents[$0].id }
@@ -232,7 +234,7 @@ struct HomeView: View {
                 RoundedRectangle(cornerRadius: 25)
                     .fill(categoryGradient(hex: categoryColorHex(for: event), opacity: 0.25))
                 RoundedRectangle(cornerRadius: 25)
-                    .strokeBorder(Color.black, lineWidth: 1)
+                    .strokeBorder(Color.white.opacity(0.25), lineWidth: 1)
             }
             .padding(.horizontal, 8)
         )
