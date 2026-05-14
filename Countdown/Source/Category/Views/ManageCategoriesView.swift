@@ -161,7 +161,7 @@ struct ManageCategoriesView: View {
         let categoryEvents = vm.events(for: category, from: eventStore)
         if categoryEvents.isEmpty {
             Text(K.HomeView.noEventsYet)
-                .font(.default)
+                .font(.title)
                 .italic()
                 .foregroundStyle(.secondary)
         } else {
