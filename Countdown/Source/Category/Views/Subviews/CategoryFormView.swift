@@ -17,8 +17,12 @@ struct CategoryFormView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            TextField(K.Common.Category.namePlaceholder, text: $categoryName)
+ 
+            TextField("", text: $categoryName, prompt: Text(K.Common.Category.namePlaceholder)
+                .foregroundStyle(.white.opacity(0.5)))
+                .textFieldStyle(.plain)
                 .foregroundStyle(.white)
+                .tint(.white)
                 .paddingStyle()
 
             AppDivider()
