@@ -93,10 +93,6 @@ Combines events and selected category to produce filtered data for the UI
 
 ## 🚀 Future Improvements
 
-Possibility to make widgets from events
-
-Image caching and offline support
-
 iCloud sync
 
 Notifications for upcoming events

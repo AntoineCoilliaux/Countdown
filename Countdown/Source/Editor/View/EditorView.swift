@@ -52,8 +52,8 @@ struct EditorView: View {
                 .padding(.horizontal, 16)
                 .padding(.vertical, 20)
             }
+            .scrollDismissesKeyboard(.immediately)
             .background(Color(hex: K.Colors.appBackground) ?? .black)
-            .colorScheme(.dark)
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
                     Button(K.EditorView.doneButton) {
@@ -169,9 +169,12 @@ struct EditorView: View {
                         isShowingImageSheet = true
                     }
                 VStack {
-                    TextField(K.EditorView.textfieldPlaceholder, text: $vm.name)
+                    TextField("", text: $vm.name, prompt: Text(K.EditorView.textfieldPlaceholder)
+                        .foregroundStyle(.white.opacity(0.5)))
                         .textFieldStyle(.plain)
                         .foregroundStyle(.white)
+                        .tint(.white)
+                        .submitLabel(.done)
                         .overlay(
                             Rectangle()
                                 .frame(height: 0.5)
@@ -310,6 +313,7 @@ struct EditorView: View {
                     .padding(12)
                 }
             }
+            .colorScheme(.dark)
             .background(CardBackground(borderColor: .white))
         }
     }
