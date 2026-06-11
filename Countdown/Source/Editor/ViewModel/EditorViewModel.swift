@@ -19,6 +19,8 @@ final class EditorViewModel: ObservableObject {
     @Published var selectedCategoryId: UUID?
     @Published var categoryName: String = ""
     @Published var showSaveError: Bool = false
+    @Published var emoji: String = ""
+    @Published var displayMode: EventDisplayMode = .photo
     
     let mode: Mode
     
@@ -38,12 +40,15 @@ final class EditorViewModel: ObservableObject {
             self.name = ""
             self.date = Date()
             self.imageName = URL(string: "https://picsum.photos/seed/\(randomNumber)/300/300") ?? URL(string: "https://picsum.photos/seed/1/300/300")!
+            self.emoji = K.Emojis.categories.flatMap { $0.emojis }.randomElement() ?? "✈️"
             self.selectedCategoryId = nil
         case .edit(let existing):
             self.name = existing.name
             self.date = existing.date
             self.imageName = existing.imageName
             self.selectedCategoryId = existing.categoryID
+            self.displayMode = existing.displayMode ?? .photo
+            self.emoji = existing.emoji ?? "✈️"
         }
     }
 
@@ -99,7 +104,7 @@ final class EditorViewModel: ObservableObject {
               let filename = imageName.localFilename,
               let fileURL = URL.localImageURL(filename: filename) else { return nil }
         
-        let targetSize = CGSize(width: 62 * 3, height: 47 * 3)
+        let targetSize = CGSize(width: 400 * 3, height: 200 * 3)
         return UIImage().downsampledImage(at: fileURL, targetSize: targetSize)
     }
     
@@ -163,7 +168,10 @@ final class EditorViewModel: ObservableObject {
                 name: name,
                 date: date,
                 imageName: finalImageURL,
-                categoryID: selectedCategoryId
+                categoryID: selectedCategoryId,
+                emoji: emoji.isEmpty ? nil : String(emoji.prefix(1)),
+                displayMode: displayMode
+
             )
         case .edit(let existing):
             return Event(
@@ -171,7 +179,9 @@ final class EditorViewModel: ObservableObject {
                 name: name,
                 date: date,
                 imageName: finalImageURL,
-                categoryID: selectedCategoryId
+                categoryID: selectedCategoryId,
+                emoji: emoji.isEmpty ? nil : String(emoji.prefix(1)),
+                displayMode: displayMode
             )
         }
     }

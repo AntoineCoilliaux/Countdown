@@ -13,4 +13,10 @@ struct Event: Codable, Identifiable, Equatable {
     let date: Date
     var imageName: URL
     var categoryID: UUID?
+    var emoji: String?
+    var displayMode: EventDisplayMode? = .photo
+}
+
+enum EventDisplayMode: String, Codable {
+    case photo, emoji
 }

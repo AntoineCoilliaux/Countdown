@@ -21,7 +21,7 @@ struct HomeView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                Color(hex: K.Colors.appBackground)
+                Color(.black)
                     .ignoresSafeArea()
                 
                 if filteredEvents.isEmpty {
@@ -170,7 +170,7 @@ struct HomeView: View {
                    Color.clear.frame(height: 8)
                    Divider().background(Color.white.opacity(0.2))
                }
-               .background(Color(hex: K.Colors.appBackground) ?? .black)
+               .background(.black)
            }
        }
 
@@ -229,15 +229,7 @@ struct HomeView: View {
             EventView(event: event)
         }
         .listRowInsets(EdgeInsets(top: 12, leading: 12, bottom: 12, trailing: 12))
-        .listRowBackground(
-            ZStack {
-                RoundedRectangle(cornerRadius: 25)
-                    .fill(categoryGradient(hex: categoryColorHex(for: event), opacity: 0.25))
-                RoundedRectangle(cornerRadius: 25)
-                    .strokeBorder(Color.white.opacity(0.25), lineWidth: 1)
-            }
-            .padding(.horizontal, 8)
-        )
+        .listRowBackground(Color.clear)
     }
     
     private func syncWidgetEvents() {

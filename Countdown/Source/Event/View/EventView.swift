@@ -1,8 +1,6 @@
 //
-//  ContentView.swift
+//  EventView.swift
 //  Countdown
-//
-//  Created by Antoine Coilliaux on 02/02/2026.
 //
 
 import SwiftUI
@@ -13,46 +11,104 @@ struct EventView: View {
     @StateObject private var network = NetworkMonitor()
 
     var body: some View {
-        HStack(spacing: 0) {
-            eventImage
-                .frame(width: 62, height: 47)
-                .clipShape(RoundedRectangle(cornerRadius: 10))
-                .overlay(RoundedRectangle(cornerRadius: 10).stroke(.white.opacity(0.4), lineWidth: 1))
-                .padding(.horizontal, 12)
-
-            VStack(alignment: .leading, spacing: 3) {
-                Text(event.name)
-                    .font(.system(size: 16, weight: .semibold))
-                    .foregroundStyle(.white)
-
-                HStack(spacing: 6) {
-                    Text(event.date, style: .date)
-                    Text("·")
-                    Text(event.date, style: .time)
-                }
-                .font(.system(size: 12, weight: .regular))
-                .foregroundStyle(.white.opacity(0.55))
-
-                if let id = event.categoryID,
-                   let category = categoryManager.categories.first(where: { $0.id == id }) {
-                    Text(category.name)
-                        .font(.system(size: 11, weight: .medium))
-                        .foregroundStyle(.white.opacity(0.9))
-                        .padding(.horizontal, 7)
-                        .padding(.vertical, 3)
-                        .background(.white.opacity(0.15))
-                        .clipShape(Capsule())
+        VStack(spacing: 0) {
+            // MARK: - Image
+            Group {
+                if event.displayMode == .emoji {
+                    eventEmoji
+                        .frame(height: 100)
+                } else {
+                    eventImage
+                        .frame(height: 250)
                 }
             }
+            .frame(maxWidth: .infinity)
+            .clipped()
 
-            Spacer()
+            // MARK: - Bottom section
+            VStack(alignment: .leading, spacing: 8) {
 
-            TimelineView(.everyMinute) { _ in
-                countdownView
+                // Badge + date sur la même ligne
+                HStack(alignment: .center) {
+                    if let id = event.categoryID,
+                       let category = categoryManager.categories.first(where: { $0.id == id }) {
+                        Text(category.name.uppercased())
+                            .font(.system(size: 10, weight: .bold))
+                            .tracking(0.8)
+                            .foregroundStyle(Color(hex: category.color) ?? .white)
+                    }
+
+                    Spacer()
+
+                    HStack(spacing: 4) {
+                        Text(event.date, style: .date)
+                        Text("·")
+                        Text(event.date, style: .time)
+                    }
+                    .font(.system(size: 11, weight: .regular))
+                    .foregroundStyle(.white.opacity(0.5))
+                }
+
+                TimelineView(.everyMinute) { _ in
+                    HStack(alignment: .lastTextBaseline, spacing: 6) {
+                        if !isUnder24Hours {
+                            Text("\(dayNumber)")
+                                .font(.system(size: 36, weight: .light))
+                                .foregroundStyle(.white)
+                            
+                            Text("\(dayNumber < 2 ? "day" : "days") \(isInFuture ? "to" : "since")")
+                                .font(.system(size: 14, weight: .regular))
+                                .foregroundStyle(.white.opacity(0.5))
+                            
+                        } else {
+                            Text("\(hourNumber)")
+                                .font(.system(size: 36, weight: .light))
+                                .foregroundStyle(.white)
+                            
+                            Text("h")
+                                .font(.system(size: 14, weight: .regular))
+                                .foregroundStyle(.white.opacity(0.5))
+                            
+                            Text("\(minuteNumber)")
+                                .font(.system(size: 36, weight: .light))
+                                .foregroundStyle(.white)
+                            
+                            Text("min \(isInFuture ? "to" : "since")")
+                                .font(.system(size: 14, weight: .regular))
+                                .foregroundStyle(.white.opacity(0.5))
+                        }
+                        
+                        Text(event.name)
+                            .font(.system(size: 14, weight: .bold))
+                            .foregroundStyle(.white)
+                            .lineLimit(2)
+                    }
+                }
+
+                progressBar
             }
-            .padding(.trailing, 4)
+            .padding(.horizontal, 14)
+            .padding(.vertical, 12)
         }
-        .padding(.vertical, 8)
+        .background(Color(hex: K.Colors.editorBackground) ?? .black)
+        .clipShape(RoundedRectangle(cornerRadius: 20))
+    }
+
+    // MARK: - Progress bar
+
+    private var progressBar: some View {
+        GeometryReader { geo in
+            ZStack(alignment: .leading) {
+                Capsule()
+                    .fill(Color.white.opacity(0.1))
+                    .frame(height: 3)
+
+                Capsule()
+                    .fill(categoryColor)
+                    .frame(width: geo.size.width * progressFraction, height: 3)
+            }
+        }
+        .frame(height: 3)
     }
 
     // MARK: - Subviews
@@ -65,40 +121,39 @@ struct EventView: View {
                     .resizable()
                     .scaledToFill()
             } else {
-                Image(systemName: "photo")
-                    .resizable()
-                    .scaledToFit()
+                placeholderImage
             }
         } else if network.isConnected {
             AsyncImage(url: event.imageName) { image in
-                image
-                    .resizable()
-                    .scaledToFill()
+                image.resizable().scaledToFill()
             } placeholder: {
-                ProgressView()
+                placeholderImage
             }
         } else {
-            Image(systemName: "photo")
-                .resizable()
-                .scaledToFit()
-                .foregroundStyle(.secondary)
+            placeholderImage
+        }
+    }
+    
+    private var eventEmoji: some View {
+        ZStack {
+            LinearGradient(
+                colors: [categoryColor.opacity(0.35), categoryColor.opacity(0.15)],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+            Text(event.emoji ?? "✈️")
+                .font(.system(size: 70))
         }
     }
 
-    private var countdownView: some View {
-        VStack(alignment: .trailing, spacing: 2) {
-            HStack(spacing: 3) {
-                Text(dayNumber)
-                    .font(.system(size: 30, weight: .bold))
-                    .foregroundStyle(isInFuture ? Color(hex: K.Colors.green) ?? .green : Color(hex: K.Colors.red) ?? .red)
-                Image(systemName: isInFuture ? "arrow.down" : "arrow.up")
-                    .font(.system(size: 15, weight: .semibold))
-                    .foregroundStyle(.white)
-            }
-            Text(remainingText)
-                .font(.system(size: 12, weight: .regular))
-                .foregroundStyle(isInFuture ? Color(hex: K.Colors.green) ?? .green : Color(hex: K.Colors.red) ?? .red)
-        }
+    private var placeholderImage: some View {
+        Rectangle()
+            .fill(Color.white.opacity(0.05))
+            .overlay(
+                Image(systemName: "photo")
+                    .font(.system(size: 28))
+                    .foregroundStyle(.white.opacity(0.2))
+            )
     }
 
     // MARK: - Computed properties
@@ -111,8 +166,7 @@ struct EventView: View {
         guard isLocalImage,
               let filename = event.imageName.localFilename,
               let fileURL = URL.localImageURL(filename: filename) else { return nil }
-        
-        let targetSize = CGSize(width: 56 * 3, height: 56 * 3)
+        let targetSize = CGSize(width: 400 * 3, height: 200 * 3)
         return UIImage().downsampledImage(at: fileURL, targetSize: targetSize)
     }
 
@@ -120,22 +174,49 @@ struct EventView: View {
         event.date >= Date()
     }
 
-    private var dayNumber: String {
-        let interval = abs(event.date.timeIntervalSince(Date()))
-        let days = Int(ceil(interval / 60) * 60) / 86400
-        return "\(days)"
+    private var dayNumber: Int {
+        let calendar = Calendar.current
+        let today = calendar.startOfDay(for: Date())
+        let eventDay = calendar.startOfDay(for: event.date)
+        return abs(calendar.dateComponents([.day], from: today, to: eventDay).day ?? 0)
     }
 
-    private var remainingText: String {
+    private var isUnder24Hours: Bool {
+        abs(event.date.timeIntervalSinceNow) < 86400
+    }
+
+    private var hourNumber: Int {
         let interval = abs(event.date.timeIntervalSince(Date()))
-        let roundedInterval = ceil(interval / 60) * 60
-        let hours = (Int(roundedInterval) % 86400) / 3600
-        let minutes = (Int(roundedInterval) % 3600) / 60
-        return "\(hours)h \(minutes)m"
+        let hours = (Int(ceil(interval / 60) * 60) % 86400) / 3600
+        return hours
+    }
+    
+    private var minuteNumber: Int {
+        let interval = abs(event.date.timeIntervalSince(Date()))
+        let minutes = (Int(ceil(interval / 60) * 60) % 3600) / 60
+        return minutes
+    }
+
+
+    private var progressFraction: CGFloat {
+        let total: TimeInterval = 50 * 86400
+        let remaining = max(event.date.timeIntervalSince(Date()), 0)
+        let elapsed = total - min(remaining, total)
+        return CGFloat(elapsed / total)
+    }
+
+    private var categoryColor: Color {
+        if let id = event.categoryID,
+           let category = categoryManager.categories.first(where: { $0.id == id }) {
+            return Color(hex: category.color) ?? .white
+        }
+        return .white
     }
 }
 
 #Preview {
-    let event = Event(id: UUID(), name: "Test Event", date: Date(), imageName: URL(string: "https://picsum.photos/seed/1/300/300")!)
+    let event = Event(id: UUID(), name: "Trip to Tokyo", date: Date().addingTimeInterval(86400 * 12), imageName: URL(string: "https://picsum.photos/seed/1/400/140")!)
     EventView(event: event)
+        .padding()
+        .background(Color(hex: "#0D0D14") ?? .black)
 }

@@ -17,6 +17,7 @@ struct EditorView: View {
     @Environment(\.dismiss) private var dismiss
     
     @State private var isShowingImageSheet = false
+    @State private var isShowingEmojiPicker = false
     @State private var selectedHex: String?
     @State private var showDeleteAlert = false
     @State private var isExpanded = false
@@ -45,6 +46,7 @@ struct EditorView: View {
         NavigationStack {
             ScrollView {
                 VStack(spacing: 34) {
+                    mediaSection
                     titleSection
                     categorySection
                     dateSection
@@ -81,6 +83,10 @@ struct EditorView: View {
                 }
                 isShowingImageSheet = false
             }
+        }
+        
+        .sheet(isPresented: $isShowingEmojiPicker) {
+            EmojiPickerSheet(selectedEmoji: $vm.emoji)
         }
         
         .alert(K.EditorView.saveErrorTitle, isPresented: $vm.showSaveError) {
@@ -126,7 +132,7 @@ struct EditorView: View {
         }
     }
     
-    // MARK: - Image View
+    // MARK: - Image & Emoji Views
     
     @ViewBuilder
     private var imageView: some View {
@@ -154,41 +160,101 @@ struct EditorView: View {
         }
     }
     
+    private var emojiView : some View {
+        ZStack {
+            LinearGradient(
+                colors: [(currentCategoryColor ?? .white).opacity(0.35), (currentCategoryColor ?? .white).opacity(0.15)],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+            Text(vm.emoji)
+                .font(.system(size: 52))
+        }
+    }
+    
     // MARK: - Sections
+    private var mediaSection: some View {
+        VStack(spacing: 5) {
+            Group {
+                if vm.displayMode == .emoji {
+                    emojiView
+                } else {
+                    imageView
+                }
+            }
+            .frame(height: 250)
+            .frame(maxWidth: .infinity)
+            .clipShape(RoundedRectangle(cornerRadius: 12))
+            .overlay(RoundedRectangle(cornerRadius: 12).stroke(.white.opacity(0.15), lineWidth: 1))
+            .onTapGesture {
+                if vm.displayMode == .emoji {
+                    isShowingEmojiPicker = true
+                } else {
+                    isShowingImageSheet = true
+                }
+            }
+        
+        HStack(spacing: 8) {
+            Button { vm.displayMode = .photo } label: {
+                HStack(spacing: 6) {
+                    Image(systemName: "photo")
+                    Text(K.EditorView.photoPickerName)
+                        .font(.system(size: 11, weight: .bold))
+                        .tracking(0.8)
+                }
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 10)
+                .background(vm.displayMode == .photo ? Color.white.opacity(0.15) : Color.clear)
+                .foregroundStyle(vm.displayMode == .photo ? .white : .white.opacity(0.4))
+                .clipShape(RoundedRectangle(cornerRadius: 10))
+                .overlay(RoundedRectangle(cornerRadius: 10).stroke(.white.opacity(vm.displayMode == .photo ? 0.3 : 0.1), lineWidth: 1))
+            }
+            
+            Button { vm.displayMode = .emoji } label: {
+                HStack(spacing: 6) {
+                    Text("😀").font(.system(size: 13))
+                    Text(K.EditorView.emojiPickerName)
+                        .font(.system(size: 11, weight: .bold))
+                        .tracking(0.8)
+                }
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 10)
+                .background(vm.displayMode == .emoji ? Color.white.opacity(0.15) : Color.clear)
+                .foregroundStyle(vm.displayMode == .emoji ? .white : .white.opacity(0.4))
+                .clipShape(RoundedRectangle(cornerRadius: 10))
+                .overlay(RoundedRectangle(cornerRadius: 10).stroke(.white.opacity(vm.displayMode == .emoji ? 0.3 : 0.1), lineWidth: 1))
+            }
+        }
+
+        }
+        .padding(.horizontal, 12)
+        .padding(.vertical, 10)
+    }
+    
     //MARK - Title
     private var titleSection: some View {
         VStack(alignment: .leading, spacing: 8) {
             sectionHeader(K.EditorView.titleHeader)
             
-            HStack(alignment: .center, spacing: 12) {
-                imageView
-                    .frame(width: 62, height: 47)
-                    .clipShape(RoundedRectangle(cornerRadius: 10))
-                    .overlay(RoundedRectangle(cornerRadius: 10).stroke(.white.opacity(0.4), lineWidth: 1))
-                    .onTapGesture {
-                        isShowingImageSheet = true
-                    }
-                VStack {
-                    TextField("", text: $vm.name, prompt: Text(K.EditorView.textfieldPlaceholder)
-                        .foregroundStyle(.white.opacity(0.5)))
-                        .textFieldStyle(.plain)
-                        .foregroundStyle(.white)
-                        .tint(.white)
-                        .submitLabel(.done)
-                        .overlay(
-                            Rectangle()
-                                .frame(height: 0.5)
-                                .foregroundStyle(.white.opacity(0.3)), alignment: .bottom)
-                }
+            VStack(spacing: 0) {
+                TextField("", text: $vm.name, prompt: Text(K.EditorView.textfieldPlaceholder)
+                    .foregroundStyle(.white.opacity(0.5)))
+                .textFieldStyle(.plain)
+                .foregroundStyle(.white)
+                .tint(.white)
+                .submitLabel(.done)
+                .overlay(
+                    Rectangle()
+                        .frame(height: 0.5)
+                        .foregroundStyle(.white.opacity(0.3)), alignment: .bottom)
+                .padding(.horizontal, 16)
+                .padding(.vertical, 14)
             }
-            .padding(.horizontal, 16)
-            .padding(.vertical, 14)
-            .background(CardBackground(borderColor: (vm.eventTitleIsTooLong ? .red : .white)))
+            .background(CardBackground(borderColor: vm.eventTitleIsTooLong ? .red : .white))
             
             if vm.eventTitleIsTooLong {
                 ErrorText()
             }
-            
         }
     }
     
