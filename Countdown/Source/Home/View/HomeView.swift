@@ -219,16 +219,19 @@ struct HomeView: View {
             .frame(height: 1)
             .padding(.horizontal, 12)
     }
-
+    
     private func eventRow(for event: Event) -> some View {
-        NavigationLink {
-            EditorView(event: event, initialCategoryColor: categoryColor(for: event) != .black ? categoryColor(for: event) : Color(hex: K.Colors.appBackground) ?? .black) { updatedEvent in
-                eventStore.update(updatedEvent)
+        ZStack {
+            NavigationLink {
+                EventDetailView(event: event)
+            } label: {
+                EmptyView()
             }
-        } label: {
+            .opacity(0)
+
             EventView(event: event)
         }
-        .listRowInsets(EdgeInsets(top: 12, leading: 12, bottom: 12, trailing: 12))
+        .listRowInsets(EdgeInsets(top: 4, leading: 12, bottom: 4, trailing: 12))
         .listRowBackground(Color.clear)
     }
     

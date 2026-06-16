@@ -50,6 +50,7 @@ struct EditorView: View {
                     titleSection
                     categorySection
                     dateSection
+                    repeatSection
                 }
                 .padding(.horizontal, 16)
                 .padding(.vertical, 20)
@@ -138,13 +139,9 @@ struct EditorView: View {
     private var imageView: some View {
         if vm.isLocalImage {
             if let uiImage = vm.displayImage {
-                Image(uiImage: uiImage)
-                    .resizable()
-                    .scaledToFill()
+                Image(uiImage: uiImage).resizable()
             } else {
-                Image(systemName: "photo")
-                    .resizable()
-                    .scaledToFill()
+                Image(systemName: "photo").resizable()
             }
         } else if network.isConnected {
             AsyncImage(url: vm.imageName) { image in
@@ -153,10 +150,7 @@ struct EditorView: View {
                 ProgressView()
             }
         } else {
-            Image(systemName: "photo")
-                .resizable()
-                .scaledToFit()
-                .foregroundStyle(.secondary)
+            Image(systemName: "photo").resizable().foregroundStyle(.secondary)
         }
     }
     
@@ -175,17 +169,17 @@ struct EditorView: View {
     // MARK: - Sections
     private var mediaSection: some View {
         VStack(spacing: 5) {
-            Group {
-                if vm.displayMode == .emoji {
-                    emojiView
-                } else {
-                    imageView
-                }
+            EventMediaView(
+                displayMode: vm.displayMode,
+                emoji: vm.emoji,
+                categoryColor: currentCategoryColor ?? .white,
+                emojiHeight: 190,
+                photoHeight: 170
+            ) {
+                imageView
             }
-            .frame(height: 250)
-            .frame(maxWidth: .infinity)
-            .clipShape(RoundedRectangle(cornerRadius: 12))
             .overlay(RoundedRectangle(cornerRadius: 12).stroke(.white.opacity(0.15), lineWidth: 1))
+            .clipShape(RoundedRectangle(cornerRadius: 12))
             .onTapGesture {
                 if vm.displayMode == .emoji {
                     isShowingEmojiPicker = true
@@ -193,39 +187,38 @@ struct EditorView: View {
                     isShowingImageSheet = true
                 }
             }
-        
-        HStack(spacing: 8) {
-            Button { vm.displayMode = .photo } label: {
-                HStack(spacing: 6) {
-                    Image(systemName: "photo")
-                    Text(K.EditorView.photoPickerName)
-                        .font(.system(size: 11, weight: .bold))
-                        .tracking(0.8)
-                }
-                .frame(maxWidth: .infinity)
-                .padding(.vertical, 10)
-                .background(vm.displayMode == .photo ? Color.white.opacity(0.15) : Color.clear)
-                .foregroundStyle(vm.displayMode == .photo ? .white : .white.opacity(0.4))
-                .clipShape(RoundedRectangle(cornerRadius: 10))
-                .overlay(RoundedRectangle(cornerRadius: 10).stroke(.white.opacity(vm.displayMode == .photo ? 0.3 : 0.1), lineWidth: 1))
-            }
-            
-            Button { vm.displayMode = .emoji } label: {
-                HStack(spacing: 6) {
-                    Text("😀").font(.system(size: 13))
-                    Text(K.EditorView.emojiPickerName)
-                        .font(.system(size: 11, weight: .bold))
-                        .tracking(0.8)
-                }
-                .frame(maxWidth: .infinity)
-                .padding(.vertical, 10)
-                .background(vm.displayMode == .emoji ? Color.white.opacity(0.15) : Color.clear)
-                .foregroundStyle(vm.displayMode == .emoji ? .white : .white.opacity(0.4))
-                .clipShape(RoundedRectangle(cornerRadius: 10))
-                .overlay(RoundedRectangle(cornerRadius: 10).stroke(.white.opacity(vm.displayMode == .emoji ? 0.3 : 0.1), lineWidth: 1))
-            }
-        }
 
+                HStack(spacing: 8) {
+                    Button { vm.displayMode = .photo } label: {
+                        HStack(spacing: 6) {
+                            Image(systemName: "photo")
+                            Text(K.EditorView.photoPickerName)
+                                .font(.system(size: 11, weight: .bold))
+                                .tracking(0.8)
+                        }
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 10)
+                        .background(vm.displayMode == .photo ? Color.white.opacity(0.15) : Color.clear)
+                        .foregroundStyle(vm.displayMode == .photo ? .white : .white.opacity(0.4))
+                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                        .overlay(RoundedRectangle(cornerRadius: 10).stroke(.white.opacity(vm.displayMode == .photo ? 0.3 : 0.1), lineWidth: 1))
+                    }
+                    
+                    Button { vm.displayMode = .emoji } label: {
+                        HStack(spacing: 6) {
+                            Text("😀").font(.system(size: 13))
+                            Text(K.EditorView.emojiPickerName)
+                                .font(.system(size: 11, weight: .bold))
+                                .tracking(0.8)
+                        }
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 10)
+                        .background(vm.displayMode == .emoji ? Color.white.opacity(0.15) : Color.clear)
+                        .foregroundStyle(vm.displayMode == .emoji ? .white : .white.opacity(0.4))
+                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                        .overlay(RoundedRectangle(cornerRadius: 10).stroke(.white.opacity(vm.displayMode == .emoji ? 0.3 : 0.1), lineWidth: 1))
+                    }
+                }
         }
         .padding(.horizontal, 12)
         .padding(.vertical, 10)
@@ -262,84 +255,102 @@ struct EditorView: View {
     private var categorySection: some View {
         VStack(alignment: .leading, spacing: 8) {
             sectionHeader(K.EditorView.categoryHeader)
-            
-            VStack(spacing: 0) {
-                switch vm.selectionState {
-                case .reading:
-                    if categoryManager.categories.isEmpty {
-                        MakeCategoryButton(imageName: "plus.circle.fill", text: K.Common.Buttons.createFirstCategory, color: .blue) {
-                            vm.startCreating()
-                        }
-                    } else {
-                        categoryPicker
-                        
-                        AppDivider()
-                        MakeCategoryButton(imageName: "plus.circle", text: K.Common.Buttons.addAnotherCategory, color: .blue) {
-                            vm.startCreating()
-                            selectedHex = nil
-                            currentCategoryColor = nil
-                        }
-                        
-                        if let id = vm.selectedCategoryId,
-                           let category = categoryManager.categories.first(where: { $0.id == id }) {
-                            AppDivider()
-                            MakeCategoryButton(imageName: "pencil", text: K.Common.Buttons.editCategory, color: .blue) {
-                                vm.startEditing(category: category)
-                                selectedHex = category.color
-                                currentCategoryColor = Color(hex: selectedHex ?? K.Colors.appBackground)
-                            }
-                            
-                            AppDivider()
-                            MakeCategoryButton(imageName: "trash", text: K.Common.Buttons.deleteCategory, color: .red) {
-                                showDeleteAlert = true
-                            }
-                        }
-                    }
-                    
-                case .creating, .editing:
-                    CategoryFormView(
-                        categoryName: $vm.categoryName,
-                        selectedHex: $selectedHex,
-                        categoryNameIsValid: vm.categoryNameIsValid,
-                        categoryNameIsTooLong: vm.categoryNameIsTooLong,
-                        onCancel: {
-                            vm.cancelCategoryAction()
-                            refreshCurrentColor()
-                        },
-                        onSave: { hex in
-                            vm.saveCategory(in: categoryManager, hex: hex)
-                            currentCategoryColor = Color(hex: hex)
-                        }
-                    )
+
+            switch vm.selectionState {
+            case .reading:
+                VStack(alignment: .leading, spacing: 8) {
+                    categoryPillsRow
+                    Text(K.EditorView.categoryHint)
+                        .font(.system(size: 11))
+                        .foregroundStyle(.white.opacity(0.3))
                 }
+
+            case .creating, .editing:
+                CategoryFormView(
+                    categoryName: $vm.categoryName,
+                    selectedHex: $selectedHex,
+                    categoryNameIsValid: vm.categoryNameIsValid,
+                    categoryNameIsTooLong: vm.categoryNameIsTooLong,
+                    onCancel: {
+                        vm.cancelCategoryAction()
+                        refreshCurrentColor()
+                    },
+                    onSave: { hex in
+                        vm.saveCategory(in: categoryManager, hex: hex)
+                        currentCategoryColor = Color(hex: hex)
+                    }
+                )
+                .background(CardBackground(borderColor: vm.categoryNameIsTooLong ? .red : .white))
             }
-            .background(CardBackground(borderColor: vm.categoryNameIsTooLong ? .red : .white))
-            
+
             if vm.categoryNameIsTooLong {
                 ErrorText()
             }
         }
     }
-    
-    private var categoryPicker: some View {
-        Picker("", selection: vm.selectionState == .creating ? .constant(nil) : $vm.selectedCategoryId) {
-            Text(K.EditorView.none)
-                .tag(nil as UUID?)
-            ForEach(categoryManager.categories) { category in
-                HStack {
-                    Circle()
-                        .fill(Color(hex: category.color) ?? .white)
-                        .frame(width: 12, height: 12)
-                    Text(category.name)
+
+    private var categoryPillsRow: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 8) {
+                ForEach(categoryManager.categories) { category in
+                    categoryPill(category)
+                        .contextMenu {
+                            Button {
+                                vm.startEditing(category: category)
+                                selectedHex = category.color
+                                currentCategoryColor = Color(hex: selectedHex ?? K.Colors.appBackground)
+                            } label: {
+                                Label(K.Common.Buttons.editCategory, systemImage: "pencil")
+                            }
+                            Button(role: .destructive) {
+                                vm.selectedCategoryId = category.id
+                                showDeleteAlert = true
+                            } label: {
+                                Label(K.Common.Buttons.deleteCategory, systemImage: "trash")
+                            }
+                        }
                 }
-                .tag(category.id as UUID?)
+
+                Button {
+                    vm.startCreating()
+                    selectedHex = nil
+                    currentCategoryColor = nil
+                } label: {
+                    HStack(spacing: 4) {
+                        Image(systemName: "plus")
+                        Text(K.Common.Buttons.addAnotherCategory)
+                    }
+                    .font(.system(size: 12, weight: .semibold))
+                    .foregroundStyle(.white.opacity(0.5))
+                    .padding(.horizontal, 14)
+                    .padding(.vertical, 9)
+                    .overlay(
+                        Capsule().strokeBorder(style: StrokeStyle(lineWidth: 1, dash: [4, 3]))
+                            .foregroundStyle(.white.opacity(0.25))
+                    )
+                }
             }
         }
-        .tint(.white)
-        .disabled(vm.selectionState != .reading)
-        .padding(.horizontal, 6)
-        .padding(.vertical, 6)
-        .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
+    private func categoryPill(_ category: Category) -> some View {
+        let isSelected = vm.selectedCategoryId == category.id
+        let color = Color(hex: category.color) ?? .white
+
+        return Button {
+            vm.selectedCategoryId = isSelected ? nil : category.id
+        } label: {
+            Text(category.name)
+                .font(.system(size: 12, weight: .semibold))
+                .foregroundStyle(isSelected ? .black : color)
+                .padding(.horizontal, 14)
+                .padding(.vertical, 9)
+                .background(isSelected ? color : color.opacity(0.15))
+                .clipShape(Capsule())
+                .overlay(
+                    Capsule().strokeBorder(color.opacity(isSelected ? 0 : 0.4), lineWidth: 1)
+                )
+        }
     }
     
     //MARK - Date
@@ -381,6 +392,37 @@ struct EditorView: View {
             }
             .colorScheme(.dark)
             .background(CardBackground(borderColor: .white))
+        }
+    }
+    
+    //MARK - Repeat
+    private var repeatSection: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            sectionHeader(K.EditorView.repeatHeader)
+
+            HStack(spacing: 6) {
+                repeatOption(.never, label: K.EditorView.repeatNone)
+                repeatOption(.weekly, label: K.EditorView.repeatWeekly)
+                repeatOption(.monthly, label: K.EditorView.repeatMonthly)
+                repeatOption(.yearly, label: K.EditorView.repeatYearly)
+            }
+        }
+    }
+
+    private func repeatOption(_ rule: RepeatRule, label: String) -> some View {
+        let isSelected = vm.repeatRule == rule
+
+        return Button {
+            vm.repeatRule = rule
+        } label: {
+            Text(label)
+                .font(.system(size: 12, weight: .semibold))
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 9)
+                .foregroundStyle(isSelected ? .white : .white.opacity(0.4))
+                .background(isSelected ? Color.white.opacity(0.12) : Color.clear)
+                .clipShape(RoundedRectangle(cornerRadius: 9))
+                .overlay(RoundedRectangle(cornerRadius: 9).strokeBorder(.white.opacity(isSelected ? 0.25 : 0.1), lineWidth: 1))
         }
     }
     

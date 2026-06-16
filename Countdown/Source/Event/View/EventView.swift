@@ -13,17 +13,15 @@ struct EventView: View {
     var body: some View {
         VStack(spacing: 0) {
             // MARK: - Image
-            Group {
-                if event.displayMode == .emoji {
-                    eventEmoji
-                        .frame(height: 100)
-                } else {
-                    eventImage
-                        .frame(height: 250)
-                }
+            EventMediaView(
+                displayMode: event.displayMode ?? .photo,
+                emoji: event.emoji,
+                categoryColor: categoryColor,
+                emojiHeight: 100,
+                photoHeight: 170
+            ) {
+                eventImage // doit être resizable() sans scaledTo
             }
-            .frame(maxWidth: .infinity)
-            .clipped()
 
             // MARK: - Bottom section
             VStack(alignment: .leading, spacing: 8) {
@@ -33,9 +31,12 @@ struct EventView: View {
                     if let id = event.categoryID,
                        let category = categoryManager.categories.first(where: { $0.id == id }) {
                         Text(category.name.uppercased())
-                            .font(.system(size: 10, weight: .bold))
-                            .tracking(0.8)
-                            .foregroundStyle(Color(hex: category.color) ?? .white)
+                            .font(.system(size: 11, weight: .medium))
+                            .foregroundStyle(.black)
+                            .padding(.horizontal, 7)
+                            .padding(.vertical, 3)
+                            .background(Color(hex: category.color) ?? .white)
+                            .clipShape(Capsule())
                     }
 
                     Spacer()
@@ -51,17 +52,17 @@ struct EventView: View {
 
                 TimelineView(.everyMinute) { _ in
                     HStack(alignment: .lastTextBaseline, spacing: 6) {
-                        if !isUnder24Hours {
-                            Text("\(dayNumber)")
+                        if !event.isUnder24Hours {
+                            Text("\(event.dayNumber)")
                                 .font(.system(size: 36, weight: .light))
                                 .foregroundStyle(.white)
                             
-                            Text("\(dayNumber < 2 ? "day" : "days") \(isInFuture ? "to" : "since")")
+                            Text("\(event.dayNumber < 2 ? "day" : "days") \(event.isInFuture ? "to" : "since")")
                                 .font(.system(size: 14, weight: .regular))
                                 .foregroundStyle(.white.opacity(0.5))
                             
                         } else {
-                            Text("\(hourNumber)")
+                            Text("\(event.hourNumber)")
                                 .font(.system(size: 36, weight: .light))
                                 .foregroundStyle(.white)
                             
@@ -69,11 +70,11 @@ struct EventView: View {
                                 .font(.system(size: 14, weight: .regular))
                                 .foregroundStyle(.white.opacity(0.5))
                             
-                            Text("\(minuteNumber)")
+                            Text("\(event.minuteNumber)")
                                 .font(.system(size: 36, weight: .light))
                                 .foregroundStyle(.white)
                             
-                            Text("min \(isInFuture ? "to" : "since")")
+                            Text("min \(event.isInFuture ? "to" : "since")")
                                 .font(.system(size: 14, weight: .regular))
                                 .foregroundStyle(.white.opacity(0.5))
                         }
@@ -105,7 +106,7 @@ struct EventView: View {
 
                 Capsule()
                     .fill(categoryColor)
-                    .frame(width: geo.size.width * progressFraction, height: 3)
+                    .frame(width: geo.size.width * event.progressFraction, height: 3)
             }
         }
         .frame(height: 3)
@@ -119,13 +120,12 @@ struct EventView: View {
             if let uiImage = displayImage {
                 Image(uiImage: uiImage)
                     .resizable()
-                    .scaledToFill()
             } else {
                 placeholderImage
             }
         } else if network.isConnected {
             AsyncImage(url: event.imageName) { image in
-                image.resizable().scaledToFill()
+                image.resizable()
             } placeholder: {
                 placeholderImage
             }
@@ -168,41 +168,6 @@ struct EventView: View {
               let fileURL = URL.localImageURL(filename: filename) else { return nil }
         let targetSize = CGSize(width: 400 * 3, height: 200 * 3)
         return UIImage().downsampledImage(at: fileURL, targetSize: targetSize)
-    }
-
-    private var isInFuture: Bool {
-        event.date >= Date()
-    }
-
-    private var dayNumber: Int {
-        let calendar = Calendar.current
-        let today = calendar.startOfDay(for: Date())
-        let eventDay = calendar.startOfDay(for: event.date)
-        return abs(calendar.dateComponents([.day], from: today, to: eventDay).day ?? 0)
-    }
-
-    private var isUnder24Hours: Bool {
-        abs(event.date.timeIntervalSinceNow) < 86400
-    }
-
-    private var hourNumber: Int {
-        let interval = abs(event.date.timeIntervalSince(Date()))
-        let hours = (Int(ceil(interval / 60) * 60) % 86400) / 3600
-        return hours
-    }
-    
-    private var minuteNumber: Int {
-        let interval = abs(event.date.timeIntervalSince(Date()))
-        let minutes = (Int(ceil(interval / 60) * 60) % 3600) / 60
-        return minutes
-    }
-
-
-    private var progressFraction: CGFloat {
-        let total: TimeInterval = 50 * 86400
-        let remaining = max(event.date.timeIntervalSince(Date()), 0)
-        let elapsed = total - min(remaining, total)
-        return CGFloat(elapsed / total)
     }
 
     private var categoryColor: Color {

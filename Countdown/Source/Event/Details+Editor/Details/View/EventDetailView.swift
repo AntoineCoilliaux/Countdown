@@ -1,0 +1,180 @@
+//
+//  EventDetailView.swift
+//  Countdown
+//
+//  Created by Antoine Coilliaux on 16/06/2026.
+//
+
+import SwiftUI
+
+struct EventDetailView: View {
+    @State var event: Event
+    @EnvironmentObject var categoryManager: CategoryManager
+    @EnvironmentObject var eventStore: EventStore
+    @Environment(\.dismiss) private var dismiss
+
+    @State private var isShowingEditor = false
+
+    var body: some View {
+        ScrollView {
+            VStack(spacing: 0) {
+                mediaSection
+
+                VStack(alignment: .leading, spacing: 16) {
+                    badgeView
+                    
+                    Text(event.name)
+                        .font(.system(size: 28, weight: .bold))
+                        .foregroundStyle(.white)
+                    
+                    Text(event.formattedFullDate)
+                        .font(.system(size: 13))
+                        .foregroundStyle(.white.opacity(0.45))
+                    
+                    TimelineView(.animation) { _ in
+                        countdownRow
+                    }
+                    
+                    progressSection
+                    repeatRow
+                }
+                .padding(.horizontal, 16)
+                .padding(.top, 16)
+            }
+        }
+        .background(Color(hex: K.Colors.appBackground) ?? .black)
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button {
+                    isShowingEditor = true
+                } label: {
+                    Image(systemName: "pencil")
+                }
+            }
+        }
+        .sheet(isPresented: $isShowingEditor) {
+            EditorView(event: event, initialCategoryColor: categoryColor) { updatedEvent in
+                event = updatedEvent
+                eventStore.update(updatedEvent)
+            }
+        }
+    }
+
+    // MARK: - Subviews
+
+    @ViewBuilder
+    private var mediaSection: some View {
+        EventMediaView(
+            displayMode: event.displayMode ?? .photo,
+            emoji: event.emoji,
+            categoryColor: categoryColor,
+            emojiHeight: 100,
+            photoHeight: 170
+        ) {
+            eventImage
+        }
+    }
+
+    @ViewBuilder
+    private var eventImage: some View {
+        if event.imageName.isLocalImage,
+           let filename = event.imageName.localFilename,
+           let fileURL = URL.localImageURL(filename: filename),
+           let uiImage = UIImage().downsampledImage(at: fileURL, targetSize: CGSize(width: 1200, height: 600)) {
+            Image(uiImage: uiImage).resizable()
+        } else {
+            AsyncImage(url: event.imageName) { image in
+                image.resizable()
+            } placeholder: {
+                Rectangle().fill(Color.white.opacity(0.05))
+            }
+        }
+    }
+
+    private var badgeView: some View {
+        Group {
+            if let id = event.categoryID,
+               let category = categoryManager.categories.first(where: { $0.id == id }) {
+                Text(category.name.uppercased())
+                    .font(.system(size: 10, weight: .bold))
+                    .tracking(0.8)
+                    .foregroundStyle(.black)
+                    .padding(.horizontal, 10)
+                    .padding(.vertical, 5)
+                    .background(Capsule().fill(Color(hex: category.color) ?? .white))
+            }
+        }
+    }
+
+    private var countdownRow: some View {
+        HStack(spacing: 8) {
+            countdownBox(value: event.isUnder24Hours ? 0 : event.dayNumber, label: "DAYS")
+            countdownBox(value: event.hourNumber, label: "HRS")
+            countdownBox(value: event.minuteNumber, label: "MIN")
+            countdownBox(value: event.secondNumber, label: "SEC", accent: true)
+        }
+    }
+
+    private func countdownBox(value: Int, label: String, accent: Bool = false) -> some View {
+        VStack(spacing: 3) {
+            Text("\(value)")
+                .font(.system(size: 22, weight: .light))
+                .foregroundStyle(accent ? (categoryColor) : .white)
+            Text(label)
+                .font(.system(size: 9, weight: .semibold))
+                .tracking(0.6)
+                .foregroundStyle(.white.opacity(0.35))
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, 10)
+        .background(Color.white.opacity(0.06))
+        .clipShape(RoundedRectangle(cornerRadius: 12))
+    }
+
+    private var progressSection: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            HStack {
+                Text("\(Int(event.progressFraction * 100))% of the wait behind you")
+                Spacer()
+                Text("\(Int(event.progressFraction * 100))%")
+                    .foregroundStyle(categoryColor)
+            }
+            .font(.system(size: 11))
+            .foregroundStyle(.white.opacity(0.35))
+
+            GeometryReader { geo in
+                ZStack(alignment: .leading) {
+                    Capsule().fill(Color.white.opacity(0.1)).frame(height: 3)
+                    Capsule().fill(categoryColor).frame(width: geo.size.width * event.progressFraction, height: 3)
+                }
+            }
+            .frame(height: 3)
+        }
+    }
+
+    private var repeatRow: some View {
+        HStack {
+            Text("Repeats")
+                .font(.system(size: 13))
+                .foregroundStyle(.white.opacity(0.85))
+            Spacer()
+            Text(event.repeatRuleText)
+                .font(.system(size: 13))
+                .foregroundStyle(.white.opacity(0.4))
+        }
+        .padding(.horizontal, 14)
+        .padding(.vertical, 13)
+        .background(Color.white.opacity(0.04))
+        .clipShape(RoundedRectangle(cornerRadius: 12))
+        .overlay(RoundedRectangle(cornerRadius: 12).stroke(.white.opacity(0.1), lineWidth: 0.5))
+    }
+
+    private var categoryColor: Color {
+        if let id = event.categoryID,
+           let category = categoryManager.categories.first(where: { $0.id == id }) {
+            return Color(hex: category.color) ?? .white
+        }
+        return .white
+    }
+}

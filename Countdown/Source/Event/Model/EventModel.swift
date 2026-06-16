@@ -15,8 +15,13 @@ struct Event: Codable, Identifiable, Equatable {
     var categoryID: UUID?
     var emoji: String?
     var displayMode: EventDisplayMode? = .photo
+    var repeatRule: RepeatRule? = .never
 }
 
 enum EventDisplayMode: String, Codable {
     case photo, emoji
 }
+enum RepeatRule: String, Codable {
+    case never, weekly, monthly, yearly
+}
+

@@ -42,15 +42,16 @@ struct K {
     
     enum Colors {
         static let categoryColors: [(name: String, hex: String)] = [
-            ("Red",    "#7F1D1D"),
-            ("Yellow", "#854D0E"),
-            ("Green",  "#14532D"),
-            ("Teal",   "#134E4A"),
-            ("Blue",   "#1E3A5F"),
-            ("Purple", "#3B0764"),
-            ("Pink",   "#831843"),
-            ("Gray",   "#1F2937"),
-            ("Brown",  "#431407")
+            ("Lime",     "#C8F135"),
+            ("Lavender", "#A78BFA"),
+            ("Sky Blue", "#5B9BFF"),
+            ("Coral",    "#FF8C66"),
+            ("Mint",     "#4DD4AC"),
+            ("Rose",     "#FF6B9D"),
+            ("Gold",     "#FFD23F"),
+            ("Cyan",     "#7DD3FC"),
+            ("Magenta",  "#D946EF"),
+            ("Steel",    "#94A3B8")
         ]
         static let defaultCategoryHex: String = "#7F1D1D"
         static let appBackground = "#121826"
@@ -82,6 +83,13 @@ struct K {
         static let saveErrorDescription = "Could not save the image. Please check your connection."
         
         static let titleIsTooLongMessage = "Title is too long!"
+        
+        static let categoryHint = "Tap to select · Hold to edit or delete"
+        static let repeatHeader = "Repeat"
+        static let repeatNone = "None"
+        static let repeatWeekly = "Weekly"
+        static let repeatMonthly = "Monthly"
+        static let repeatYearly = "Yearly"
     }
     
     struct EventStore {

@@ -21,6 +21,7 @@ final class EditorViewModel: ObservableObject {
     @Published var showSaveError: Bool = false
     @Published var emoji: String = ""
     @Published var displayMode: EventDisplayMode = .photo
+    @Published var repeatRule: RepeatRule = .never
     
     let mode: Mode
     
@@ -49,6 +50,7 @@ final class EditorViewModel: ObservableObject {
             self.selectedCategoryId = existing.categoryID
             self.displayMode = existing.displayMode ?? .photo
             self.emoji = existing.emoji ?? "✈️"
+            self.repeatRule = existing.repeatRule ?? .never
         }
     }
 
@@ -170,7 +172,8 @@ final class EditorViewModel: ObservableObject {
                 imageName: finalImageURL,
                 categoryID: selectedCategoryId,
                 emoji: emoji.isEmpty ? nil : String(emoji.prefix(1)),
-                displayMode: displayMode
+                displayMode: displayMode,
+                repeatRule: repeatRule
 
             )
         case .edit(let existing):
@@ -181,7 +184,8 @@ final class EditorViewModel: ObservableObject {
                 imageName: finalImageURL,
                 categoryID: selectedCategoryId,
                 emoji: emoji.isEmpty ? nil : String(emoji.prefix(1)),
-                displayMode: displayMode
+                displayMode: displayMode,
+                repeatRule: repeatRule
             )
         }
     }
