@@ -119,7 +119,7 @@ struct HomeView: View {
                 Button {
                     showingManageCategories = true
                 } label: {
-                    Label(K.HomeView.manageCategories, systemImage: "pencil")
+                    Label(K.Common.Category.manageCategories, systemImage: "pencil")
                 }
         } label: {
             HStack(spacing: 6) {
@@ -132,47 +132,98 @@ struct HomeView: View {
         }
     }
 
+//    private var eventList: some View {
+//           List {
+//               ForEach(futureEvents) { event in
+//                   eventRow(for: event)
+//                       .listRowSeparator(.hidden)
+//               }
+//               .onDelete { indexSet in
+//                   let ids = indexSet.map { futureEvents[$0].id }
+//                   eventStore.delete(withIds: ids)
+//               }
+//    
+//               if !futureEvents.isEmpty && !pastEvents.isEmpty {
+//                   pastSeparator
+//                       .listRowBackground(Color.clear)
+//                       .listRowInsets(EdgeInsets(top: 4, leading: 0, bottom: 4, trailing: 0))
+//                       .deleteDisabled(true)
+//               }
+//    
+//               ForEach(pastEvents) { event in
+//                   eventRow(for: event)
+//                       .listRowSeparator(.hidden)
+//               }
+//               .onDelete { indexSet in
+//                   let ids = indexSet.map { pastEvents[$0].id }
+//                   eventStore.delete(withIds: ids)
+//               }
+//           }
+//           .listRowSpacing(8)
+//           .listStyle(.plain)
+//           .scrollContentBackground(.hidden)
+//           .safeAreaInset(edge: .top) {
+//               VStack(spacing: 0) {
+//                   TipView(widgetTip)
+//                       .padding(.horizontal, 16)
+//                       .padding(.top, 8)
+//                   Color.clear.frame(height: 8)
+//                   Divider().background(Color.white.opacity(0.2))
+//               }
+//               .background(.black)
+//           }
+//       }
+    
     private var eventList: some View {
-           List {
-               ForEach(futureEvents) { event in
-                   eventRow(for: event)
-                       .listRowSeparator(.hidden)
-               }
-               .onDelete { indexSet in
-                   let ids = indexSet.map { futureEvents[$0].id }
-                   eventStore.delete(withIds: ids)
-               }
-    
-               if !futureEvents.isEmpty && !pastEvents.isEmpty {
-                   pastSeparator
-                       .listRowBackground(Color.clear)
-                       .listRowInsets(EdgeInsets(top: 4, leading: 0, bottom: 4, trailing: 0))
-                       .deleteDisabled(true)
-               }
-    
-               ForEach(pastEvents) { event in
-                   eventRow(for: event)
-                       .listRowSeparator(.hidden)
-               }
-               .onDelete { indexSet in
-                   let ids = indexSet.map { pastEvents[$0].id }
-                   eventStore.delete(withIds: ids)
-               }
-           }
-           .listRowSpacing(8)
-           .listStyle(.plain)
-           .scrollContentBackground(.hidden)
-           .safeAreaInset(edge: .top) {
-               VStack(spacing: 0) {
-                   TipView(widgetTip)
-                       .padding(.horizontal, 16)
-                       .padding(.top, 8)
-                   Color.clear.frame(height: 8)
-                   Divider().background(Color.white.opacity(0.2))
-               }
-               .background(.black)
-           }
-       }
+        // 1️⃣ On crée une TimelineView globale pour toute la liste
+        TimelineView(.everyMinute) { timelineContext in
+            let currentInstant = timelineContext.date // 👈 C'est la date officielle rafraîchie par iOS
+            
+            List {
+                // 2️⃣ On filtre nos événements avec la date fournie par la TimelineView
+                ForEach(filteredEvents.filter { $0.date >= currentInstant }.sorted { $0.date < $1.date }) { event in
+                    eventRow(for: event, currentDate: currentInstant)
+                        .listRowSeparator(.hidden)
+                }
+                .onDelete { indexSet in
+                    let futureEvents = filteredEvents.filter { $0.date >= currentInstant }.sorted { $0.date < $1.date }
+                    let ids = indexSet.map { futureEvents[$0].id }
+                    eventStore.delete(withIds: ids)
+                }
+     
+                if !filteredEvents.filter({ $0.date >= currentInstant }).isEmpty &&
+                   !filteredEvents.filter({ $0.date < currentInstant }).isEmpty {
+                    pastSeparator
+                        .listRowBackground(Color.clear)
+                        .listRowInsets(EdgeInsets(top: 4, leading: 0, bottom: 4, trailing: 0))
+                        .deleteDisabled(true)
+                }
+     
+                ForEach(filteredEvents.filter { $0.date < currentInstant }.sorted { $0.date > $1.date }) { event in
+                    eventRow(for: event, currentDate: currentInstant)
+                        .listRowSeparator(.hidden)
+                }
+                .onDelete { indexSet in
+                    let pastEvents = filteredEvents.filter { $0.date < currentInstant }.sorted { $0.date > $1.date }
+                    let ids = indexSet.map { pastEvents[$0].id }
+                    eventStore.delete(withIds: ids)
+                }
+            }
+            .listRowSpacing(8)
+            .listStyle(.plain)
+            .scrollContentBackground(.hidden)
+            .safeAreaInset(edge: .top) {
+                VStack(spacing: 0) {
+                    TipView(widgetTip)
+                        .padding(.horizontal, 16)
+                        .padding(.top, 8)
+                    Color.clear.frame(height: 8)
+                    Divider().background(Color.white.opacity(0.2))
+                }
+                .background(.black)
+            }
+        }
+    }
 
     // MARK: - Helpers
 
@@ -204,13 +255,13 @@ struct HomeView: View {
         return category.color
     }
     
-    private var futureEvents: [Event] {
-        filteredEvents.filter { $0.date >= Date() }.sorted { $0.date < $1.date }
-    }
-
-    private var pastEvents: [Event] {
-        filteredEvents.filter { $0.date < Date() }.sorted { $0.date > $1.date }
-    }
+//    private var futureEvents: [Event] {
+//        filteredEvents.filter { $0.date >= Date() }.sorted { $0.date < $1.date }
+//    }
+//
+//    private var pastEvents: [Event] {
+//        filteredEvents.filter { $0.date < Date() }.sorted { $0.date > $1.date }
+//    }
     
     private var pastSeparator: some View {
         Rectangle()
@@ -220,7 +271,7 @@ struct HomeView: View {
             .padding(.horizontal, 12)
     }
     
-    private func eventRow(for event: Event) -> some View {
+    private func eventRow(for event: Event, currentDate: Date) -> some View {
         ZStack {
             NavigationLink {
                 EventDetailView(event: event)
@@ -229,7 +280,8 @@ struct HomeView: View {
             }
             .opacity(0)
 
-            EventView(event: event)
+            EventView(event: event, currentDate: currentDate)
+                .id("\(event.id)-\(currentDate.timeIntervalSince1970)")
         }
         .listRowInsets(EdgeInsets(top: 4, leading: 12, bottom: 4, trailing: 12))
         .listRowBackground(Color.clear)

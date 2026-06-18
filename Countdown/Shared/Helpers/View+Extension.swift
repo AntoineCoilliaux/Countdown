@@ -14,3 +14,11 @@ extension View {
             .frame(maxWidth: .infinity, alignment: .leading)
     }
 }
+
+extension View {
+    func categoryButtonStyle(foreground: Color, background: Color = .clear, dashed: Bool = false) -> some View {
+        modifier(
+            CategoryButtonStyle(foreground: foreground, background: background, dashed: dashed)
+        )
+    }
+}

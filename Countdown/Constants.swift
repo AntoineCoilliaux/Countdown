@@ -25,6 +25,9 @@ struct K {
             static let deleteWithEventsMessage = "Do you want to delete only the category (events will move to All) or delete the category and its event(s)?"
             static let deleteWithoutEventsMessage = "This category does not contain any event. Are you sure you want to delete it?"
             static let namePlaceholder = "E.g. Birthdays"
+            
+            static let manageCategories = "Manage categories"
+
             }
         
         struct Buttons {
@@ -69,9 +72,12 @@ struct K {
     
     struct EditorView {
         static let navigationTitle = "New event"
+        
         static let titleHeader = "Title"
         static let categoryHeader = "Category"
         static let dateHeader = "Date"
+        static let mediaHeader = "Media"
+        
         static let textfieldPlaceholder = "E.g. Holidays in Paris"
         static let doneButton = "Done"
         static let none = "None"
@@ -84,12 +90,22 @@ struct K {
         
         static let titleIsTooLongMessage = "Title is too long!"
         
-        static let categoryHint = "Tap to select · Hold to edit or delete"
         static let repeatHeader = "Repeat"
         static let repeatNone = "None"
         static let repeatWeekly = "Weekly"
         static let repeatMonthly = "Monthly"
         static let repeatYearly = "Yearly"
+    }
+    
+    struct EventDetailView {
+        static let countdownRowDay = "DAY"
+        static let countdownRowDays = "DAYS"
+        static let countdownRowHours = "HR"
+        static let countdownRowMinutes = "MIN"
+        static let countdownRowSeconds = "SEC"
+        
+        static let progressSectionFuture = "% of the wait behind you"
+        static let progressSectionPast = "The wait is over!"
     }
     
     struct EventStore {
@@ -163,7 +179,6 @@ struct K {
     struct HomeView {
         static let noEventsYet = "No events yet"
         static let all = "All"
-        static let manageCategories = "Manage categories"
     }
     
     struct ImagePickerSheetView {

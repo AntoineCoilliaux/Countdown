@@ -6,9 +6,11 @@
 import SwiftUI
 
 struct EventView: View {
-    let event: Event
     @EnvironmentObject var categoryManager: CategoryManager
     @StateObject private var network = NetworkMonitor()
+    
+    let event: Event
+    let currentDate: Date
 
     var body: some View {
         VStack(spacing: 0) {
@@ -50,7 +52,6 @@ struct EventView: View {
                     .foregroundStyle(.white.opacity(0.5))
                 }
 
-                TimelineView(.everyMinute) { _ in
                     HStack(alignment: .lastTextBaseline, spacing: 6) {
                         if !event.isUnder24Hours {
                             Text("\(event.dayNumber)")
@@ -60,9 +61,8 @@ struct EventView: View {
                             Text("\(event.dayNumber < 2 ? "day" : "days") \(event.isInFuture ? "to" : "since")")
                                 .font(.system(size: 14, weight: .regular))
                                 .foregroundStyle(.white.opacity(0.5))
-                            
                         } else {
-                            Text("\(event.hourNumber)")
+                            Text("\(event.hourNumber(includeSeconds: false))")
                                 .font(.system(size: 36, weight: .light))
                                 .foregroundStyle(.white)
                             
@@ -70,7 +70,7 @@ struct EventView: View {
                                 .font(.system(size: 14, weight: .regular))
                                 .foregroundStyle(.white.opacity(0.5))
                             
-                            Text("\(event.minuteNumber)")
+                            Text("\(event.minuteNumber(includeSeconds: false))")
                                 .font(.system(size: 36, weight: .light))
                                 .foregroundStyle(.white)
                             
@@ -84,7 +84,6 @@ struct EventView: View {
                             .foregroundStyle(.white)
                             .lineLimit(2)
                     }
-                }
 
                 progressBar
             }
@@ -181,7 +180,7 @@ struct EventView: View {
 
 #Preview {
     let event = Event(id: UUID(), name: "Trip to Tokyo", date: Date().addingTimeInterval(86400 * 12), imageName: URL(string: "https://picsum.photos/seed/1/400/140")!)
-    EventView(event: event)
+    EventView(event: event, currentDate: Date())
         .padding()
         .background(Color(hex: "#0D0D14") ?? .black)
 }

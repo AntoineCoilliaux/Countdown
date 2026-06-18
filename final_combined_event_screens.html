@@ -1,0 +1,153 @@
+
+<style>
+  .phone {
+    width: 300px;
+    margin: 0 auto;
+    background: #0D0D14;
+    border-radius: 40px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 0 0 24px;
+  }
+  .status-bar { display: flex; justify-content: space-between; align-items: center; padding: 14px 20px 8px; font-size: 13px; font-weight: 500; color: #fff; }
+  .nav-bar { display: flex; justify-content: space-between; align-items: center; padding: 4px 16px 10px; }
+  .nav-btn { width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.08); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 16px; }
+  .nav-actions { display: flex; gap: 8px; }
+  .hero { width: 100%; height: 160px; background: #1e1e38; position: relative; overflow: hidden; }
+  .hero-sun { position: absolute; top: 24px; right: 40px; width: 36px; height: 36px; border-radius: 50%; background: #E8434A; }
+  .content { padding: 0 16px; }
+  .badge { display: inline-block; margin: 14px 0 6px; padding: 4px 10px; border-radius: 20px; font-size: 10px; font-weight: 700; letter-spacing: 0.8px; background: #c8f135; color: #1a2a00; }
+  .event-name { font-size: 28px; font-weight: 700; color: #fff; margin: 0 0 2px; line-height: 1.1; }
+  .event-date { font-size: 12px; color: rgba(255,255,255,0.45); margin: 0 0 16px; }
+  .countdown-row { display: flex; gap: 8px; margin-bottom: 16px; }
+  .countdown-box { flex: 1; background: rgba(255,255,255,0.06); border-radius: 12px; padding: 10px 6px; text-align: center; }
+  .countdown-num { font-size: 22px; font-weight: 300; color: #fff; line-height: 1; }
+  .countdown-num.accent { color: #c8f135; }
+  .countdown-label { font-size: 9px; font-weight: 600; letter-spacing: 0.6px; color: rgba(255,255,255,0.35); margin-top: 3px; }
+  .progress-row { margin-bottom: 18px; }
+  .progress-label { display: flex; justify-content: space-between; font-size: 11px; color: rgba(255,255,255,0.35); margin-bottom: 6px; }
+  .progress-track { height: 3px; background: rgba(255,255,255,0.1); border-radius: 99px; }
+  .progress-fill { height: 3px; border-radius: 99px; background: #c8f135; width: 62%; }
+  .section-label { font-size: 10px; font-weight: 700; letter-spacing: 0.8px; color: rgba(255,255,255,0.3); text-transform: uppercase; margin-bottom: 8px; }
+  .card-block { background: rgba(255,255,255,0.04); border: 0.5px solid rgba(255,255,255,0.1); border-radius: 12px; margin-bottom: 18px; overflow: hidden; }
+  .field-row { display: flex; justify-content: space-between; align-items: center; padding: 13px 14px; }
+  .field-label { font-size: 13px; color: rgba(255,255,255,0.85); }
+  .field-value { font-size: 13px; color: rgba(255,255,255,0.4); }
+  .event-name-input { font-size: 22px; font-weight: 700; color: #fff; background: transparent; border: none; border-bottom: 1.5px solid rgba(255,255,255,0.2); outline: none; width: 100%; padding: 0 0 4px; margin-bottom: 22px; }
+  .mode-row { display: flex; gap: 6px; margin: 14px 0 20px; }
+  .mode-btn { flex: 1; padding: 9px; border-radius: 9px; font-size: 10px; font-weight: 700; letter-spacing: 0.6px; text-align: center; color: rgba(255,255,255,0.4); border: 0.5px solid rgba(255,255,255,0.1); display:flex; align-items:center; justify-content:center; gap:5px; }
+  .mode-btn.active { background: rgba(255,255,255,0.12); color: #fff; border-color: rgba(255,255,255,0.25); }
+  .pills-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 8px; }
+  .pill { padding: 8px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; display: flex; align-items: center; gap: 6px; border: 1px solid transparent; }
+  .pill.trip { background: #c8f135; color: #1a2a00; }
+  .pill.birthday { background: rgba(167,139,250,0.15); color: #a78bfa; border-color: rgba(167,139,250,0.4); }
+  .pill.work { background: rgba(91,155,255,0.15); color: #5B9BFF; border-color: rgba(91,155,255,0.4); }
+  .pill.add { background: transparent; color: rgba(255,255,255,0.5); border: 1px dashed rgba(255,255,255,0.25); }
+  .hint { font-size: 11px; color: rgba(255,255,255,0.3); margin-top: 8px; margin-bottom: 20px; }
+  .seg-row { display: flex; gap: 6px; margin-bottom: 6px; }
+  .seg-btn { flex: 1; padding: 9px; border-radius: 9px; font-size: 11px; font-weight: 600; text-align: center; color: rgba(255,255,255,0.45); border: 0.5px solid rgba(255,255,255,0.1); }
+  .seg-btn.active { background: rgba(255,255,255,0.12); color: #fff; border-color: rgba(255,255,255,0.25); }
+  .edit-hint { position: absolute; bottom: 8px; right: 10px; background: rgba(0,0,0,0.55); border-radius: 8px; padding: 4px 8px; font-size: 9px; color: rgba(255,255,255,0.6); }
+</style>
+
+<div style="padding: 16px 0; display: flex; gap: 18px; justify-content: center; flex-wrap: wrap;">
+
+  <div>
+    <p style="text-align:center; font-size: 11px; color: var(--color-text-secondary); margin: 0 0 8px;">Mode lecture</p>
+    <div class="phone">
+      <div class="status-bar"><span>11:26</span><span style="font-size:11px;">&#9646;&#9646;&#9646;</span></div>
+      <div class="nav-bar">
+        <div class="nav-btn" style="font-size:18px;">&#8249;</div>
+        <div class="nav-actions">
+          <div class="nav-btn" style="font-size:14px;">&#9998;</div>
+          <div class="nav-btn" style="font-size:14px;">&#8943;</div>
+        </div>
+      </div>
+      <div class="hero">
+        <svg viewBox="0 0 300 100" xmlns="http://www.w3.org/2000/svg" style="position:absolute;bottom:0;">
+          <polygon points="0,100 80,30 160,100" fill="#2a2a50"/>
+          <polygon points="60,100 160,20 260,100" fill="#3a3a6a"/>
+          <polygon points="140,100 230,40 300,100" fill="#2a2a50"/>
+        </svg>
+        <div class="hero-sun"></div>
+      </div>
+      <div class="content">
+        <div class="badge">TRIP</div>
+        <p class="event-name">Tokyo</p>
+        <p class="event-date">Monday, June 22 · 9:30 AM</p>
+        <div class="countdown-row">
+          <div class="countdown-box"><div class="countdown-num">12</div><div class="countdown-label">DAYS</div></div>
+          <div class="countdown-box"><div class="countdown-num">04</div><div class="countdown-label">HRS</div></div>
+          <div class="countdown-box"><div class="countdown-num">23</div><div class="countdown-label">MIN</div></div>
+          <div class="countdown-box"><div class="countdown-num accent">56</div><div class="countdown-label">SEC</div></div>
+        </div>
+        <div class="progress-row">
+          <div class="progress-label"><span>62% of the wait behind you</span><span style="color:#c8f135;">62%</span></div>
+          <div class="progress-track"><div class="progress-fill"></div></div>
+        </div>
+        <div class="card-block">
+          <div class="field-row">
+            <span class="field-label">Repeats</span>
+            <span class="field-value">Yearly</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <p style="text-align:center; font-size: 11px; color: var(--color-text-secondary); margin: 0 0 8px;">Mode édition</p>
+    <div class="phone">
+      <div class="status-bar"><span>11:26</span><span style="font-size:11px;">&#9646;&#9646;&#9646;</span></div>
+      <div class="nav-bar">
+        <div class="nav-btn" style="font-size:14px; color:rgba(255,255,255,0.5);">&#10005;</div>
+        <div style="font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.6);">Edit event</div>
+        <div class="nav-btn" style="background:#c8f135; color:#1a2a00; font-size:11px; font-weight:700; width:auto; border-radius:20px; padding: 0 12px;">Done</div>
+      </div>
+      <div class="content">
+        <div class="hero" style="border-radius:12px; height:120px; margin-top:14px;">
+          <svg viewBox="0 0 300 100" xmlns="http://www.w3.org/2000/svg" style="position:absolute;bottom:0;">
+            <polygon points="0,100 80,30 160,100" fill="#2a2a50"/>
+            <polygon points="60,100 160,20 260,100" fill="#3a3a6a"/>
+            <polygon points="140,100 230,40 300,100" fill="#2a2a50"/>
+          </svg>
+          <div class="hero-sun"></div>
+          <div class="edit-hint">Tap to change</div>
+        </div>
+        <div class="mode-row">
+          <div class="mode-btn active">&#128247; PHOTO</div>
+          <div class="mode-btn">&#128512; EMOJI</div>
+        </div>
+
+        <div class="section-label">Title</div>
+        <input class="event-name-input" value="Trip to Tokyo" />
+
+        <div class="section-label">Category</div>
+        <div class="pills-row">
+          <div class="pill trip">🏖️ Trip</div>
+          <div class="pill birthday">🎂 Birthday</div>
+          <div class="pill work">💼 Work</div>
+          <div class="pill add">+ New</div>
+        </div>
+        <p class="hint">Tap to select · Hold to edit or delete</p>
+
+        <div class="section-label">Date</div>
+        <div class="card-block">
+          <div class="field-row">
+            <span class="field-label">Jun 22, 2026 · 9:30 AM</span>
+            <span class="field-value">▾</span>
+          </div>
+        </div>
+
+        <div class="section-label">Repeat</div>
+        <div class="seg-row">
+          <div class="seg-btn">None</div>
+          <div class="seg-btn">Weekly</div>
+          <div class="seg-btn">Monthly</div>
+          <div class="seg-btn active">Yearly</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

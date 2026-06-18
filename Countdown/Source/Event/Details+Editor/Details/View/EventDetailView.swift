@@ -17,10 +17,10 @@ struct EventDetailView: View {
 
     var body: some View {
         ScrollView {
-            VStack(spacing: 0) {
+            VStack(spacing: 5) {
                 mediaSection
 
-                VStack(alignment: .leading, spacing: 16) {
+                VStack(alignment: .leading, spacing: 25) {
                     badgeView
                     
                     Text(event.name)
@@ -33,16 +33,16 @@ struct EventDetailView: View {
                     
                     TimelineView(.animation) { _ in
                         countdownRow
+                        progressSection
                     }
                     
-                    progressSection
                     repeatRow
                 }
                 .padding(.horizontal, 16)
                 .padding(.top, 16)
             }
         }
-        .background(Color(hex: K.Colors.appBackground) ?? .black)
+        .background(.black)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
@@ -97,7 +97,7 @@ struct EventDetailView: View {
             if let id = event.categoryID,
                let category = categoryManager.categories.first(where: { $0.id == id }) {
                 Text(category.name.uppercased())
-                    .font(.system(size: 10, weight: .bold))
+                    .font(.system(size: 16, weight: .bold))
                     .tracking(0.8)
                     .foregroundStyle(.black)
                     .padding(.horizontal, 10)
@@ -109,10 +109,10 @@ struct EventDetailView: View {
 
     private var countdownRow: some View {
         HStack(spacing: 8) {
-            countdownBox(value: event.isUnder24Hours ? 0 : event.dayNumber, label: "DAYS")
-            countdownBox(value: event.hourNumber, label: "HRS")
-            countdownBox(value: event.minuteNumber, label: "MIN")
-            countdownBox(value: event.secondNumber, label: "SEC", accent: true)
+            countdownBox(value: event.isUnder24Hours ? 0 : event.dayNumber, label: event.dayNumber > 1 ? K.EventDetailView.countdownRowDays : K.EventDetailView.countdownRowDay)
+            countdownBox(value: event.hourNumber(includeSeconds: true), label: K.EventDetailView.countdownRowHours)
+            countdownBox(value: event.minuteNumber(includeSeconds: true), label: K.EventDetailView.countdownRowMinutes)
+            countdownBox(value: event.secondNumber, label: K.EventDetailView.countdownRowSeconds, accent: true)
         }
     }
 
@@ -135,7 +135,15 @@ struct EventDetailView: View {
     private var progressSection: some View {
         VStack(alignment: .leading, spacing: 6) {
             HStack {
-                Text("\(Int(event.progressFraction * 100))% of the wait behind you")
+                if event.isInFuture {
+                    Text("\(Int(event.progressFraction * 100))\(K.EventDetailView.progressSectionFuture)")                        .font(.system(size: 15))
+                        .foregroundStyle(.white.opacity(0.35))
+                } else {
+                    Text(K.EventDetailView.progressSectionPast)
+                        .font(.system(size: 20))
+                        .foregroundStyle(.white.opacity(0.35))
+                }
+                
                 Spacer()
                 Text("\(Int(event.progressFraction * 100))%")
                     .foregroundStyle(categoryColor)

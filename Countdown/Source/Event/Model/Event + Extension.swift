@@ -22,16 +22,50 @@ extension Event {
     var isUnder24Hours: Bool {
         abs(date.timeIntervalSinceNow) < 86400
     }
-
-    var hourNumber: Int {
-        let interval = abs(date.timeIntervalSince(Date()))
-        return (Int(ceil(interval / 60) * 60) % 86400) / 3600
+    
+    var isUnder60Seconds: Bool {
+        abs(date.timeIntervalSinceNow) < 60
+    }
+   
+    func hourNumber(includeSeconds: Bool = false) -> Int {
+        let interval = date.timeIntervalSince(Date())
+        let absoluteInterval = abs(interval)
+        
+        if includeSeconds {
+            return (Int(absoluteInterval) % 86400) / 3600
+        } else {
+            if isInFuture {
+                return (Int(ceil(absoluteInterval / 60) * 60) % 86400) / 3600
+            } else {
+                return (Int(floor(absoluteInterval / 60) * 60) % 86400) / 3600
+            }
+        }
+    }
+   
+    func minuteNumber(includeSeconds: Bool = false) -> Int {
+        let interval = date.timeIntervalSince(Date())
+        let absoluteInterval = abs(interval)
+        
+        if includeSeconds {
+            return (Int(absoluteInterval) % 3600) / 60
+        } else {
+            if isInFuture {
+                return (Int(ceil(absoluteInterval / 60) * 60) % 3600) / 60
+            } else {
+                return (Int(floor(absoluteInterval / 60) * 60) % 3600) / 60
+            }
+        }
     }
 
-    var minuteNumber: Int {
-        let interval = abs(date.timeIntervalSince(Date()))
-        return (Int(ceil(interval / 60) * 60) % 3600) / 60
-    }
+//    var hourNumber: Int {
+//        let interval = abs(date.timeIntervalSince(Date()))
+//        return (Int(ceil(interval / 60) * 60) % 86400) / 3600
+//    }
+//
+//    var minuteNumber: Int {
+//        let interval = abs(date.timeIntervalSince(Date()))
+//        return (Int(ceil(interval / 60) * 60) % 3600) / 60
+//    }
 
     var secondNumber: Int {
         let interval = abs(date.timeIntervalSince(Date()))
