@@ -86,7 +86,12 @@ final class EventStore: ObservableObject {
         guard let data = UserDefaults.standard.data(forKey: K.EventStore.userDefaultsKeyEvents) else {
             return []
         }
-        return (try? JSONDecoder().decode([Event].self, from: data)) ?? []
+        do {
+            return try JSONDecoder().decode([Event].self, from: data)
+        } catch {
+            print("❌ Decode error: \(error)")
+            return []
+        }
     }
 
     private func save() {

@@ -23,14 +23,6 @@ struct ImagePickerSheetView: View {
                     Image(systemName: "photo.on.rectangle")
                     Text(K.ImagePickerSheetView.galleryTitle)
                 }
-                
-                FlagsPickerView { url in
-                    onSelect(url)
-                }
-                .tabItem {
-                    Image(systemName: "flag.2.crossed")
-                    Text(K.ImagePickerSheetView.flagTitle)
-                }
             }
             UserPicturesPickerView { url in
                 onSelect(url)

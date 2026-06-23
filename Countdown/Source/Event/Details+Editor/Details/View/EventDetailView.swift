@@ -35,8 +35,6 @@ struct EventDetailView: View {
                         countdownRow
                         progressSection
                     }
-                    
-                    repeatRow
                 }
                 .padding(.horizontal, 16)
                 .padding(.top, 16)
@@ -109,7 +107,7 @@ struct EventDetailView: View {
 
     private var countdownRow: some View {
         HStack(spacing: 8) {
-            countdownBox(value: event.isUnder24Hours ? 0 : event.dayNumber, label: event.dayNumber > 1 ? K.EventDetailView.countdownRowDays : K.EventDetailView.countdownRowDay)
+            countdownBox(value: event.isUnder24Hours ? 0 : event.dayNumber(includeHours: true), label: event.dayNumber (includeHours: true) > 1 ? K.EventDetailView.countdownRowDays : K.EventDetailView.countdownRowDay)
             countdownBox(value: event.hourNumber(includeSeconds: true), label: K.EventDetailView.countdownRowHours)
             countdownBox(value: event.minuteNumber(includeSeconds: true), label: K.EventDetailView.countdownRowMinutes)
             countdownBox(value: event.secondNumber, label: K.EventDetailView.countdownRowSeconds, accent: true)
@@ -159,23 +157,6 @@ struct EventDetailView: View {
             }
             .frame(height: 3)
         }
-    }
-
-    private var repeatRow: some View {
-        HStack {
-            Text("Repeats")
-                .font(.system(size: 13))
-                .foregroundStyle(.white.opacity(0.85))
-            Spacer()
-            Text(event.repeatRuleText)
-                .font(.system(size: 13))
-                .foregroundStyle(.white.opacity(0.4))
-        }
-        .padding(.horizontal, 14)
-        .padding(.vertical, 13)
-        .background(Color.white.opacity(0.04))
-        .clipShape(RoundedRectangle(cornerRadius: 12))
-        .overlay(RoundedRectangle(cornerRadius: 12).stroke(.white.opacity(0.1), lineWidth: 0.5))
     }
 
     private var categoryColor: Color {

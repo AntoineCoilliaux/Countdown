@@ -7,6 +7,7 @@
 
 import AppIntents
 import Foundation
+import SwiftUI
 
 struct K {
     struct CategoryManager {

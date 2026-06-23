@@ -22,7 +22,7 @@ struct EventView: View {
                 emojiHeight: 100,
                 photoHeight: 170
             ) {
-                eventImage // doit être resizable() sans scaledTo
+                eventImage
             }
 
             // MARK: - Bottom section
@@ -32,7 +32,7 @@ struct EventView: View {
                 HStack(alignment: .center) {
                     if let id = event.categoryID,
                        let category = categoryManager.categories.first(where: { $0.id == id }) {
-                        Text(category.name.uppercased())
+                        Text(category.name)
                             .font(.system(size: 11, weight: .medium))
                             .foregroundStyle(.black)
                             .padding(.horizontal, 7)
@@ -54,11 +54,11 @@ struct EventView: View {
 
                     HStack(alignment: .lastTextBaseline, spacing: 6) {
                         if !event.isUnder24Hours {
-                            Text("\(event.dayNumber)")
+                            Text("\(event.dayNumber(includeHours: false))")
                                 .font(.system(size: 36, weight: .light))
                                 .foregroundStyle(.white)
                             
-                            Text("\(event.dayNumber < 2 ? "day" : "days") \(event.isInFuture ? "to" : "since")")
+                            Text("\(event.dayNumber(includeHours: false) < 2 ? "day" : "days") \(event.isInFuture ? "to" : "since")")
                                 .font(.system(size: 14, weight: .regular))
                                 .foregroundStyle(.white.opacity(0.5))
                         } else {

@@ -15,7 +15,7 @@ struct CategoryButtonStyle: ViewModifier {
 
     func body(content: Content) -> some View {
         content
-            .font(.system(size: 14, weight: .semibold))
+            .font(.system(size: 18, weight: .semibold))
             .foregroundStyle(foreground)
             .padding(.horizontal, 14)
             .padding(.vertical, 9)

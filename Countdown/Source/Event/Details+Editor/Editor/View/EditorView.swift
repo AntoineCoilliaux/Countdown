@@ -23,8 +23,6 @@ struct EditorView: View {
     @State private var isExpanded = false
     @State private var currentCategoryColor: Color?
     @State private var showingManageCategories = false
-
-    
     
     private var selectedCategoryEventCount: Int {
         guard let id = vm.selectedCategoryId else { return 0 }
@@ -52,13 +50,12 @@ struct EditorView: View {
                     categorySection
                     mediaSection
                     dateSection
-                    repeatSection
                 }
                 .padding(.horizontal, 16)
                 .padding(.vertical, 20)
             }
             .scrollDismissesKeyboard(.immediately)
-            .background(/*Color(hex: K.Colors.appBackground) ??*/ .black)
+            .background(.black)
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
                     Button(K.EditorView.doneButton) {
@@ -149,7 +146,8 @@ struct EditorView: View {
                     .resizable()
                     .frame(maxWidth: .infinity)
             } else {
-                Image(systemName: "photo").resizable()
+                Image(systemName: "photo")
+                    .resizable()
             }
         } else if network.isConnected {
             AsyncImage(url: vm.imageName) { image in
@@ -182,8 +180,6 @@ struct EditorView: View {
     
     // MARK: - Sections
     private var mediaSection: some View {
-//        VStack(alignment: .leading) {
-//            sectionHeader(K.EditorView.mediaHeader)
             VStack(spacing: 20) {
                 
                 EventMediaView(
@@ -236,7 +232,6 @@ struct EditorView: View {
             }
             .frame(maxWidth: .infinity)
             .padding(.vertical, 10)
-//        }
     }
     
     //MARK - Title
@@ -262,11 +257,12 @@ struct EditorView: View {
                 Rectangle()
                     .frame(height: 0.5)
                     .foregroundStyle(.white.opacity(0.3)), alignment: .bottom)
-            .padding(.horizontal, 16)
             .padding(.vertical, 14)
             
             if vm.eventTitleIsTooLong {
                 ErrorText()
+                    .padding(.horizontal, 16)
+
             }
         }
         .background(CardBackground(borderColor: vm.eventTitleIsTooLong ? .red : .clear))
@@ -275,64 +271,17 @@ struct EditorView: View {
     //MARK - Category
     private var categorySection: some View {
         VStack(alignment: .leading, spacing: 8) {
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 8) {
-                    ForEach(categoryManager.categories) { category in
-                        categoryPill(category)
-                    }
-                    
-                    Button {
-                        vm.startCreating()
-                        selectedHex = nil
-                        currentCategoryColor = nil
-                    } label: {
-                        HStack(spacing: 4) {
-                            Image(systemName: "plus")
-                            Text(K.Common.Buttons.addAnotherCategory)
-                        }
-                        .categoryButtonStyle(
-                            foreground: .white.opacity(0.5),
-                            dashed: true
-                        )
-                    }
-                    
-                    Button {
-                        showingManageCategories = true
-                    } label: {
-                        Label(K.Common.Category.manageCategories, systemImage: "pencil")
-                            .categoryButtonStyle(
-                                foreground: .white.opacity(0.5),
-                                dashed: true
-                            )
-                    }
-                }
-            }
-            
-            if vm.categoryNameIsTooLong {
-                ErrorText()
-            }
-        }
-    }
-
-    private func categoryPill(_ category: Category) -> some View {
-        let isSelected = vm.selectedCategoryId == category.id
-        let color = Color(hex: category.color) ?? .white
-
-        return Button {
-            vm.selectedCategoryId = isSelected ? nil : category.id
-        } label: {
-            Text(category.name)
-                .categoryButtonStyle(
-                    foreground: isSelected ? .black : color,
-                    background: isSelected ? color : color.opacity(0.15)
-                )
+            CategorySelectorView(
+                selectedCategoryId: $vm.selectedCategoryId,
+                showingManageCategories: $showingManageCategories,
+                showAllOption: false
+            )
         }
     }
     
     //MARK - Date
     private var dateSection: some View {
         VStack(alignment: .leading, spacing: 8) {
-//            sectionHeader(K.EditorView.dateHeader)
             
             VStack(spacing: 0) {
                 
@@ -371,37 +320,6 @@ struct EditorView: View {
         }
     }
     
-    //MARK - Repeat
-    private var repeatSection: some View {
-        VStack(alignment: .leading, spacing: 8) {
-//            sectionHeader(K.EditorView.repeatHeader)
-
-            HStack(spacing: 6) {
-                repeatOption(.never, label: K.EditorView.repeatNone)
-                repeatOption(.weekly, label: K.EditorView.repeatWeekly)
-                repeatOption(.monthly, label: K.EditorView.repeatMonthly)
-                repeatOption(.yearly, label: K.EditorView.repeatYearly)
-            }
-        }
-    }
-
-    private func repeatOption(_ rule: RepeatRule, label: String) -> some View {
-        let isSelected = vm.repeatRule == rule
-
-        return Button {
-            vm.repeatRule = rule
-        } label: {
-            Text(label)
-                .font(.system(size: 12, weight: .semibold))
-                .frame(maxWidth: .infinity)
-                .padding(.vertical, 9)
-                .foregroundStyle(isSelected ? .white : .white.opacity(0.4))
-                .background(isSelected ? Color.white.opacity(0.12) : Color.clear)
-                .clipShape(RoundedRectangle(cornerRadius: 9))
-                .overlay(RoundedRectangle(cornerRadius: 9).strokeBorder(.white.opacity(isSelected ? 0.25 : 0.1), lineWidth: 1))
-        }
-    }
-    
     // MARK: - Helpers
     
     private func handleDelete(deleteEvents: Bool) {
@@ -419,13 +337,4 @@ struct EditorView: View {
             currentCategoryColor = nil
         }
     }
-    
-//    private func sectionHeader(_ title: String) -> some View {
-//        Text(title)
-//            .font(.system(size: 18))
-//            .fontWeight(.medium)
-//            .textCase(.uppercase)
-//            .tracking(1.2)
-//            .foregroundStyle(.white.opacity(0.5))
-//    }
 }

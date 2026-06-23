@@ -20,45 +20,42 @@ struct HomeView: View {
 
     var body: some View {
         NavigationStack {
-            ZStack {
-                Color(.black)
-                    .ignoresSafeArea()
+            VStack(spacing: 0) {
+                CategorySelectorView( selectedCategoryId: $categoryManager.selectedCategoryId, showingManageCategories: $showingManageCategories, showAllOption: true )
+                    .padding(.vertical, 10)
+                    .padding(.horizontal, 16)
+                    .background(Color.black)
                 
                 if filteredEvents.isEmpty {
+                    Spacer()
                     emptyState
+                    Spacer()
                 } else {
                     eventList
                 }
             }
-            .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
-                    categoryMenuView
+            .background(.black)
+            .toolbar { ToolbarItem(placement: .topBarTrailing) {
+                NavigationLink {
+                    EditorView { newEvent in
+                        eventStore.add(newEvent) }
+                } label: {
+                    Image(systemName: "plus")
                 }
-                ToolbarItem(placement: .topBarTrailing) {
-                    NavigationLink {
-                        EditorView { newEvent in
-                            eventStore.add(newEvent)
-                        }
-                    } label: {
-                        Image(systemName: "plus")
-                    }
                     .buttonStyle(.borderedProminent)
-                    .tint(.blue)
-                }
+                .tint(.blue) }
             }
+            
             .sheet(isPresented: $showingManageCategories) {
                 ManageCategoriesView()
             }
             
-            .onChange(of: eventStore.events) { oldEvents, newEvents in
-                if oldEvents.isEmpty && newEvents.count == 1 {
-                    Task {
-                        await WidgetTip.firstEventCreated.donate()
-
-                    }
-                }
+            .onChange(of: eventStore.events) { oldEvents, newEvents in if oldEvents.isEmpty && newEvents.count == 1 {
+                Task { await WidgetTip.firstEventCreated.donate() }
+            }
                 syncWidgetEvents()
             }
+            
             .onChange(of: categoryManager.categories) { _, _ in
                 syncWidgetEvents()
             }
@@ -84,103 +81,12 @@ struct HomeView: View {
         }
         .foregroundStyle(.white)
     }
-
-    private var categoryMenuView: some View {
-        Menu {
-            Button {
-                categoryManager.selectedCategoryId = nil
-            } label: {
-                HStack {
-                    Text(K.HomeView.all)
-                    if categoryManager.selectedCategoryId == nil {
-                        Spacer()
-                        Image(systemName: "checkmark")
-                    }
-                }
-            }
-
-            Divider()
-
-            ForEach(categoryManager.categories) { category in
-                Button {
-                    categoryManager.selectedCategoryId = category.id
-                } label: {
-                    HStack {
-                        Text(category.name)
-                        if categoryManager.selectedCategoryId == category.id {
-                            Spacer()
-                            Image(systemName: "checkmark")
-                        }
-                    }
-                }
-            }
-
-            Divider()
-                Button {
-                    showingManageCategories = true
-                } label: {
-                    Label(K.Common.Category.manageCategories, systemImage: "pencil")
-                }
-        } label: {
-            HStack(spacing: 6) {
-                Text(currentCategoryName)
-                    .font(.headline)
-                Image(systemName: "chevron.down")
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
-            }
-        }
-    }
-
-//    private var eventList: some View {
-//           List {
-//               ForEach(futureEvents) { event in
-//                   eventRow(for: event)
-//                       .listRowSeparator(.hidden)
-//               }
-//               .onDelete { indexSet in
-//                   let ids = indexSet.map { futureEvents[$0].id }
-//                   eventStore.delete(withIds: ids)
-//               }
-//    
-//               if !futureEvents.isEmpty && !pastEvents.isEmpty {
-//                   pastSeparator
-//                       .listRowBackground(Color.clear)
-//                       .listRowInsets(EdgeInsets(top: 4, leading: 0, bottom: 4, trailing: 0))
-//                       .deleteDisabled(true)
-//               }
-//    
-//               ForEach(pastEvents) { event in
-//                   eventRow(for: event)
-//                       .listRowSeparator(.hidden)
-//               }
-//               .onDelete { indexSet in
-//                   let ids = indexSet.map { pastEvents[$0].id }
-//                   eventStore.delete(withIds: ids)
-//               }
-//           }
-//           .listRowSpacing(8)
-//           .listStyle(.plain)
-//           .scrollContentBackground(.hidden)
-//           .safeAreaInset(edge: .top) {
-//               VStack(spacing: 0) {
-//                   TipView(widgetTip)
-//                       .padding(.horizontal, 16)
-//                       .padding(.top, 8)
-//                   Color.clear.frame(height: 8)
-//                   Divider().background(Color.white.opacity(0.2))
-//               }
-//               .background(.black)
-//           }
-//       }
     
     private var eventList: some View {
-        // 1️⃣ On crée une TimelineView globale pour toute la liste
         TimelineView(.everyMinute) { timelineContext in
-            let currentInstant = timelineContext.date // 👈 C'est la date officielle rafraîchie par iOS
+            let currentInstant = timelineContext.date
             
             List {
-                // 2️⃣ On filtre nos événements avec la date fournie par la TimelineView
                 ForEach(filteredEvents.filter { $0.date >= currentInstant }.sorted { $0.date < $1.date }) { event in
                     eventRow(for: event, currentDate: currentInstant)
                         .listRowSeparator(.hidden)
@@ -190,15 +96,15 @@ struct HomeView: View {
                     let ids = indexSet.map { futureEvents[$0].id }
                     eventStore.delete(withIds: ids)
                 }
-     
+                
                 if !filteredEvents.filter({ $0.date >= currentInstant }).isEmpty &&
-                   !filteredEvents.filter({ $0.date < currentInstant }).isEmpty {
+                    !filteredEvents.filter({ $0.date < currentInstant }).isEmpty {
                     pastSeparator
                         .listRowBackground(Color.clear)
                         .listRowInsets(EdgeInsets(top: 4, leading: 0, bottom: 4, trailing: 0))
                         .deleteDisabled(true)
                 }
-     
+                
                 ForEach(filteredEvents.filter { $0.date < currentInstant }.sorted { $0.date > $1.date }) { event in
                     eventRow(for: event, currentDate: currentInstant)
                         .listRowSeparator(.hidden)
@@ -218,7 +124,7 @@ struct HomeView: View {
                         .padding(.horizontal, 16)
                         .padding(.top, 8)
                     Color.clear.frame(height: 8)
-                    Divider().background(Color.white.opacity(0.2))
+                    Divider()
                 }
                 .background(.black)
             }
@@ -254,14 +160,6 @@ struct HomeView: View {
               let category = categoryManager.categories.first(where: { $0.id == id }) else { return nil }
         return category.color
     }
-    
-//    private var futureEvents: [Event] {
-//        filteredEvents.filter { $0.date >= Date() }.sorted { $0.date < $1.date }
-//    }
-//
-//    private var pastEvents: [Event] {
-//        filteredEvents.filter { $0.date < Date() }.sorted { $0.date > $1.date }
-//    }
     
     private var pastSeparator: some View {
         Rectangle()
