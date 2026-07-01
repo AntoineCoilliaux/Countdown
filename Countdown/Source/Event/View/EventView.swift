@@ -32,7 +32,7 @@ struct EventView: View {
                 HStack(alignment: .center) {
                     if let id = event.categoryID,
                        let category = categoryManager.categories.first(where: { $0.id == id }) {
-                        Text(category.name)
+                        Text(category.name.uppercased())
                             .font(.system(size: 11, weight: .medium))
                             .foregroundStyle(.black)
                             .padding(.horizontal, 7)
@@ -62,7 +62,7 @@ struct EventView: View {
                                 .font(.system(size: 14, weight: .regular))
                                 .foregroundStyle(.white.opacity(0.5))
                         } else {
-                            Text("\(event.hourNumber(includeSeconds: false))")
+                            Text("\(event.hourNumber())")
                                 .font(.system(size: 36, weight: .light))
                                 .foregroundStyle(.white)
                             

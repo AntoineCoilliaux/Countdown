@@ -45,7 +45,6 @@ struct CategorySelectorView: View {
                         )
                 }
             }
-//            .padding(.horizontal, 16)
         }
     }
 

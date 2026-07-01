@@ -20,8 +20,9 @@ final class EditorViewModel: ObservableObject {
     @Published var categoryName: String = ""
     @Published var showSaveError: Bool = false
     @Published var emoji: String = ""
-    @Published var displayMode: EventDisplayMode = .photo
-    
+    @Published var displayMode: EventDisplayMode = .emoji
+    @Published var reminders: [ReminderOption] = []
+
     let mode: Mode
     
     enum CategorySelectionState {
@@ -40,15 +41,17 @@ final class EditorViewModel: ObservableObject {
             self.name = ""
             self.date = Date()
             self.imageName = URL(string: "https://picsum.photos/seed/\(randomNumber)/300/300") ?? URL(string: "https://picsum.photos/seed/1/300/300")!
-            self.emoji = K.Emojis.categories.flatMap { $0.emojis }.randomElement() ?? "✈️"
+            self.emoji = EmojiLibrary.shared.all.randomElement()?.emoji ?? "✈️"
             self.selectedCategoryId = nil
+            self.reminders = []
         case .edit(let existing):
             self.name = existing.name
             self.date = existing.date
             self.imageName = existing.imageName
             self.selectedCategoryId = existing.categoryID
-            self.displayMode = existing.displayMode ?? .photo
+            self.displayMode = existing.displayMode ?? .emoji
             self.emoji = existing.emoji ?? "✈️"
+            self.reminders = existing.reminders
         }
     }
 
@@ -71,6 +74,14 @@ final class EditorViewModel: ObservableObject {
     var formattedDate: String {
         date.formatted(date: .abbreviated, time: .shortened)
     }
+
+    var remindersSummary: String {
+        guard !reminders.isEmpty else { return "Never" }
+        let sorted = reminders.sorted {
+            ($0.fireDate(for: date) ?? .distantPast) < ($1.fireDate(for: date) ?? .distantPast)
+        }
+        return sorted.map(\.label).joined(separator: ", ")
+    }
     
     var isPlaceholderImage: Bool {
         imageName.absoluteString.contains("picsum.photos") && !imageName.isLocalImage
@@ -87,7 +98,7 @@ final class EditorViewModel: ObservableObject {
         name.count > characterLimit
     }
     
-    var categoryNameIsTooLong : Bool {
+    var categoryNameIsTooLong: Bool {
         categoryName.count > characterLimit
     }
     
@@ -172,7 +183,7 @@ final class EditorViewModel: ObservableObject {
                 categoryID: selectedCategoryId,
                 emoji: emoji.isEmpty ? nil : String(emoji.prefix(1)),
                 displayMode: displayMode,
-
+                reminders: reminders
             )
         case .edit(let existing):
             let dateChanged = existing.date != date
@@ -185,6 +196,7 @@ final class EditorViewModel: ObservableObject {
                 categoryID: selectedCategoryId,
                 emoji: emoji.isEmpty ? nil : String(emoji.prefix(1)),
                 displayMode: displayMode,
+                reminders: reminders
             )
         }
     }
@@ -197,4 +209,3 @@ final class EditorViewModel: ObservableObject {
         }
     }
 }
-

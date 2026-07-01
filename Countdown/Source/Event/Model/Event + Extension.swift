@@ -13,7 +13,7 @@ extension Event {
     }
 
     var isUnder24Hours: Bool {
-        abs(date.timeIntervalSinceNow) < 86400
+        abs(date.timeIntervalSinceNow) < 86340
     }
     
     var isUnder60Seconds: Bool {
@@ -21,33 +21,29 @@ extension Event {
     }
     
     func dayNumber(includeHours: Bool = false) -> Int {
-        let interval = date.timeIntervalSince(Date())
-        let absoluteInterval = abs(interval)
-
+        let calendar = Calendar.current
+        let now = Date()
+        
         if includeHours {
-            return Int(absoluteInterval) / 86400
+            let components = calendar.dateComponents([.day], from: now, to: date)
+            return abs(components.day ?? 0)
         } else {
-            if isInFuture {
-                return Int(ceil(absoluteInterval / 3600) * 3600) / 86400
-            } else {
-                return Int(floor(absoluteInterval / 3600) * 3600) / 86400
-            }
+          
+            let startOfNow = calendar.startOfDay(for: now)
+            let startOfEvent = calendar.startOfDay(for: date)
+            
+            let components = calendar.dateComponents([.day], from: startOfNow, to: startOfEvent)
+            return abs(components.day ?? 0)
         }
     }
 
-    func hourNumber(includeSeconds: Bool = false) -> Int {
-        let interval = date.timeIntervalSince(Date())
-        let absoluteInterval = abs(interval)
+    func hourNumber() -> Int {
+        let calendar = Calendar.current
+        let now = Date()
         
-        if includeSeconds {
-            return (Int(absoluteInterval) % 86400) / 3600
-        } else {
-            if isInFuture {
-                return (Int(ceil(absoluteInterval / 60) * 60) % 86400) / 3600
-            } else {
-                return (Int(floor(absoluteInterval / 60) * 60) % 86400) / 3600
-            }
-        }
+        let components = calendar.dateComponents([.hour, .minute], from: now, to: date)
+        let hours = abs(components.hour ?? 0)
+            return hours % 24
     }
    
     func minuteNumber(includeSeconds: Bool = false) -> Int {

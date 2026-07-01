@@ -24,7 +24,7 @@ struct ManageCategoriesView: View {
     var body: some View {
             NavigationStack {
                 ZStack {
-                    Color(hex: K.Colors.appBackground)
+                    Color(.black)
                         .ignoresSafeArea()
                     
                     Group {
@@ -152,7 +152,7 @@ struct ManageCategoriesView: View {
 
     private var formBackground: some View {
         RoundedRectangle(cornerRadius: 20)
-            .fill(Color(hex: K.Colors.appBackground) ?? .gray)
+            .fill(Color(hex: K.Colors.appBackground) ?? .black)
             .shadow(radius: 20)
     }
 

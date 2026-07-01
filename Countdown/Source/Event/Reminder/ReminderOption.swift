@@ -15,10 +15,14 @@ enum ReminderOption: Codable, Equatable, Hashable, Identifiable {
 
     var id: String {
         switch self {
-        case .oneHour: return "oneHour"
-        case .oneDay: return "oneDay"
-        case .oneWeek: return "oneWeek"
-        case .custom(let date): return "custom-\(date.timeIntervalSince1970)"
+        case .oneHour:
+            return "oneHour"
+        case .oneDay:
+            return "oneDay"
+        case .oneWeek:
+            return "oneWeek"
+        case .custom(let date):
+            return "custom-\(date.timeIntervalSince1970)"
         }
     }
 
@@ -26,15 +30,17 @@ enum ReminderOption: Codable, Equatable, Hashable, Identifiable {
     /// e.g. "1 hour before", "Jun 22, 9:00 AM".
     var label: String {
         switch self {
-        case .oneHour: return "1 hour before"
-        case .oneDay: return "1 day before"
-        case .oneWeek: return "1 week before"
-        case .custom(let date): return date.formatted(date: .abbreviated, time: .shortened)
+        case .oneHour:
+            return "1 hour before"
+        case .oneDay:
+            return "1 day before"
+        case .oneWeek:
+            return "1 week before"
+        case .custom(let date):
+            return date.formatted(date: .abbreviated, time: .shortened)
         }
     }
 
-    /// The actual moment the notification should fire, given the event's date.
-    /// Returns nil if that moment is already in the past (so it won't be scheduled).
     func fireDate(for eventDate: Date) -> Date? {
         let candidate: Date
         switch self {
@@ -64,17 +70,23 @@ enum ReminderPreset: CaseIterable {
 
     var option: ReminderOption {
         switch self {
-        case .oneHour: return .oneHour
-        case .oneDay: return .oneDay
-        case .oneWeek: return .oneWeek
+        case .oneHour:
+            return .oneHour
+        case .oneDay:
+            return .oneDay
+        case .oneWeek:
+            return .oneWeek
         }
     }
 
     var label: String {
         switch self {
-        case .oneHour: return "1 hour before"
-        case .oneDay: return "1 day before"
-        case .oneWeek: return "1 week before"
+        case .oneHour:
+            return "1 hour before"
+        case .oneDay:
+            return "1 day before"
+        case .oneWeek:
+            return "1 week before"
         }
     }
 }

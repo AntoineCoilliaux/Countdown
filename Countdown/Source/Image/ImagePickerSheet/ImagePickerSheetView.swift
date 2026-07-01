@@ -8,28 +8,28 @@
 import SwiftUI
 
 struct ImagePickerSheetView: View {
-    
     @StateObject private var network = NetworkMonitor()
-    
+
     var onSelect: (URL) -> Void
 
     var body: some View {
-        TabView {
-            if network.isConnected {
-                OnlinePicturesPickerView { url in
-                    onSelect(url)
+        VStack(spacing: 0) {
+            Color.clear
+                .frame(height: 44)
+
+            TabView {
+                if network.isConnected {
+                    OnlinePicturesPickerView { url in onSelect(url) }
+                        .tabItem {
+                            Image(systemName: "photo.on.rectangle")
+                            Text(K.ImagePickerSheetView.galleryTitle)
+                        }
                 }
-                .tabItem {
-                    Image(systemName: "photo.on.rectangle")
-                    Text(K.ImagePickerSheetView.galleryTitle)
-                }
-            }
-            UserPicturesPickerView { url in
-                onSelect(url)
-            }
-            .tabItem {
-                Image(systemName: "photo.stack")
-                Text(K.ImagePickerSheetView.photoLibraryTitle)
+                UserPicturesPickerView { url in onSelect(url) }
+                    .tabItem {
+                        Image(systemName: "photo.stack")
+                        Text(K.ImagePickerSheetView.photoLibraryTitle)
+                    }
             }
         }
     }

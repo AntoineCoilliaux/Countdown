@@ -10,7 +10,7 @@ import SwiftUI
 struct EditorView: View {
     @StateObject var vm: EditorViewModel
     @StateObject private var network = NetworkMonitor()
-
+    
     @EnvironmentObject var categoryManager: CategoryManager
     @EnvironmentObject var eventStore: EventStore
     
@@ -20,9 +20,11 @@ struct EditorView: View {
     @State private var isShowingEmojiPicker = false
     @State private var selectedHex: String?
     @State private var showDeleteAlert = false
-    @State private var isExpanded = false
+    @State private var dateExpanded = false
+    @State private var reminderExpanded = false
     @State private var currentCategoryColor: Color?
     @State private var showingManageCategories = false
+    @State private var isShowingReminderSheet = false
     
     private var selectedCategoryEventCount: Int {
         guard let id = vm.selectedCategoryId else { return 0 }
@@ -49,7 +51,7 @@ struct EditorView: View {
                     titleSection
                     categorySection
                     mediaSection
-                    dateSection
+                    dateScheduleSection
                 }
                 .padding(.horizontal, 16)
                 .padding(.vertical, 20)
@@ -70,9 +72,7 @@ struct EditorView: View {
                 }
             }
         }
-        .toolbarBackground(
-            currentCategoryColor ?? Color(hex: K.Colors.appBackground) ?? .black, for: .navigationBar
-        )
+        .toolbarBackground(.black, for: .navigationBar)
         .toolbarBackground(.visible, for: .navigationBar)
         .toolbarColorScheme(.dark, for: .navigationBar)
         
@@ -83,6 +83,7 @@ struct EditorView: View {
                 }
                 isShowingImageSheet = false
             }
+            .presentationDragIndicator(.visible)
         }
         
         .sheet(isPresented: $isShowingEmojiPicker) {
@@ -134,6 +135,19 @@ struct EditorView: View {
                 currentCategoryColor = Color(hex: newHex)
             }
         }
+        
+        .onChange(of: vm.date) { _, newDate in
+            if newDate <= Date() {
+                vm.reminders.removeAll()
+                reminderExpanded = false
+            } else {
+                // Retire les custom reminders postérieurs à la nouvelle date
+                vm.reminders.removeAll {
+                    if case .custom(let d) = $0 { return d >= newDate }
+                    return false
+                }
+            }
+        }
     }
     
     // MARK: - Image & Emoji Views
@@ -166,7 +180,7 @@ struct EditorView: View {
         }
     }
     
-    private var emojiView : some View {
+    private var emojiView: some View {
         ZStack {
             LinearGradient(
                 colors: [(currentCategoryColor ?? .white).opacity(0.35), (currentCategoryColor ?? .white).opacity(0.15)],
@@ -179,72 +193,68 @@ struct EditorView: View {
     }
     
     // MARK: - Sections
+    
     private var mediaSection: some View {
-            VStack(spacing: 20) {
-                
-                EventMediaView(
-                    displayMode: vm.displayMode,
-                    emoji: vm.emoji,
-                    categoryColor: currentCategoryColor ?? .white,
-                    emojiHeight: 190,
-                    photoHeight: 190
-                ) {
-                    imageView
-                }
-                .frame(maxWidth: .infinity)
-                .overlay(RoundedRectangle(cornerRadius: 12)
-                .stroke(.white.opacity(0.15), lineWidth: 1))
-                .clipShape(RoundedRectangle(cornerRadius: 12))
-                .onTapGesture {
-                    if vm.displayMode == .emoji {
-                        isShowingEmojiPicker = true
-                    } else {
-                        isShowingImageSheet = true
-                    }
-                }
-                
-                HStack(spacing: 8) {
-                    SegmentedOptionButton(
-                        isSelected: vm.displayMode == .photo,
-                        action: {
-                            vm.displayMode = .photo
-                        }
-                    ) {
-                        Image(systemName: "photo")
-                        
-                        Text(K.EditorView.photoPickerName)
-                    }
-                    .frame(maxWidth: .infinity)
-                    
-                    SegmentedOptionButton(
-                        isSelected: vm.displayMode == .emoji,
-                        action: {
-                            vm.displayMode = .emoji
-                        }
-                    ) {
-                        Text("😀")
-                            .font(.system(size: 13))
-                        
-                        Text(K.EditorView.emojiPickerName)
-                    }
-                    .frame(maxWidth: .infinity)
-                }
+        VStack(spacing: 20) {
+            EventMediaView(
+                displayMode: vm.displayMode,
+                emoji: vm.emoji,
+                categoryColor: currentCategoryColor ?? .white,
+                emojiHeight: 190,
+                photoHeight: 190
+            ) {
+                imageView
             }
             .frame(maxWidth: .infinity)
-            .padding(.vertical, 10)
+            .overlay(RoundedRectangle(cornerRadius: 12)
+                .stroke(.white.opacity(0.15), lineWidth: 1))
+            .clipShape(RoundedRectangle(cornerRadius: 12))
+            .onTapGesture {
+                if vm.displayMode == .emoji {
+                    isShowingEmojiPicker = true
+                } else {
+                    isShowingImageSheet = true
+                }
+            }
+            
+            HStack(spacing: 8) {
+                
+                SegmentedOptionButton(
+                    isSelected: vm.displayMode == .emoji,
+                    action: { vm.displayMode = .emoji }
+                ) {
+                    Text("😀").font(.system(size: 13))
+                    Text(K.EditorView.emojiPickerName)
+                }
+                .frame(maxWidth: .infinity)
+                .background(selectionGradient(when: vm.displayMode == .emoji))
+                
+                SegmentedOptionButton(
+                    isSelected: vm.displayMode == .photo,
+                    action: { vm.displayMode = .photo }
+                ) {
+                    Image(systemName: "photo")
+                    Text(K.EditorView.photoPickerName)
+                }
+                .frame(maxWidth: .infinity)
+                .background(selectionGradient(when: vm.displayMode == .photo))
+
+            }
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, 10)
     }
     
-    //MARK - Title
+    // MARK: - Title
+    
     private var titleSection: some View {
-        
         VStack(alignment: .leading, spacing: 0) {
-            
             Text("Counting down to")
-                .font(.system(size: 18))
+                .font(.system(size: 16))
                 .fontWeight(.medium)
                 .textCase(.uppercase)
                 .tracking(1.2)
-                .foregroundStyle(.white.opacity(0.5))
+                .foregroundStyle(.white.opacity(0.75))
             
             TextField("", text: $vm.name, prompt: Text(K.EditorView.textfieldPlaceholder)
                 .foregroundStyle(.white.opacity(0.5)))
@@ -262,13 +272,13 @@ struct EditorView: View {
             if vm.eventTitleIsTooLong {
                 ErrorText()
                     .padding(.horizontal, 16)
-
             }
         }
         .background(CardBackground(borderColor: vm.eventTitleIsTooLong ? .red : .clear))
     }
     
-    //MARK - Category
+    // MARK: - Category
+    
     private var categorySection: some View {
         VStack(alignment: .leading, spacing: 8) {
             CategorySelectorView(
@@ -279,45 +289,92 @@ struct EditorView: View {
         }
     }
     
-    //MARK - Date
-    private var dateSection: some View {
-        VStack(alignment: .leading, spacing: 8) {
+    // MARK: - Schedule (Date + Remind me), matching the mockup card style
+    
+    private var dateScheduleSection: some View {
+        VStack(spacing: 0) {
             
-            VStack(spacing: 0) {
-                
-                Button {
-                    withAnimation(.easeInOut) {
-                        isExpanded.toggle()
-                    }
-                } label: {
-                    HStack {
+            // Date row — tap expands the graphical date picker inline
+            Button {
+                dateExpanded.toggle()
+                if dateExpanded { reminderExpanded = false }
+            } label: {
+                scheduleRow(title: "Date", titleOpacity: 1) {
+                    HStack(spacing: 6) {
                         Text(vm.formattedDate)
                             .foregroundStyle(.white)
-                        
-                        Spacer()
-                        
+                            .font(.system(size: 15))
                         Image(systemName: "chevron.down")
-                            .rotationEffect(.degrees(isExpanded ? 180 : 0))
-                            .animation(.easeInOut, value: isExpanded)
+                            .font(.system(size: 12, weight: .semibold))
+                            .foregroundStyle(.white.opacity(0.3))
+                            .rotationEffect(.degrees(dateExpanded ? 180 : 0))
                     }
-                    .padding(.horizontal, 16)
-                    .padding(.vertical, 14)
-                }
-                
-                if isExpanded {
-                    AppDivider()
-                    DatePicker(
-                        "",
-                        selection: $vm.date,
-                        displayedComponents: [.date, .hourAndMinute]
-                    )
-                    .datePickerStyle(.graphical)
-                    .padding(12)
                 }
             }
-            .colorScheme(.dark)
-            .background(CardBackground(borderColor: .white))
+            .buttonStyle(.plain)
+            
+            if dateExpanded {
+                AppDivider()
+                DatePicker(
+                    "",
+                    selection: $vm.date,
+                    displayedComponents: [.date, .hourAndMinute]
+                )
+                .datePickerStyle(.graphical)
+                .colorScheme(.dark)
+                .padding(12)
+            }
+            
+            AppDivider()
+            
+            // Remind me row — opens ReminderPickerSheet
+            Button {
+                    guard vm.date > Date() else { return }
+                    reminderExpanded.toggle()
+                    if reminderExpanded { dateExpanded = false }
+            } label: {
+                scheduleRow(title: "Remind me", titleOpacity: 0.6) {
+                    HStack(spacing: 6) {
+                        Image(systemName: vm.reminders.isEmpty ? "bell" : "bell.badge")
+                                .font(.system(size: 11))
+                                .foregroundStyle(vm.reminders.isEmpty ? .white.opacity(0.3) : currentCategoryColor ?? .white)
+                        Text(vm.remindersSummary)
+                            .font(.system(size: 13))
+                            .foregroundStyle(vm.reminders.isEmpty ? .white.opacity(0.4) : .white.opacity(0.6))
+                            .lineLimit(3)
+                            Image(systemName: "chevron.down")
+                                .font(.system(size: 12, weight: .semibold))
+                                .foregroundStyle(.white.opacity(0.3))
+                                .rotationEffect(.degrees(reminderExpanded ? 180 : 0))
+                
+                    }
+                }
+            }
+            .buttonStyle(.plain)
+            .disabled(vm.date <= Date())
+            .opacity(vm.date <= Date() ? 0.35 : 1)
+            
+            if reminderExpanded {
+                AppDivider()
+                ReminderPickerView(eventDate: vm.date, reminders: $vm.reminders, borderColor: currentCategoryColor ?? .white)
+                    .transition(.move(edge: .top).combined(with: .opacity))
+            }
         }
+        .background(CardBackground(borderColor: currentCategoryColor ?? .white))
+    }
+    
+    /// Generic schedule card row: label left, trailing content right.
+    @ViewBuilder
+    private func scheduleRow<Trailing: View>(title: String, titleOpacity: CGFloat, @ViewBuilder trailing: () -> Trailing) -> some View {
+        HStack {
+            Text(title)
+                .foregroundStyle(.white.opacity(titleOpacity))
+            Spacer()
+            trailing()
+        }
+        .padding(.horizontal, 16)
+        .padding(.vertical, 14)
+        .contentShape(Rectangle())
     }
     
     // MARK: - Helpers
@@ -336,5 +393,16 @@ struct EditorView: View {
         } else {
             currentCategoryColor = nil
         }
+    }
+    
+    private func selectionGradient(when condition: Bool) -> LinearGradient {
+        LinearGradient(
+            colors: condition
+                ? [(currentCategoryColor ?? .white).opacity(0.35),
+                   (currentCategoryColor ?? .white).opacity(0.15)]
+                : [.clear, .clear],
+            startPoint: .topLeading,
+            endPoint: .bottomTrailing
+        )
     }
 }

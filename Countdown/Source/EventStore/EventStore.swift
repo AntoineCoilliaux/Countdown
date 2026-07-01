@@ -24,13 +24,16 @@ final class EventStore: ObservableObject {
         events.append(event)
         sortEvents()
         save()
+        Task { await NotificationManager.shared.scheduleReminders(for: event) }
     }
 
     func update(_ event: Event) {
         if let idx = events.firstIndex(where: { $0.id == event.id }) {
+            let oldEvent = events[idx]
             events[idx] = event
             sortEvents()
             save()
+            Task { await NotificationManager.shared.rescheduleReminders(oldEvent: oldEvent, newEvent: event) }
         }
     }
 
@@ -38,6 +41,7 @@ final class EventStore: ObservableObject {
         for id in ids {
             if let index = events.firstIndex(where: { $0.id == id }) {
                 let event = events[index]
+                NotificationManager.shared.cancelReminders(for: event)
                 if event.imageName.isLocalImage {
                     try? FileManager.default.removeItem(at: event.imageName)
                 }
@@ -49,6 +53,7 @@ final class EventStore: ObservableObject {
 
     func deleteEvents(inCategory id: UUID) {
         for event in events where event.categoryID == id {
+            NotificationManager.shared.cancelReminders(for: event)
             if event.imageName.isLocalImage {
                 try? FileManager.default.removeItem(at: event.imageName)
             }

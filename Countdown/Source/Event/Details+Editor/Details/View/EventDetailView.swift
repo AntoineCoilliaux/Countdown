@@ -12,14 +12,14 @@ struct EventDetailView: View {
     @EnvironmentObject var categoryManager: CategoryManager
     @EnvironmentObject var eventStore: EventStore
     @Environment(\.dismiss) private var dismiss
-
+    
     @State private var isShowingEditor = false
-
+    
     var body: some View {
         ScrollView {
             VStack(spacing: 5) {
                 mediaSection
-
+                
                 VStack(alignment: .leading, spacing: 25) {
                     badgeView
                     
@@ -35,6 +35,7 @@ struct EventDetailView: View {
                         countdownRow
                         progressSection
                     }
+                    scheduleSection
                 }
                 .padding(.horizontal, 16)
                 .padding(.top, 16)
@@ -58,9 +59,9 @@ struct EventDetailView: View {
             }
         }
     }
-
+    
     // MARK: - Subviews
-
+    
     @ViewBuilder
     private var mediaSection: some View {
         EventMediaView(
@@ -73,7 +74,7 @@ struct EventDetailView: View {
             eventImage
         }
     }
-
+    
     @ViewBuilder
     private var eventImage: some View {
         if event.imageName.isLocalImage,
@@ -89,7 +90,7 @@ struct EventDetailView: View {
             }
         }
     }
-
+    
     private var badgeView: some View {
         Group {
             if let id = event.categoryID,
@@ -104,16 +105,16 @@ struct EventDetailView: View {
             }
         }
     }
-
+    
     private var countdownRow: some View {
         HStack(spacing: 8) {
             countdownBox(value: event.isUnder24Hours ? 0 : event.dayNumber(includeHours: true), label: event.dayNumber (includeHours: true) > 1 ? K.EventDetailView.countdownRowDays : K.EventDetailView.countdownRowDay)
-            countdownBox(value: event.hourNumber(includeSeconds: true), label: K.EventDetailView.countdownRowHours)
+            countdownBox(value: event.hourNumber(), label: K.EventDetailView.countdownRowHours)
             countdownBox(value: event.minuteNumber(includeSeconds: true), label: K.EventDetailView.countdownRowMinutes)
             countdownBox(value: event.secondNumber, label: K.EventDetailView.countdownRowSeconds, accent: true)
         }
     }
-
+    
     private func countdownBox(value: Int, label: String, accent: Bool = false) -> some View {
         VStack(spacing: 3) {
             Text("\(value)")
@@ -129,7 +130,7 @@ struct EventDetailView: View {
         .background(Color.white.opacity(0.06))
         .clipShape(RoundedRectangle(cornerRadius: 12))
     }
-
+    
     private var progressSection: some View {
         VStack(alignment: .leading, spacing: 6) {
             HStack {
@@ -148,7 +149,7 @@ struct EventDetailView: View {
             }
             .font(.system(size: 11))
             .foregroundStyle(.white.opacity(0.35))
-
+            
             GeometryReader { geo in
                 ZStack(alignment: .leading) {
                     Capsule().fill(Color.white.opacity(0.1)).frame(height: 3)
@@ -158,7 +159,66 @@ struct EventDetailView: View {
             .frame(height: 3)
         }
     }
-
+    
+    private var scheduleSection: some View {
+        VStack(spacing: 0) {
+            
+            // Remind me row
+            if event.reminders.isEmpty {
+                HStack() {
+                    Text("Remind me")
+                        .foregroundStyle(.white)
+                    Spacer()
+                        Image(systemName: "bell.slash")
+                            .font(.system(size: 10))
+                            .foregroundStyle(.white.opacity(0.25))
+                        Text("Never")
+                            .font(.system(size: 14))
+                            .foregroundStyle(.white.opacity(0.25))
+                }
+            } else {
+                
+                VStack(alignment: .leading) {
+                    Text("Remind me")
+                        .foregroundStyle(.white)
+                    AppDivider()
+                    VStack(alignment: .leading, spacing: 4) {
+                        ForEach(
+                            event.reminders.sorted {
+                                ($0.fireDate(for: event.date) ?? .distantPast) <
+                                    ($1.fireDate(for: event.date) ?? .distantPast)
+                            }
+                        ) { reminder in
+                            HStack(spacing: 5) {
+                                // Visuellement on distingue les rappels déjà passés
+                                if let fire = reminder.fireDate(for: event.date), fire > Date() {
+                                    Image(systemName: "bell.fill")
+                                        .font(.system(size: 10))
+                                        .foregroundStyle(categoryColor)
+                                    Text(reminder.label)
+                                        .font(.system(size: 14))
+                                        .foregroundStyle(.white.opacity(0.5))
+                                } else {
+                                    Image(systemName: "bell.slash")
+                                        .font(.system(size: 10))
+                                        .foregroundStyle(.white.opacity(0.25))
+                                    Text(reminder.label)
+                                        .font(.system(size: 14))
+                                        .foregroundStyle(.white.opacity(0.25))
+                                        .strikethrough(true, color: .white.opacity(0.2))
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        .padding(.horizontal, 16)
+        .padding(.vertical, 14)
+        .background(CardBackground(borderColor: .white))
+    }
+    
     private var categoryColor: Color {
         if let id = event.categoryID,
            let category = categoryManager.categories.first(where: { $0.id == id }) {
