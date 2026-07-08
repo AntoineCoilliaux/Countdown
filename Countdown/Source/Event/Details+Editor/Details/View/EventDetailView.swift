@@ -57,6 +57,11 @@ struct EventDetailView: View {
                 event = updatedEvent
                 eventStore.update(updatedEvent)
             }
+            .overlay(alignment: .top) {
+                RoundedRectangle(cornerRadius: 20)
+                    .stroke(Color.white.opacity(0.15), lineWidth: 1)
+                    .ignoresSafeArea()
+            }
         }
     }
     
@@ -166,20 +171,20 @@ struct EventDetailView: View {
             // Remind me row
             if event.reminders.isEmpty {
                 HStack() {
-                    Text("Remind me")
+                    Text(K.Common.Reminder.remindMe)
                         .foregroundStyle(.white)
                     Spacer()
                         Image(systemName: "bell.slash")
                             .font(.system(size: 10))
                             .foregroundStyle(.white.opacity(0.25))
-                        Text("Never")
+                    Text(K.EventDetailView.never)
                             .font(.system(size: 14))
                             .foregroundStyle(.white.opacity(0.25))
                 }
             } else {
                 
                 VStack(alignment: .leading) {
-                    Text("Remind me")
+                    Text(K.EventDetailView.remindMe)
                         .foregroundStyle(.white)
                     AppDivider()
                     VStack(alignment: .leading, spacing: 4) {

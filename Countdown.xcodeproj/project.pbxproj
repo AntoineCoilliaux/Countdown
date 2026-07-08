@@ -72,6 +72,8 @@
 				Shared/Widget/WidgetDataStore.swift,
 				Shared/Widget/WidgetEvent.swift,
 				Shared/Widget/WidgetTip.swift,
+				Source/Event/Model/EventModel.swift,
+				Source/Event/Reminder/ReminderOption.swift,
 			);
 			target = FA2B5FE02F98F4F600556647 /* CountdownWidgetExtension */;
 		};

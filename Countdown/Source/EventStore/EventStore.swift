@@ -7,6 +7,7 @@
 import Combine
 import Foundation
 import SwiftUI
+import WidgetKit
 
 final class EventStore: ObservableObject {
     
@@ -103,5 +104,6 @@ final class EventStore: ObservableObject {
         if let data = try? JSONEncoder().encode(events) {
             UserDefaults.standard.set(data, forKey: K.EventStore.userDefaultsKeyEvents)
         }
+        WidgetCenter.shared.reloadAllTimelines()
     }
 }

@@ -24,6 +24,8 @@ final class EditorViewModel: ObservableObject {
     @Published var reminders: [ReminderOption] = []
 
     let mode: Mode
+    let randomNumber = Int.random(in: 1...100)
+    let characterLimit: Int = 35
     
     enum CategorySelectionState {
         case reading, creating, editing
@@ -74,21 +76,16 @@ final class EditorViewModel: ObservableObject {
     var formattedDate: String {
         date.formatted(date: .abbreviated, time: .shortened)
     }
-
+    
     var remindersSummary: String {
-        guard !reminders.isEmpty else { return "Never" }
-        let sorted = reminders.sorted {
-            ($0.fireDate(for: date) ?? .distantPast) < ($1.fireDate(for: date) ?? .distantPast)
-        }
-        return sorted.map(\.label).joined(separator: ", ")
+        let filtered = reminders.filter { $0 != .now }
+        guard !filtered.isEmpty else { return "Never" }
+        return filtered.map { $0.label }.joined(separator: ", ")
     }
     
     var isPlaceholderImage: Bool {
         imageName.absoluteString.contains("picsum.photos") && !imageName.isLocalImage
     }
-    
-    let randomNumber = Int.random(in: 1...100)
-    let characterLimit: Int = 35
     
     var canSave: Bool {
         !name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty && !eventTitleIsTooLong

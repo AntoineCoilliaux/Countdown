@@ -188,12 +188,30 @@ struct HomeView: View {
     private func syncWidgetEvents() {
         let widgetEvents = eventStore.events.map { event in
             let category = categoryManager.categories.first { $0.id == event.categoryID }
+            
+            let imageData: Data?
+            if event.displayMode == .photo,
+               let filename = event.imageName.localFilename,
+               let fileURL = URL.localImageURL(filename: filename) {
+                let raw = try? Data(contentsOf: fileURL)
+                imageData = raw
+                    .flatMap { UIImage(data: $0) }
+                    .flatMap { resizeForWidget($0) }
+                    .flatMap { $0.jpegData(compressionQuality: 0.5) }
+            } else {
+                imageData = nil
+            }
+            
             return WidgetEvent(
                 id: event.id,
                 name: event.name,
                 date: event.date,
                 categoryName: category?.name,
-                categoryColor: category?.color
+                categoryColor: category?.color,
+                emoji: event.emoji,
+                imageName: event.imageName,
+                imageData: imageData,
+                displayMode: event.displayMode
             )
         }
         WidgetDataStore.saveAllEvents(widgetEvents)
@@ -207,6 +225,15 @@ struct HomeView: View {
                 updatedEvent.imageName = localURL
                 eventStore.update(updatedEvent)
             }
+        }
+    }
+    
+    private func resizeForWidget(_ image: UIImage) -> UIImage {
+        // Le widget medium fait ~160pt de large côté image, @3x = 480px max
+        let targetSize = CGSize(width: 160, height: 160)
+        let renderer = UIGraphicsImageRenderer(size: targetSize)
+        return renderer.image { _ in
+            image.draw(in: CGRect(origin: .zero, size: targetSize))
         }
     }
 }

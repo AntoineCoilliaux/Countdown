@@ -15,7 +15,7 @@ struct Event: Codable, Identifiable, Equatable {
     var imageName: URL
     var categoryID: UUID?
     var emoji: String?
-    var displayMode: EventDisplayMode? = .photo
+    var displayMode: EventDisplayMode?
     var reminders: [ReminderOption] = []
 }
 

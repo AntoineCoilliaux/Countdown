@@ -66,15 +66,22 @@ struct CountdownProvider: AppIntentTimelineProvider {
             date: Date(),
             widgetEvent: WidgetEvent(
                 id: UUID(),
-                name: "Example",
-                date: Date().addingTimeInterval(86400),
-                categoryName: "Birthday",
-                categoryColor: "#1E3A5F"
+                name: "Your event",
+                date: Date().addingTimeInterval(86400 * 12),
+                categoryName: "Your category",
+                categoryColor: "#C8F135",
+                emoji: "🎉",
+                imageName: nil,
+                imageData: nil,
+                displayMode: .emoji
             )
         )
     }
 
     func snapshot(for configuration: SelectEventIntent, in context: Context) async -> CountdownEntry {
+        if context.isPreview {
+            return placeholder(in: context)
+        }
         let event = loadEvent(from: configuration)
         return CountdownEntry(date: Date(), widgetEvent: event)
     }
@@ -84,31 +91,21 @@ struct CountdownProvider: AppIntentTimelineProvider {
         let now = Date()
         var entries: [CountdownEntry] = []
 
-        // 1. Entrée pour l'état actuel
         entries.append(CountdownEntry(date: now, widgetEvent: widgetEvent))
 
-        // 2. Si l'événement est dans le futur, on prévoit une mise à jour pile au moment T
         if let eventDate = widgetEvent?.date, eventDate > now {
-            // On ajoute une entrée à la seconde exacte de l'événement
-            // Cela forcera le widget à recalculer 'isInFuture' qui deviendra false
             entries.append(CountdownEntry(date: eventDate, widgetEvent: widgetEvent))
         }
 
-        // On rafraîchit la timeline dans 12h pour la maintenance générale
         let nextUpdate = Calendar.current.date(byAdding: .hour, value: 12, to: now) ?? now
-        
         return Timeline(entries: entries, policy: .after(nextUpdate))
     }
     
-    // Helper pour charger l'événement spécifique choisi par l'utilisateur
     private func loadEvent(from configuration: SelectEventIntent) -> WidgetEvent? {
-        if let selectedId = configuration.event?.id {
-            return WidgetDataStore.loadSpecificEvent(id: selectedId)
+        guard let selectedId = configuration.event?.id else {
+            return nil  // ← au lieu de charger le prochain event automatiquement
         }
-        return WidgetDataStore.loadAllEvents()
-                .filter { $0.date >= Date() }
-                .sorted { $0.date < $1.date }
-                .first
+        return WidgetDataStore.loadSpecificEvent(id: selectedId)
     }
 }
 
@@ -120,41 +117,156 @@ struct CountdownWidgetView: View {
     
     var body: some View {
         if let event = entry.widgetEvent {
-            widgetEventView(for: event)
+            switch family {
+            case .systemMedium:
+                widgetMediumView(for: event)
+            default:
+                widgetSmallView(for: event)
+            }
         } else {
             emptyView
         }
     }
     
-    private func widgetEventView(for event: WidgetEvent) -> some View {
-        let isActuallyInFuture = event.date > entry.date
-        
-        return VStack(alignment: .center, spacing: 3) {
-            Text(event.name)
-                .font(.system(size: 16, weight: .semibold))
-                .foregroundStyle(.white)
-                .lineLimit(3)
-                .multilineTextAlignment(.center)
-                .layoutPriority(1)
-            VStack {
-                Text(event.date, style: .date)
-                Text(event.date, style: .time)
+    private func widgetSmallView(for event: WidgetEvent) -> some View {
+        let categoryColor = event.categoryColor.flatMap { Color(hex: $0) } ?? .white
+        let isActuallyInFuture = event.isInFuture(relativeTo: entry.date)
+
+        return VStack(alignment: .leading, spacing: 0) {
+            VStack(alignment: .leading, spacing: 4) {
+                Text(event.name)
+                    .font(.system(size: 18, weight: .semibold))
+                    .foregroundStyle(categoryColor)
+                    .lineLimit(3)
+                    .multilineTextAlignment(.leading)
+                    .fixedSize(horizontal: false, vertical: true)
+                
+                if let categoryName = event.categoryName {
+                    Text(categoryName)
+                        .font(.system(size: 12, weight: .light))
+                        .foregroundStyle(.white.opacity(0.6))
+                        .lineLimit(1)
+                }
             }
-            .font(.system(size: 10.5, weight: .regular))
-            .foregroundStyle(.white.opacity(0.45))
+
             Spacer(minLength: 0)
 
-            Text(event.date, style: .relative)
-                .font(.system(size: 20, weight: .bold))
-                .foregroundStyle(isActuallyInFuture ? (Color(hex: K.Colors.green) ?? .green) : (Color(hex: K.Colors.red) ?? .red))
-                .multilineTextAlignment(.center)
-                .lineLimit(2)
-                .minimumScaleFactor(0.7)
+            if !isActuallyInFuture {
+                Text(K.CountdownWidget.itsOn)
+                    .font(.system(size: 15, weight: .bold))
+                    .foregroundStyle(categoryColor)
+                    .lineLimit(3)
+            } else {
+                Text(event.date, style: .relative)
+                    .font(.system(size: 18, weight: .bold))
+                    .foregroundStyle(categoryColor)
+                    .lineLimit(2)
+                    .minimumScaleFactor(0.6)
+            }
+
+            Spacer(minLength: 8)
+            
+            HStack(spacing: 4) {
+                Text(event.date, style: .date)
+                Text("·")
+                Text(event.date, style: .time)
+            }
+            .font(.system(size: 10, weight: .regular))
+            .foregroundStyle(.white.opacity(0.45))
+        }
+        .padding(1)
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+        .containerBackground(for: .widget) {
+            Color(.black)
+        }
+    }
+    
+    private func widgetMediumView(for event: WidgetEvent) -> some View {
+        let categoryColor = event.categoryColor.flatMap { Color(hex: $0) } ?? .white
+        let isActuallyInFuture = event.isInFuture(relativeTo: entry.date)
+
+        return HStack(alignment: .center, spacing: 4) {
+
+            // Colonne gauche — nom, catégorie, countdown, date
+            VStack(alignment: .leading, spacing: 4) {
+                Text(event.name)
+                    .font(.system(size: 22, weight: .semibold))
+                    .foregroundStyle(categoryColor)
+                    .lineLimit(2)
+                    .fixedSize(horizontal: false, vertical: true)
+                
+                if let categoryName = event.categoryName {
+                    Text(categoryName)
+                        .font(.system(size: 15, weight: .light))
+                        .foregroundStyle(.white.opacity(0.6))
+                        .lineLimit(1)
+                }
+                
+                Spacer(minLength: 6)
+                
+                if !isActuallyInFuture {
+                    Text(K.CountdownWidget.itsOn)
+                        .font(.system(size: 18, weight: .bold))
+                        .foregroundStyle(categoryColor)
+                        .lineLimit(2)
+                        .fixedSize(horizontal: false, vertical: true)
+                } else {
+                    Text(event.date, style: .relative)
+                        .font(.system(size: 20, weight: .bold))
+                        .foregroundStyle(categoryColor)
+                        .lineLimit(2)
+                }
+                
+                Spacer(minLength: 6)
+                
+                HStack(spacing: 4) {
+                    Text(event.date, style: .date)
+                    Text("·")
+                    Text(event.date, style: .time)
+                }
+                .font(.system(size: 15, weight: .regular))
+                .foregroundStyle(.white.opacity(0.45))
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+
+            ZStack {
+                if event.displayMode == .emoji {
+                    Circle()
+                        .fill(.black)
+                        .frame(width: 50, height: 50)
+                    
+                    if let emoji = event.emoji {
+                        Text(emoji)
+                            .font(.system(size: 50))
+                    } else {
+                        Text(String(event.name.prefix(1)).uppercased())
+                            .font(.system(size: 28, weight: .semibold))
+                            .foregroundStyle(categoryColor)
+                    }
+                } else {
+                    if let data = event.imageData, let uiImage = UIImage(data: data) {
+                          Image(uiImage: uiImage)
+                              .resizable()
+                              .scaledToFill()
+                              .frame(height: 93)
+                              .frame(width: 70)
+                              .clipShape(RoundedRectangle(cornerRadius: 10))
+                    } else {
+                        RoundedRectangle(cornerRadius: 10)
+                            .fill(.white.opacity(0.08))
+                            .frame(width: 80)
+                            .frame(maxHeight: .infinity)
+                        Text(String(event.name.prefix(1)).uppercased())
+                            .font(.system(size: 28, weight: .semibold))
+                            .foregroundStyle(categoryColor)
+                    }
+                }
+            }
         }
         .padding(4)
-        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
         .containerBackground(for: .widget) {
-            backgroundGradient(for: event)
+            Color(.black)
         }
     }
         
@@ -199,21 +311,22 @@ struct CountdownWidget: Widget {
         }
         .configurationDisplayName(K.CountdownWidget.displayName)
         .description(K.CountdownWidget.description)
-        .supportedFamilies([.systemSmall])
+        .supportedFamilies([.systemSmall, .systemMedium])
     }
 }
 
-#Preview(as: .systemMedium) {
-    CountdownWidget()
-} timeline: {
-    CountdownEntry(
-        date: .now,
-        widgetEvent: WidgetEvent(
-            id: UUID(),
-            name: "Japanese GP",
-            date: Date().addingTimeInterval(-3599),
-            categoryName: nil,
-            categoryColor: nil
-        )
-    )
-}
+//#Preview(as: .systemMedium) {
+//    CountdownWidget()
+//} timeline: {
+//    CountdownEntry(
+//        date: .now,
+//        widgetEvent: WidgetEvent(
+//            id: UUID(),
+//            name: "Japanese GP",
+//            date: Date().addingTimeInterval(-3599),
+//            categoryName: nil,
+//            categoryColor: nil,
+//            emoji: "slightly smiling face"
+//        )
+//    )
+//}

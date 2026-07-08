@@ -9,15 +9,15 @@ import Foundation
 
 extension Event {
     var isInFuture: Bool {
-        date >= Date()
+        date > Date()
     }
 
     var isUnder24Hours: Bool {
         abs(date.timeIntervalSinceNow) < 86340
     }
     
-    var isUnder60Seconds: Bool {
-        abs(date.timeIntervalSinceNow) < 60
+    var itsTime: Bool {
+        abs(date.timeIntervalSinceNow) < 1
     }
     
     func dayNumber(includeHours: Bool = false) -> Int {
@@ -38,14 +38,11 @@ extension Event {
     }
 
     func hourNumber() -> Int {
-        let calendar = Calendar.current
-        let now = Date()
-        
-        let components = calendar.dateComponents([.hour, .minute], from: now, to: date)
-        let hours = abs(components.hour ?? 0)
-            return hours % 24
+        let interval = date.timeIntervalSince(Date())
+        let totalMinutes = Int(ceil(abs(interval) / 60))
+        return (totalMinutes / 60) % 24
     }
-   
+
     func minuteNumber(includeSeconds: Bool = false) -> Int {
         let interval = date.timeIntervalSince(Date())
         let absoluteInterval = abs(interval)
@@ -54,11 +51,13 @@ extension Event {
             return (Int(absoluteInterval) % 3600) / 60
         } else {
             if isInFuture {
-                return (Int(ceil(absoluteInterval / 60) * 60) % 3600) / 60
+                let totalMinutes = Int(ceil(absoluteInterval / 60))
+                return totalMinutes % 60
             } else {
                 return (Int(floor(absoluteInterval / 60) * 60) % 3600) / 60
             }
         }
+
     }
 
     var secondNumber: Int {

@@ -15,6 +15,18 @@ struct K {
     }
     
     struct Common {
+        struct Buttons {
+            static let done = "Done"
+            static let cancel = "Cancel"
+            static let save = "Save"
+            static let ok = "OK"
+            
+            static let createFirstCategory = "Create your first category"
+            static let addAnotherCategory = "Add"
+            static let editCategory = "Edit"
+            static let deleteCategory = "Delete"
+        }
+        
         struct Category {
             static let deleteAlertTitle = "Delete category?"
             static let deleteOnly = "Delete category only"
@@ -31,16 +43,8 @@ struct K {
 
             }
         
-        struct Buttons {
-            static let done = "Done"
-            static let cancel = "Cancel"
-            static let save = "Save"
-            static let ok = "OK"
-            
-            static let createFirstCategory = "Create your first category"
-            static let addAnotherCategory = "Add"
-            static let editCategory = "Edit"
-            static let deleteCategory = "Delete"
+        struct Reminder {
+            static let remindMe = "Remind me"
         }
     }
     
@@ -69,15 +73,16 @@ struct K {
         
         static let displayName = "Countdown"
         static let description = "Make it a widget!"
+        
+        static let itsOn = "It's on! Tap to create new countdowns!"
     }
     
     struct EditorView {
         static let navigationTitle = "New event"
         
-        static let titleHeader = "Title"
-        static let categoryHeader = "Category"
-        static let dateHeader = "Date"
-        static let mediaHeader = "Media"
+        static let countingDownTo = "Counting down to"
+        
+        static let date = "Date"
         
         static let textfieldPlaceholder = "E.g. Holidays in Paris"
         static let doneButton = "Done"
@@ -91,11 +96,7 @@ struct K {
         
         static let titleIsTooLongMessage = "Title is too long!"
         
-        static let repeatHeader = "Repeat"
-        static let repeatNone = "None"
-        static let repeatWeekly = "Weekly"
-        static let repeatMonthly = "Monthly"
-        static let repeatYearly = "Yearly"
+        static let notifyMe = "Notify me when it happens"
     }
     
     struct EventDetailView {
@@ -107,10 +108,23 @@ struct K {
         
         static let progressSectionFuture = "% of the wait behind you"
         static let progressSectionPast = "The wait is over!"
+        
+        static let remindMe = "Remind me"
+        static let never = "Never"
     }
     
     struct EventStore {
         static let userDefaultsKeyEvents = "events"
+    }
+    
+    struct EventView {
+        static let itsTime = "It's time for"
+        static let day = "day"
+        static let days = "days"
+        static let to = "to"
+        static let since = "since"
+        static let hourAbbreviation = "h"
+        static let minuteAbbreviation = "min"
     }
     
     struct FlagsPickerView {

@@ -51,7 +51,7 @@ struct EditorView: View {
                     titleSection
                     categorySection
                     mediaSection
-                    dateScheduleSection
+                    dateAndNotificationsSection
                 }
                 .padding(.horizontal, 16)
                 .padding(.vertical, 20)
@@ -249,7 +249,7 @@ struct EditorView: View {
     
     private var titleSection: some View {
         VStack(alignment: .leading, spacing: 0) {
-            Text("Counting down to")
+            Text(K.EditorView.countingDownTo)
                 .font(.system(size: 16))
                 .fontWeight(.medium)
                 .textCase(.uppercase)
@@ -291,90 +291,15 @@ struct EditorView: View {
     
     // MARK: - Schedule (Date + Remind me), matching the mockup card style
     
-    private var dateScheduleSection: some View {
+    private var dateAndNotificationsSection: some View {
         VStack(spacing: 0) {
-            
-            // Date row — tap expands the graphical date picker inline
-            Button {
-                dateExpanded.toggle()
-                if dateExpanded { reminderExpanded = false }
-            } label: {
-                scheduleRow(title: "Date", titleOpacity: 1) {
-                    HStack(spacing: 6) {
-                        Text(vm.formattedDate)
-                            .foregroundStyle(.white)
-                            .font(.system(size: 15))
-                        Image(systemName: "chevron.down")
-                            .font(.system(size: 12, weight: .semibold))
-                            .foregroundStyle(.white.opacity(0.3))
-                            .rotationEffect(.degrees(dateExpanded ? 180 : 0))
-                    }
-                }
-            }
-            .buttonStyle(.plain)
-            
-            if dateExpanded {
-                AppDivider()
-                DatePicker(
-                    "",
-                    selection: $vm.date,
-                    displayedComponents: [.date, .hourAndMinute]
-                )
-                .datePickerStyle(.graphical)
-                .colorScheme(.dark)
-                .padding(12)
-            }
-            
+            dateRow
             AppDivider()
-            
-            // Remind me row — opens ReminderPickerSheet
-            Button {
-                    guard vm.date > Date() else { return }
-                    reminderExpanded.toggle()
-                    if reminderExpanded { dateExpanded = false }
-            } label: {
-                scheduleRow(title: "Remind me", titleOpacity: 0.6) {
-                    HStack(spacing: 6) {
-                        Image(systemName: vm.reminders.isEmpty ? "bell" : "bell.badge")
-                                .font(.system(size: 11))
-                                .foregroundStyle(vm.reminders.isEmpty ? .white.opacity(0.3) : currentCategoryColor ?? .white)
-                        Text(vm.remindersSummary)
-                            .font(.system(size: 13))
-                            .foregroundStyle(vm.reminders.isEmpty ? .white.opacity(0.4) : .white.opacity(0.6))
-                            .lineLimit(3)
-                            Image(systemName: "chevron.down")
-                                .font(.system(size: 12, weight: .semibold))
-                                .foregroundStyle(.white.opacity(0.3))
-                                .rotationEffect(.degrees(reminderExpanded ? 180 : 0))
-                
-                    }
-                }
-            }
-            .buttonStyle(.plain)
-            .disabled(vm.date <= Date())
-            .opacity(vm.date <= Date() ? 0.35 : 1)
-            
-            if reminderExpanded {
-                AppDivider()
-                ReminderPickerView(eventDate: vm.date, reminders: $vm.reminders, borderColor: currentCategoryColor ?? .white)
-                    .transition(.move(edge: .top).combined(with: .opacity))
-            }
+            notifyMe
+            AppDivider()
+            remindMe
         }
         .background(CardBackground(borderColor: currentCategoryColor ?? .white))
-    }
-    
-    /// Generic schedule card row: label left, trailing content right.
-    @ViewBuilder
-    private func scheduleRow<Trailing: View>(title: String, titleOpacity: CGFloat, @ViewBuilder trailing: () -> Trailing) -> some View {
-        HStack {
-            Text(title)
-                .foregroundStyle(.white.opacity(titleOpacity))
-            Spacer()
-            trailing()
-        }
-        .padding(.horizontal, 16)
-        .padding(.vertical, 14)
-        .contentShape(Rectangle())
     }
     
     // MARK: - Helpers
@@ -404,5 +329,109 @@ struct EditorView: View {
             startPoint: .topLeading,
             endPoint: .bottomTrailing
         )
+    }
+    
+    //MARK: - Subviews
+    private var dateRow: some View {
+        VStack(spacing: 0) {
+            Button {
+                dateExpanded.toggle()
+                if dateExpanded { reminderExpanded = false }
+            } label: {
+                scheduleRow(title: K.EditorView.date, titleOpacity: 1) {
+                    HStack(spacing: 6) {
+                        Text(vm.formattedDate)
+                            .foregroundStyle(.white)
+                            .font(.system(size: 15))
+                        Image(systemName: "chevron.down")
+                            .font(.system(size: 12, weight: .semibold))
+                            .foregroundStyle(.white.opacity(0.3))
+                            .rotationEffect(.degrees(dateExpanded ? 180 : 0))
+                    }
+                }
+            }
+            .buttonStyle(.plain)
+            
+            if dateExpanded {
+                AppDivider()
+                DatePicker(
+                    "",
+                    selection: $vm.date,
+                    displayedComponents: [.date, .hourAndMinute]
+                )
+                .datePickerStyle(.graphical)
+                .colorScheme(.dark)
+                .padding(12)
+            }
+        }
+    }
+    
+    private var notifyMe: some View {
+        HStack {
+            scheduleRow(title: K.EditorView.notifyMe, titleOpacity: 0.6) {
+                Toggle("", isOn: Binding(
+                    get: { vm.reminders.contains(.now) },
+                    set: { enabled in
+                        if enabled {
+                            vm.reminders.append(.now)
+                        } else {
+                            vm.reminders.removeAll { $0 == .now }
+                        }
+                    }
+                ))
+                .labelsHidden()
+                .tint(currentCategoryColor ?? .green)
+            }
+        }
+        .disabled(vm.date <= Date())
+        .opacity(vm.date <= Date() ? 0.35 : 1)
+    }
+    
+    private var remindMe: some View {
+        VStack(spacing: 0) {
+            Button {
+                guard vm.date > Date() else { return }
+                reminderExpanded.toggle()
+                if reminderExpanded { dateExpanded = false }
+            } label: {
+                scheduleRow(title: K.Common.Reminder.remindMe, titleOpacity: 0.6) {
+                    HStack(spacing: 6) {
+                        Image(systemName: vm.reminders.isEmpty ? "bell" : "bell.badge")
+                            .font(.system(size: 11))
+                            .foregroundStyle(vm.reminders.isEmpty ? .white.opacity(0.3) : currentCategoryColor ?? .white)
+                        Text(vm.remindersSummary)
+                            .font(.system(size: 13))
+                            .foregroundStyle(vm.reminders.isEmpty ? .white.opacity(0.4) : .white.opacity(0.6))
+                            .lineLimit(3)
+                        Image(systemName: "chevron.down")
+                            .font(.system(size: 12, weight: .semibold))
+                            .foregroundStyle(.white.opacity(0.3))
+                            .rotationEffect(.degrees(reminderExpanded ? 180 : 0))
+                    }
+                }
+            }
+            .buttonStyle(.plain)
+            .disabled(vm.date <= Date())
+            .opacity(vm.date <= Date() ? 0.35 : 1)
+            
+            if reminderExpanded {
+                AppDivider()
+                ReminderPickerView(eventDate: vm.date, reminders: $vm.reminders, borderColor: currentCategoryColor ?? .white)
+                    .transition(.move(edge: .top).combined(with: .opacity))
+            }
+        }
+    }
+    
+    @ViewBuilder
+    private func scheduleRow<Trailing: View>(title: String, titleOpacity: CGFloat, @ViewBuilder trailing: () -> Trailing) -> some View {
+        HStack {
+            Text(title)
+                .foregroundStyle(.white.opacity(titleOpacity))
+            Spacer()
+            trailing()
+        }
+        .padding(.horizontal, 16)
+        .padding(.vertical, 14)
+        .contentShape(Rectangle())
     }
 }

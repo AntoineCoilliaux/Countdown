@@ -16,17 +16,17 @@ struct EventView: View {
         VStack(spacing: 0) {
             // MARK: - Image
             EventMediaView(
-                displayMode: event.displayMode ?? .photo,
+                displayMode: event.displayMode ?? .emoji,
                 emoji: event.emoji,
                 categoryColor: categoryColor,
-                emojiHeight: 100,
-                photoHeight: 170
+                emojiHeight: 70,
+                photoHeight: 150
             ) {
                 eventImage
             }
 
             // MARK: - Bottom section
-            VStack(alignment: .leading, spacing: 8) {
+            VStack(alignment: .leading, spacing: 5) {
 
                 // Badge + date sur la même ligne
                 HStack(alignment: .center) {
@@ -48,17 +48,22 @@ struct EventView: View {
                         Text("·")
                         Text(event.date, style: .time)
                     }
-                    .font(.system(size: 11, weight: .regular))
+                    .font(.system(size: 13, weight: .regular))
                     .foregroundStyle(.white.opacity(0.5))
                 }
 
                     HStack(alignment: .lastTextBaseline, spacing: 6) {
-                        if !event.isUnder24Hours {
+                        
+                        if event.itsTime {
+                            Text(K.EventView.itsTime)
+                                  .font(.system(size: 14, weight: .regular))
+                                  .foregroundStyle(.white.opacity(0.5))
+                        } else if !event.isUnder24Hours {
                             Text("\(event.dayNumber(includeHours: false))")
                                 .font(.system(size: 36, weight: .light))
                                 .foregroundStyle(.white)
                             
-                            Text("\(event.dayNumber(includeHours: false) < 2 ? "day" : "days") \(event.isInFuture ? "to" : "since")")
+                            Text("\(event.dayNumber(includeHours: false) < 2 ? K.EventView.day : K.EventView.days) \(event.isInFuture ? K.EventView.to : K.EventView.since)")
                                 .font(.system(size: 14, weight: .regular))
                                 .foregroundStyle(.white.opacity(0.5))
                         } else {
@@ -66,15 +71,16 @@ struct EventView: View {
                                 .font(.system(size: 36, weight: .light))
                                 .foregroundStyle(.white)
                             
-                            Text("h")
+                            Text(K.EventView.hourAbbreviation)
                                 .font(.system(size: 14, weight: .regular))
                                 .foregroundStyle(.white.opacity(0.5))
                             
-                            Text("\(event.minuteNumber(includeSeconds: false))")
+                            Text(String(format: "%02d", event.minuteNumber(includeSeconds: false)))
                                 .font(.system(size: 36, weight: .light))
                                 .foregroundStyle(.white)
+
                             
-                            Text("min \(event.isInFuture ? "to" : "since")")
+                            Text("\(K.EventView.minuteAbbreviation) \(event.isInFuture ? K.EventView.to : K.EventView.since)")
                                 .font(.system(size: 14, weight: .regular))
                                 .foregroundStyle(.white.opacity(0.5))
                         }
@@ -84,8 +90,9 @@ struct EventView: View {
                             .foregroundStyle(.white)
                             .lineLimit(2)
                     }
-
-                progressBar
+                if event.isInFuture {
+                    progressBar
+                }
             }
             .padding(.horizontal, 14)
             .padding(.vertical, 12)

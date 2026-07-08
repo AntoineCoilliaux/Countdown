@@ -25,7 +25,7 @@ struct EventMediaView<ImageContent: View>: View {
                         endPoint: .bottomTrailing
                     )
                     Text(emoji ?? "")
-                        .font(.system(size: 52))
+                        .font(.system(size: 46))
                 }
                 .frame(height: emojiHeight)
                 .frame(maxWidth: .infinity)

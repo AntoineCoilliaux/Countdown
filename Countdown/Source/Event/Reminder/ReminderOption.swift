@@ -8,6 +8,7 @@
 import Foundation
 
 enum ReminderOption: Codable, Equatable, Hashable, Identifiable {
+    case now
     case oneHour
     case oneDay
     case oneWeek
@@ -15,6 +16,8 @@ enum ReminderOption: Codable, Equatable, Hashable, Identifiable {
 
     var id: String {
         switch self {
+        case .now:
+            return "now"
         case .oneHour:
             return "oneHour"
         case .oneDay:
@@ -30,6 +33,8 @@ enum ReminderOption: Codable, Equatable, Hashable, Identifiable {
     /// e.g. "1 hour before", "Jun 22, 9:00 AM".
     var label: String {
         switch self {
+        case .now:
+            return "When it happens"
         case .oneHour:
             return "1 hour before"
         case .oneDay:
@@ -44,6 +49,8 @@ enum ReminderOption: Codable, Equatable, Hashable, Identifiable {
     func fireDate(for eventDate: Date) -> Date? {
         let candidate: Date
         switch self {
+        case .now:
+            candidate = eventDate
         case .oneHour:
             candidate = Calendar.current.date(byAdding: .hour, value: -1, to: eventDate) ?? eventDate
         case .oneDay:

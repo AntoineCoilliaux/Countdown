@@ -111,6 +111,18 @@ final class NotificationManager: ObservableObject {
     // MARK: - Helpers
 
     private var notificationBodyVariants: [ReminderOption: [String]] = [
+        .now: [
+            "⏱️ It's happening now.",
+            "📅 Your event is here.",
+            "🔔 The wait is over.",
+            "⌛ Zero. Time's up.",
+            "📌 Right now — it's time.",
+            "🗓️ Today is the day.",
+            "⏰ Your countdown just hit zero.",
+            "🔁 The moment has arrived.",
+            "📍 It's starting now.",
+            "⏳ Time's up — it's happening."
+        ],
         .oneHour: [
             "Your event starts in 1 hour. Get ready!",
             "1 hour to go. Almost there!",
