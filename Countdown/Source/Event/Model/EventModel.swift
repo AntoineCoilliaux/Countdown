@@ -11,6 +11,15 @@ struct Event: Codable, Identifiable, Equatable {
     let id: UUID
     let name: String
     let date: Date
+    var createdAt: Date?
     var imageName: URL
     var categoryID: UUID?
+    var emoji: String?
+    var displayMode: EventDisplayMode?
+    var reminders: [ReminderOption] = []
 }
+
+enum EventDisplayMode: String, Codable {
+    case photo, emoji
+}
+

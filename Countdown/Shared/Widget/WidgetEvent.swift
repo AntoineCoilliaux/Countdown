@@ -13,19 +13,12 @@ struct WidgetEvent: Codable {
     let date: Date
     let categoryName: String?
     let categoryColor: String?
+    let emoji: String?
+    let imageName: URL?
+    let imageData: Data?
+    var displayMode: EventDisplayMode?
     
-    var dayNumber: String {
-        let interval = abs(date.timeIntervalSince(Date()))
-        let days = Int(ceil(interval / 60) * 60) / 86400
-        return "\(days)"
-    }
-    
-    var remainingText: String {
-        let interval = abs(date.timeIntervalSince(Date()))
-        let roundedInterval = ceil(interval / 60) * 60
-        let hours = (Int(roundedInterval) % 86400) / 3600
-        let minutes = (Int(roundedInterval) % 3600) / 60
-        
-        return "\(hours)h \(minutes)m"
+    func isInFuture(relativeTo referenceDate: Date) -> Bool {
+        date > referenceDate
     }
 }

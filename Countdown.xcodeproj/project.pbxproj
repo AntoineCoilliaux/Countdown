@@ -11,6 +11,7 @@
 		FA2B5FE42F98F4F600556647 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA2B5FE32F98F4F600556647 /* WidgetKit.framework */; };
 		FA2B5FE62F98F4F600556647 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA2B5FE52F98F4F600556647 /* SwiftUI.framework */; };
 		FA2B5FF32F98F4F700556647 /* CountdownWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = FA2B5FE12F98F4F600556647 /* CountdownWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		FA6F7E502FED592F009DF503 /* emojis.json in Resources */ = {isa = PBXBuildFile; fileRef = FA6F7E4F2FED592F009DF503 /* emojis.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,6 +51,7 @@
 		FA2B5FE32F98F4F600556647 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		FA2B5FE52F98F4F600556647 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		FA2B5FF92F98F52500556647 /* CountdownWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CountdownWidgetExtension.entitlements; sourceTree = "<group>"; };
+		FA6F7E4F2FED592F009DF503 /* emojis.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = emojis.json; sourceTree = "<group>"; };
 		FA7D6FD72F3B8C1400134003 /* CountdownTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CountdownTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -70,8 +72,17 @@
 				Shared/Widget/WidgetDataStore.swift,
 				Shared/Widget/WidgetEvent.swift,
 				Shared/Widget/WidgetTip.swift,
+				Source/Event/Model/EventModel.swift,
+				Source/Event/Reminder/ReminderOption.swift,
 			);
 			target = FA2B5FE02F98F4F600556647 /* CountdownWidgetExtension */;
+		};
+		FA6F7E482FEAC6DB009DF503 /* Exceptions for "Countdown" folder in "Countdown" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = FA1D97442F30FCFC00585250 /* Countdown */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
@@ -79,6 +90,7 @@
 		FA1D97472F30FCFC00585250 /* Countdown */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
+				FA6F7E482FEAC6DB009DF503 /* Exceptions for "Countdown" folder in "Countdown" target */,
 				FA2B60002F98F5B400556647 /* Exceptions for "Countdown" folder in "CountdownWidgetExtension" target */,
 			);
 			path = Countdown;
@@ -136,6 +148,7 @@
 				FA2B5FE22F98F4F600556647 /* Frameworks */,
 				FA1D97462F30FCFC00585250 /* Products */,
 				FA1D97472F30FCFC00585250 /* Countdown */,
+				FA6F7E4F2FED592F009DF503 /* emojis.json */,
 			);
 			sourceTree = "<group>";
 		};
@@ -282,6 +295,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA6F7E502FED592F009DF503 /* emojis.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -471,6 +485,7 @@
 				DEVELOPMENT_TEAM = R44QCZRT2G;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Countdown/Info.plist;
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "We need access to your photos to set event images.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -510,6 +525,7 @@
 				DEVELOPMENT_TEAM = R44QCZRT2G;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Countdown/Info.plist;
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "We need access to your photos to set event images.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

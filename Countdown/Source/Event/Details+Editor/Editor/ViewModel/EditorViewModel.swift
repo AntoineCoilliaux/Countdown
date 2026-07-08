@@ -19,8 +19,13 @@ final class EditorViewModel: ObservableObject {
     @Published var selectedCategoryId: UUID?
     @Published var categoryName: String = ""
     @Published var showSaveError: Bool = false
-    
+    @Published var emoji: String = ""
+    @Published var displayMode: EventDisplayMode = .emoji
+    @Published var reminders: [ReminderOption] = []
+
     let mode: Mode
+    let randomNumber = Int.random(in: 1...100)
+    let characterLimit: Int = 35
     
     enum CategorySelectionState {
         case reading, creating, editing
@@ -38,12 +43,17 @@ final class EditorViewModel: ObservableObject {
             self.name = ""
             self.date = Date()
             self.imageName = URL(string: "https://picsum.photos/seed/\(randomNumber)/300/300") ?? URL(string: "https://picsum.photos/seed/1/300/300")!
+            self.emoji = EmojiLibrary.shared.all.randomElement()?.emoji ?? "✈️"
             self.selectedCategoryId = nil
+            self.reminders = []
         case .edit(let existing):
             self.name = existing.name
             self.date = existing.date
             self.imageName = existing.imageName
             self.selectedCategoryId = existing.categoryID
+            self.displayMode = existing.displayMode ?? .emoji
+            self.emoji = existing.emoji ?? "✈️"
+            self.reminders = existing.reminders
         }
     }
 
@@ -67,12 +77,15 @@ final class EditorViewModel: ObservableObject {
         date.formatted(date: .abbreviated, time: .shortened)
     }
     
+    var remindersSummary: String {
+        let filtered = reminders.filter { $0 != .now }
+        guard !filtered.isEmpty else { return "Never" }
+        return filtered.map { $0.label }.joined(separator: ", ")
+    }
+    
     var isPlaceholderImage: Bool {
         imageName.absoluteString.contains("picsum.photos") && !imageName.isLocalImage
     }
-    
-    let randomNumber = Int.random(in: 1...100)
-    let characterLimit: Int = 35
     
     var canSave: Bool {
         !name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty && !eventTitleIsTooLong
@@ -82,7 +95,7 @@ final class EditorViewModel: ObservableObject {
         name.count > characterLimit
     }
     
-    var categoryNameIsTooLong : Bool {
+    var categoryNameIsTooLong: Bool {
         categoryName.count > characterLimit
     }
     
@@ -99,7 +112,7 @@ final class EditorViewModel: ObservableObject {
               let filename = imageName.localFilename,
               let fileURL = URL.localImageURL(filename: filename) else { return nil }
         
-        let targetSize = CGSize(width: 62 * 3, height: 47 * 3)
+        let targetSize = CGSize(width: 400 * 3, height: 200 * 3)
         return UIImage().downsampledImage(at: fileURL, targetSize: targetSize)
     }
     
@@ -162,16 +175,25 @@ final class EditorViewModel: ObservableObject {
                 id: UUID(),
                 name: name,
                 date: date,
+                createdAt: Date(),
                 imageName: finalImageURL,
-                categoryID: selectedCategoryId
+                categoryID: selectedCategoryId,
+                emoji: emoji.isEmpty ? nil : String(emoji.prefix(1)),
+                displayMode: displayMode,
+                reminders: reminders
             )
         case .edit(let existing):
+            let dateChanged = existing.date != date
             return Event(
                 id: existing.id,
                 name: name,
                 date: date,
+                createdAt: dateChanged ? Date() : existing.createdAt,
                 imageName: finalImageURL,
-                categoryID: selectedCategoryId
+                categoryID: selectedCategoryId,
+                emoji: emoji.isEmpty ? nil : String(emoji.prefix(1)),
+                displayMode: displayMode,
+                reminders: reminders
             )
         }
     }
@@ -184,4 +206,3 @@ final class EditorViewModel: ObservableObject {
         }
     }
 }
-
