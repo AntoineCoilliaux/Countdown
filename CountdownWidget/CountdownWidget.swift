@@ -232,8 +232,8 @@ struct CountdownWidgetView: View {
             ZStack {
                 if event.displayMode == .emoji {
                     Circle()
-                        .fill(.black)
-                        .frame(width: 50, height: 50)
+                        .fill(.white.opacity(0.15))
+                        .frame(width: 70, height: 70)
                     
                     if let emoji = event.emoji {
                         Text(emoji)
