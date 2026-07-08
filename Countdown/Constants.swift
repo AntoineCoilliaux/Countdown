@@ -7,6 +7,7 @@
 
 import AppIntents
 import Foundation
+import SwiftUI
 
 struct K {
     struct CategoryManager {
@@ -14,19 +15,6 @@ struct K {
     }
     
     struct Common {
-        struct Category {
-            static let deleteAlertTitle = "Delete category?"
-            static let deleteOnly = "Delete category only"
-            static func deleteWithEvents(count: Int) -> String {
-                "Delete category and event(s) (\(count))"
-            }
-            
-            static let deleteButton = "Delete category"
-            static let deleteWithEventsMessage = "Do you want to delete only the category (events will move to All) or delete the category and its event(s)?"
-            static let deleteWithoutEventsMessage = "This category does not contain any event. Are you sure you want to delete it?"
-            static let namePlaceholder = "E.g. Birthdays"
-            }
-        
         struct Buttons {
             static let done = "Done"
             static let cancel = "Cancel"
@@ -38,19 +26,40 @@ struct K {
             static let editCategory = "Edit"
             static let deleteCategory = "Delete"
         }
+        
+        struct Category {
+            static let deleteAlertTitle = "Delete category?"
+            static let deleteOnly = "Delete category only"
+            static func deleteWithEvents(count: Int) -> String {
+                "Delete category and event(s) (\(count))"
+            }
+            
+            static let deleteButton = "Delete category"
+            static let deleteWithEventsMessage = "Do you want to delete only the category (events will move to All) or delete the category and its event(s)?"
+            static let deleteWithoutEventsMessage = "This category does not contain any event. Are you sure you want to delete it?"
+            static let namePlaceholder = "E.g. Birthdays"
+            
+            static let manageCategories = "Manage categories"
+
+            }
+        
+        struct Reminder {
+            static let remindMe = "Remind me"
+        }
     }
     
     enum Colors {
         static let categoryColors: [(name: String, hex: String)] = [
-            ("Red",    "#7F1D1D"),
-            ("Yellow", "#854D0E"),
-            ("Green",  "#14532D"),
-            ("Teal",   "#134E4A"),
-            ("Blue",   "#1E3A5F"),
-            ("Purple", "#3B0764"),
-            ("Pink",   "#831843"),
-            ("Gray",   "#1F2937"),
-            ("Brown",  "#431407")
+            ("Lime",     "#C8F135"),
+            ("Lavender", "#A78BFA"),
+            ("Sky Blue", "#5B9BFF"),
+            ("Coral",    "#FF8C66"),
+            ("Mint",     "#4DD4AC"),
+            ("Rose",     "#FF6B9D"),
+            ("Gold",     "#FFD23F"),
+            ("Cyan",     "#7DD3FC"),
+            ("Magenta",  "#D946EF"),
+            ("Amber",    "#F59E0B")
         ]
         static let defaultCategoryHex: String = "#7F1D1D"
         static let appBackground = "#121826"
@@ -64,49 +73,58 @@ struct K {
         
         static let displayName = "Countdown"
         static let description = "Make it a widget!"
+        
+        static let itsOn = "It's on! Tap to create new countdowns!"
     }
     
     struct EditorView {
         static let navigationTitle = "New event"
-        static let titleHeader = "Title"
-        static let categoryHeader = "Category"
-        static let dateHeader = "Date"
+        
+        static let countingDownTo = "Counting down to"
+        
+        static let date = "Date"
+        
         static let textfieldPlaceholder = "E.g. Holidays in Paris"
         static let doneButton = "Done"
         static let none = "None"
+        
+        static let photoPickerName = "PHOTO"
+        static let emojiPickerName = "EMOJI"
         
         static let saveErrorTitle = "Error"
         static let saveErrorDescription = "Could not save the image. Please check your connection."
         
         static let titleIsTooLongMessage = "Title is too long!"
+        
+        static let notifyMe = "Notify me when it happens"
+    }
+    
+    struct EventDetailView {
+        static let countdownRowDay = "DAY"
+        static let countdownRowDays = "DAYS"
+        static let countdownRowHours = "HR"
+        static let countdownRowMinutes = "MIN"
+        static let countdownRowSeconds = "SEC"
+        
+        static let progressSectionFuture = "% of the wait behind you"
+        static let progressSectionPast = "The wait is over!"
+        
+        static let remindMe = "Remind me"
+        static let never = "Never"
     }
     
     struct EventStore {
         static let userDefaultsKeyEvents = "events"
     }
     
-    enum Flags {
-        static let countryCodes: [String] = [
-            "af", "al", "dz", "ad", "ao", "ag", "ar", "am", "au", "at",
-            "az", "bs", "bh", "bd", "bb", "by", "be", "bz", "bj", "bt",
-            "bo", "ba", "bw", "br", "bn", "bg", "bf", "bi", "cv", "kh",
-            "cm", "ca", "cf", "td", "cl", "cn", "co", "km", "cg", "cr",
-            "hr", "cu", "cy", "cz", "dk", "dj", "dm", "do", "ec", "eg",
-            "sv", "gq", "er", "ee", "sz", "et", "fj", "fi", "fr", "ga",
-            "gm", "ge", "de", "gh", "gr", "gd", "gt", "gn", "gw", "gy",
-            "ht", "hn", "hu", "is", "in", "id", "ir", "iq", "ie", "il",
-            "it", "jm", "jp", "jo", "kz", "ke", "ki", "kw", "kg", "la",
-            "lv", "lb", "ls", "lr", "ly", "li", "lt", "lu", "mg", "mw",
-            "my", "mv", "ml", "mt", "mh", "mr", "mu", "mx", "fm", "md",
-            "mc", "mn", "me", "ma", "mz", "mm", "na", "nr", "np", "nl",
-            "nz", "ni", "ne", "ng", "no", "om", "pk", "pw", "pa", "pg",
-            "py", "pe", "ph", "pl", "pt", "qa", "ro", "ru", "rw", "kn",
-            "lc", "vc", "ws", "sm", "st", "sa", "sn", "rs", "sc", "sl",
-            "sg", "sk", "si", "sb", "so", "za", "ss", "es", "lk", "sd",
-            "sr", "se", "ch", "sy", "tw", "tj", "tz", "th", "tl", "tg",
-            "to", "tt", "tn", "tr", "tm", "tv", "ug", "ua", "ae", "gb",
-            "us", "uy", "uz", "vu", "ve", "vn", "ye", "zm", "zw"
-        ]
+    struct EventView {
+        static let itsTime = "It's time for"
+        static let day = "day"
+        static let days = "days"
+        static let to = "to"
+        static let since = "since"
+        static let hourAbbreviation = "h"
+        static let minuteAbbreviation = "min"
     }
     
     struct FlagsPickerView {
@@ -117,7 +135,6 @@ struct K {
     struct HomeView {
         static let noEventsYet = "No events yet"
         static let all = "All"
-        static let manageCategories = "Manage categories"
     }
     
     struct ImagePickerSheetView {

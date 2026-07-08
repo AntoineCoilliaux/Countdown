@@ -12,6 +12,7 @@ import TipKit
 struct CountdownApp: App {
     @StateObject private var eventStore: EventStore
     @StateObject private var categoryManager: CategoryManager
+    @StateObject private var notificationManager = NotificationManager.shared
     
     init() {
         let store = EventStore()
@@ -28,6 +29,7 @@ struct CountdownApp: App {
             SplashView()
                 .environmentObject(eventStore)
                 .environmentObject(categoryManager)
+                .environmentObject(notificationManager)
         }
     }
 }

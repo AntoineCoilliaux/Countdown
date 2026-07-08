@@ -20,45 +20,42 @@ struct HomeView: View {
 
     var body: some View {
         NavigationStack {
-            ZStack {
-                Color(hex: K.Colors.appBackground)
-                    .ignoresSafeArea()
+            VStack(spacing: 0) {
+                CategorySelectorView( selectedCategoryId: $categoryManager.selectedCategoryId, showingManageCategories: $showingManageCategories, showAllOption: true )
+                    .padding(.vertical, 10)
+                    .padding(.horizontal, 16)
+                    .background(Color.black)
                 
                 if filteredEvents.isEmpty {
+                    Spacer()
                     emptyState
+                    Spacer()
                 } else {
                     eventList
                 }
             }
-            .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
-                    categoryMenuView
+            .background(.black)
+            .toolbar { ToolbarItem(placement: .topBarTrailing) {
+                NavigationLink {
+                    EditorView { newEvent in
+                        eventStore.add(newEvent) }
+                } label: {
+                    Image(systemName: "plus")
                 }
-                ToolbarItem(placement: .topBarTrailing) {
-                    NavigationLink {
-                        EditorView { newEvent in
-                            eventStore.add(newEvent)
-                        }
-                    } label: {
-                        Image(systemName: "plus")
-                    }
                     .buttonStyle(.borderedProminent)
-                    .tint(.blue)
-                }
+                .tint(.blue) }
             }
+            
             .sheet(isPresented: $showingManageCategories) {
                 ManageCategoriesView()
             }
             
-            .onChange(of: eventStore.events) { oldEvents, newEvents in
-                if oldEvents.isEmpty && newEvents.count == 1 {
-                    Task {
-                        await WidgetTip.firstEventCreated.donate()
-
-                    }
-                }
+            .onChange(of: eventStore.events) { oldEvents, newEvents in if oldEvents.isEmpty && newEvents.count == 1 {
+                Task { await WidgetTip.firstEventCreated.donate() }
+            }
                 syncWidgetEvents()
             }
+            
             .onChange(of: categoryManager.categories) { _, _ in
                 syncWidgetEvents()
             }
@@ -84,95 +81,55 @@ struct HomeView: View {
         }
         .foregroundStyle(.white)
     }
-
-    private var categoryMenuView: some View {
-        Menu {
-            Button {
-                categoryManager.selectedCategoryId = nil
-            } label: {
-                HStack {
-                    Text(K.HomeView.all)
-                    if categoryManager.selectedCategoryId == nil {
-                        Spacer()
-                        Image(systemName: "checkmark")
-                    }
+    
+    private var eventList: some View {
+        TimelineView(.everyMinute) { timelineContext in
+            let currentInstant = timelineContext.date
+            
+            List {
+                ForEach(filteredEvents.filter { $0.date >= currentInstant }.sorted { $0.date < $1.date }) { event in
+                    eventRow(for: event, currentDate: currentInstant)
+                        .listRowSeparator(.hidden)
+                }
+                .onDelete { indexSet in
+                    let futureEvents = filteredEvents.filter { $0.date >= currentInstant }.sorted { $0.date < $1.date }
+                    let ids = indexSet.map { futureEvents[$0].id }
+                    eventStore.delete(withIds: ids)
+                }
+                
+                if !filteredEvents.filter({ $0.date >= currentInstant }).isEmpty &&
+                    !filteredEvents.filter({ $0.date < currentInstant }).isEmpty {
+                    pastSeparator
+                        .listRowBackground(Color.clear)
+                        .listRowInsets(EdgeInsets(top: 4, leading: 0, bottom: 4, trailing: 0))
+                        .deleteDisabled(true)
+                }
+                
+                ForEach(filteredEvents.filter { $0.date < currentInstant }.sorted { $0.date > $1.date }) { event in
+                    eventRow(for: event, currentDate: currentInstant)
+                        .listRowSeparator(.hidden)
+                }
+                .onDelete { indexSet in
+                    let pastEvents = filteredEvents.filter { $0.date < currentInstant }.sorted { $0.date > $1.date }
+                    let ids = indexSet.map { pastEvents[$0].id }
+                    eventStore.delete(withIds: ids)
                 }
             }
-
-            Divider()
-
-            ForEach(categoryManager.categories) { category in
-                Button {
-                    categoryManager.selectedCategoryId = category.id
-                } label: {
-                    HStack {
-                        Text(category.name)
-                        if categoryManager.selectedCategoryId == category.id {
-                            Spacer()
-                            Image(systemName: "checkmark")
-                        }
-                    }
+            .listRowSpacing(8)
+            .listStyle(.plain)
+            .scrollContentBackground(.hidden)
+            .safeAreaInset(edge: .top) {
+                VStack(spacing: 0) {
+                    TipView(widgetTip)
+                        .padding(.horizontal, 16)
+                        .padding(.top, 8)
+                    Color.clear.frame(height: 8)
+                    Divider()
                 }
-            }
-
-            Divider()
-                Button {
-                    showingManageCategories = true
-                } label: {
-                    Label(K.HomeView.manageCategories, systemImage: "pencil")
-                }
-        } label: {
-            HStack(spacing: 6) {
-                Text(currentCategoryName)
-                    .font(.headline)
-                Image(systemName: "chevron.down")
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
+                .background(.black)
             }
         }
     }
-
-    private var eventList: some View {
-           List {
-               ForEach(futureEvents) { event in
-                   eventRow(for: event)
-                       .listRowSeparator(.hidden)
-               }
-               .onDelete { indexSet in
-                   let ids = indexSet.map { futureEvents[$0].id }
-                   eventStore.delete(withIds: ids)
-               }
-    
-               if !futureEvents.isEmpty && !pastEvents.isEmpty {
-                   pastSeparator
-                       .listRowBackground(Color.clear)
-                       .listRowInsets(EdgeInsets(top: 4, leading: 0, bottom: 4, trailing: 0))
-                       .deleteDisabled(true)
-               }
-    
-               ForEach(pastEvents) { event in
-                   eventRow(for: event)
-                       .listRowSeparator(.hidden)
-               }
-               .onDelete { indexSet in
-                   let ids = indexSet.map { pastEvents[$0].id }
-                   eventStore.delete(withIds: ids)
-               }
-           }
-           .listRowSpacing(8)
-           .listStyle(.plain)
-           .scrollContentBackground(.hidden)
-           .safeAreaInset(edge: .top) {
-               VStack(spacing: 0) {
-                   TipView(widgetTip)
-                       .padding(.horizontal, 16)
-                       .padding(.top, 8)
-                   Color.clear.frame(height: 8)
-                   Divider().background(Color.white.opacity(0.2))
-               }
-               .background(Color(hex: K.Colors.appBackground) ?? .black)
-           }
-       }
 
     // MARK: - Helpers
 
@@ -204,14 +161,6 @@ struct HomeView: View {
         return category.color
     }
     
-    private var futureEvents: [Event] {
-        filteredEvents.filter { $0.date >= Date() }.sorted { $0.date < $1.date }
-    }
-
-    private var pastEvents: [Event] {
-        filteredEvents.filter { $0.date < Date() }.sorted { $0.date > $1.date }
-    }
-    
     private var pastSeparator: some View {
         Rectangle()
             .stroke(style: StrokeStyle(lineWidth: 1, dash: [4, 4]))
@@ -219,36 +168,50 @@ struct HomeView: View {
             .frame(height: 1)
             .padding(.horizontal, 12)
     }
+    
+    private func eventRow(for event: Event, currentDate: Date) -> some View {
+        ZStack {
+            NavigationLink {
+                EventDetailView(event: event)
+            } label: {
+                EmptyView()
+            }
+            .opacity(0)
 
-    private func eventRow(for event: Event) -> some View {
-        NavigationLink {
-            EditorView(event: event, initialCategoryColor: categoryColor(for: event) != .black ? categoryColor(for: event) : Color(hex: K.Colors.appBackground) ?? .black) { updatedEvent in
-                eventStore.update(updatedEvent)
-            }
-        } label: {
-            EventView(event: event)
+            EventView(event: event, currentDate: currentDate)
+                .id("\(event.id)-\(currentDate.timeIntervalSince1970)")
         }
-        .listRowInsets(EdgeInsets(top: 12, leading: 12, bottom: 12, trailing: 12))
-        .listRowBackground(
-            ZStack {
-                RoundedRectangle(cornerRadius: 25)
-                    .fill(categoryGradient(hex: categoryColorHex(for: event), opacity: 0.25))
-                RoundedRectangle(cornerRadius: 25)
-                    .strokeBorder(Color.white.opacity(0.25), lineWidth: 1)
-            }
-            .padding(.horizontal, 8)
-        )
+        .listRowInsets(EdgeInsets(top: 4, leading: 12, bottom: 4, trailing: 12))
+        .listRowBackground(Color.clear)
     }
     
     private func syncWidgetEvents() {
         let widgetEvents = eventStore.events.map { event in
             let category = categoryManager.categories.first { $0.id == event.categoryID }
+            
+            let imageData: Data?
+            if event.displayMode == .photo,
+               let filename = event.imageName.localFilename,
+               let fileURL = URL.localImageURL(filename: filename) {
+                let raw = try? Data(contentsOf: fileURL)
+                imageData = raw
+                    .flatMap { UIImage(data: $0) }
+                    .flatMap { resizeForWidget($0) }
+                    .flatMap { $0.jpegData(compressionQuality: 0.5) }
+            } else {
+                imageData = nil
+            }
+            
             return WidgetEvent(
                 id: event.id,
                 name: event.name,
                 date: event.date,
                 categoryName: category?.name,
-                categoryColor: category?.color
+                categoryColor: category?.color,
+                emoji: event.emoji,
+                imageName: event.imageName,
+                imageData: imageData,
+                displayMode: event.displayMode
             )
         }
         WidgetDataStore.saveAllEvents(widgetEvents)
@@ -262,6 +225,15 @@ struct HomeView: View {
                 updatedEvent.imageName = localURL
                 eventStore.update(updatedEvent)
             }
+        }
+    }
+    
+    private func resizeForWidget(_ image: UIImage) -> UIImage {
+        // Le widget medium fait ~160pt de large côté image, @3x = 480px max
+        let targetSize = CGSize(width: 160, height: 160)
+        let renderer = UIGraphicsImageRenderer(size: targetSize)
+        return renderer.image { _ in
+            image.draw(in: CGRect(origin: .zero, size: targetSize))
         }
     }
 }

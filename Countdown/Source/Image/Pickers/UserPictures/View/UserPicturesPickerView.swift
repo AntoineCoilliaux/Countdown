@@ -11,53 +11,35 @@ import SwiftUI
 struct UserPicturesPickerView: View {
     @StateObject private var vm = UserPicturesPickerViewModel()
     var onSelect: (URL) -> Void
+    @Environment(\.dismiss) private var dismiss
     
     var body: some View {
-        VStack(spacing: 20) {
+        Group {
             if vm.isUploading {
                 ProgressView(K.UserPicturesPickerView.progressViewText)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .padding()
             } else {
-                photoPicker
-                
-                if let errorMessage = vm.errorMessage {
-                    Text(errorMessage)
-                        .foregroundColor(.red)
-                        .font(.caption)
+                PhotosPicker(
+                    selection: $vm.selectedItem,
+                    matching: .images,
+                    photoLibrary: .shared()
+                ) {
+                    // Label vide — le picker s'affiche en mode inline dans le TabView
+                    Color.clear
                 }
+                .photosPickerStyle(.inline)
+                .photosPickerDisabledCapabilities(.selectionActions)
+                .ignoresSafeArea()
             }
         }
         .onChange(of: vm.selectedItem) { _, newValue in
             guard newValue != nil else { return }
-            Task {
-                await vm.uploadSelectedPhoto()
-            }
+            Task { await vm.uploadSelectedPhoto() }
         }
         .onChange(of: vm.uploadedImageURL) { _, newURL in
             guard let url = newURL else { return }
             onSelect(url)
-        }
-    }
-    
-    
-    private var photoPicker: some View {
-        
-        return PhotosPicker(
-            selection: $vm.selectedItem,
-            matching: .images
-        ) {
-            VStack(spacing: 16) {
-                Image(systemName: "photo.fill.on.rectangle.fill")
-                    .font(.system(size: 48))
-                    .foregroundColor(.accentColor)
-                Text(K.UserPicturesPickerView.pickerText)
-                    .font(.title3)
-                Text(K.UserPicturesPickerView.pickerDescription)
-                    .font(.footnote)
-                    .foregroundColor(.secondary)
-            }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .padding()
         }
     }
 }

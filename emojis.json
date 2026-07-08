@@ -1,0 +1,6088 @@
+[
+  {
+    "emoji": "😀",
+    "name": "grinning face",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "😃",
+    "name": "grinning face with big eyes",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "😄",
+    "name": "grinning face with smiling eyes",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "😁",
+    "name": "beaming face with smiling eyes",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "😆",
+    "name": "grinning squinting face",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "😅",
+    "name": "grinning face with sweat",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🤣",
+    "name": "rolling on the floor laughing",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "😂",
+    "name": "face with tears of joy",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🙂",
+    "name": "slightly smiling face",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🙃",
+    "name": "upside-down face",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🫠",
+    "name": "melting face",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "😉",
+    "name": "winking face",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "😊",
+    "name": "smiling face with smiling eyes",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "😇",
+    "name": "smiling face with halo",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🥰",
+    "name": "smiling face with hearts",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "😍",
+    "name": "smiling face with heart-eyes",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🤩",
+    "name": "star-struck",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "😘",
+    "name": "face blowing a kiss",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "😗",
+    "name": "kissing face",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "😚",
+    "name": "kissing face with closed eyes",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "😙",
+    "name": "kissing face with smiling eyes",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🥲",
+    "name": "smiling face with tear",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "😋",
+    "name": "face savoring food",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "😛",
+    "name": "face with tongue",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "😜",
+    "name": "winking face with tongue",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🤪",
+    "name": "zany face",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "😝",
+    "name": "squinting face with tongue",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🤑",
+    "name": "money-mouth face",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🤗",
+    "name": "smiling face with open hands",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🫡",
+    "name": "saluting face",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🤭",
+    "name": "face with hand over mouth",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🫢",
+    "name": "face with open eyes and hand over mouth",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🫣",
+    "name": "face with peeking eye",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🤫",
+    "name": "shushing face",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🤔",
+    "name": "thinking face",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🫤",
+    "name": "face with diagonal mouth",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🤐",
+    "name": "zipper-mouth face",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🤨",
+    "name": "face with raised eyebrow",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "😐",
+    "name": "neutral face",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "😑",
+    "name": "expressionless face",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "😶",
+    "name": "face without mouth",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🫥",
+    "name": "dotted line face",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "😶‍🌫️",
+    "name": "face in clouds",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "😏",
+    "name": "smirking face",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "😒",
+    "name": "unamused face",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🙄",
+    "name": "face with rolling eyes",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "😬",
+    "name": "grimacing face",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "😮‍💨",
+    "name": "face exhaling",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🤥",
+    "name": "lying face",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🫨",
+    "name": "shaking face",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "😌",
+    "name": "relieved face",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "😔",
+    "name": "pensive face",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "😪",
+    "name": "sleepy face",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🤤",
+    "name": "drooling face",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "😴",
+    "name": "sleeping face",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "😷",
+    "name": "face with medical mask",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🤒",
+    "name": "face with thermometer",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🤕",
+    "name": "face with head-bandage",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🤢",
+    "name": "nauseated face",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🤮",
+    "name": "face vomiting",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🤧",
+    "name": "sneezing face",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🥵",
+    "name": "hot face",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🥶",
+    "name": "cold face",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🥴",
+    "name": "woozy face",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "😵",
+    "name": "face with crossed-out eyes",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "😵‍💫",
+    "name": "face with spiral eyes",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🤯",
+    "name": "exploding head",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🤠",
+    "name": "cowboy hat face",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🥳",
+    "name": "partying face",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🥸",
+    "name": "disguised face",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "😎",
+    "name": "smiling face with sunglasses",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🤓",
+    "name": "nerd face",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🧐",
+    "name": "face with monocle",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "😕",
+    "name": "confused face",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "😟",
+    "name": "worried face",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🙁",
+    "name": "slightly frowning face",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "☹️",
+    "name": "frowning face",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "😮",
+    "name": "face with open mouth",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "😯",
+    "name": "hushed face",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "😲",
+    "name": "astonished face",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "😳",
+    "name": "flushed face",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🥺",
+    "name": "pleading face",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🥹",
+    "name": "face holding back tears",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "😦",
+    "name": "frowning face with open mouth",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "😧",
+    "name": "anguished face",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "😨",
+    "name": "fearful face",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "😰",
+    "name": "anxious face with sweat",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "😥",
+    "name": "sad but relieved face",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "😢",
+    "name": "crying face",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "😭",
+    "name": "loudly crying face",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "😱",
+    "name": "face screaming in fear",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "😖",
+    "name": "confounded face",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "😣",
+    "name": "persevering face",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "😞",
+    "name": "disappointed face",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "😓",
+    "name": "downcast face with sweat",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "😩",
+    "name": "weary face",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "😫",
+    "name": "tired face",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🥱",
+    "name": "yawning face",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "😤",
+    "name": "face with steam from nose",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "😡",
+    "name": "pouting face",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "😠",
+    "name": "angry face",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🤬",
+    "name": "face with symbols on mouth",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "😈",
+    "name": "smiling face with horns",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "👿",
+    "name": "angry face with horns",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "💀",
+    "name": "skull",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "☠️",
+    "name": "skull and crossbones",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "💩",
+    "name": "pile of poo",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🤡",
+    "name": "clown face",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "👹",
+    "name": "ogre",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "👺",
+    "name": "goblin",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "👻",
+    "name": "ghost",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "👽",
+    "name": "alien",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "👾",
+    "name": "alien monster",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🤖",
+    "name": "robot",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "😺",
+    "name": "grinning cat",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "😸",
+    "name": "grinning cat with smiling eyes",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "😹",
+    "name": "cat with tears of joy",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "😻",
+    "name": "smiling cat with heart-eyes",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "😼",
+    "name": "cat with wry smile",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "😽",
+    "name": "kissing cat",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🙀",
+    "name": "weary cat",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "😿",
+    "name": "crying cat",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "😾",
+    "name": "pouting cat",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "👋",
+    "name": "waving hand",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🤚",
+    "name": "raised back of hand",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🖐️",
+    "name": "hand with fingers splayed",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "✋",
+    "name": "raised hand",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🖖",
+    "name": "vulcan salute",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🫱",
+    "name": "rightwards hand",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🫲",
+    "name": "leftwards hand",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🫳",
+    "name": "palm down hand",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🫴",
+    "name": "palm up hand",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "👌",
+    "name": "ok hand",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🤌",
+    "name": "pinched fingers",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🤏",
+    "name": "pinching hand",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "✌️",
+    "name": "victory hand",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🤞",
+    "name": "crossed fingers",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🫰",
+    "name": "hand with index finger and thumb crossed",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🤟",
+    "name": "love-you gesture",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🤘",
+    "name": "sign of the horns",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🤙",
+    "name": "call me hand",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "👈",
+    "name": "backhand index pointing left",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "👉",
+    "name": "backhand index pointing right",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "👆",
+    "name": "backhand index pointing up",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🖕",
+    "name": "middle finger",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "👇",
+    "name": "backhand index pointing down",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "☝️",
+    "name": "index pointing up",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🫵",
+    "name": "index pointing at the viewer",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "👍",
+    "name": "thumbs up",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "👎",
+    "name": "thumbs down",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "✊",
+    "name": "raised fist",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "👊",
+    "name": "oncoming fist",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🤛",
+    "name": "left-facing fist",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🤜",
+    "name": "right-facing fist",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "👏",
+    "name": "clapping hands",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🙌",
+    "name": "raising hands",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🫶",
+    "name": "heart hands",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "👐",
+    "name": "open hands",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🤲",
+    "name": "palms up together",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🤝",
+    "name": "handshake",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🙏",
+    "name": "folded hands",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "✍️",
+    "name": "writing hand",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "💅",
+    "name": "nail polish",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🤳",
+    "name": "selfie",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "💪",
+    "name": "flexed biceps",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🦾",
+    "name": "mechanical arm",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🦿",
+    "name": "mechanical leg",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🦵",
+    "name": "leg",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🦶",
+    "name": "foot",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "👂",
+    "name": "ear",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🦻",
+    "name": "ear with hearing aid",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "👃",
+    "name": "nose",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🫀",
+    "name": "anatomical heart",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🫁",
+    "name": "lungs",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🧠",
+    "name": "brain",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🦷",
+    "name": "tooth",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🦴",
+    "name": "bone",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "👀",
+    "name": "eyes",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "👁️",
+    "name": "eye",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "👅",
+    "name": "tongue",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "👄",
+    "name": "mouth",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🫦",
+    "name": "biting lip",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "👶",
+    "name": "baby",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🧒",
+    "name": "child",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "👦",
+    "name": "boy",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "👧",
+    "name": "girl",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🧑",
+    "name": "person",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "👱",
+    "name": "person blonde hair",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "👨",
+    "name": "man",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🧔",
+    "name": "person beard",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "👩",
+    "name": "woman",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🧓",
+    "name": "older person",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "👴",
+    "name": "old man",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "👵",
+    "name": "old woman",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🙍",
+    "name": "person frowning",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🙎",
+    "name": "person pouting",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🙅",
+    "name": "person gesturing no",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🙆",
+    "name": "person gesturing ok",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "💁",
+    "name": "person tipping hand",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🙋",
+    "name": "person raising hand",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🧏",
+    "name": "deaf person",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🙇",
+    "name": "person bowing",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🤦",
+    "name": "person facepalming",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🤷",
+    "name": "person shrugging",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "👮",
+    "name": "police officer",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🕵️",
+    "name": "detective",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "💂",
+    "name": "guard",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🥷",
+    "name": "ninja",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "👷",
+    "name": "construction worker",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🫅",
+    "name": "person with crown",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🤴",
+    "name": "prince",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "👸",
+    "name": "princess",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "👳",
+    "name": "person wearing turban",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "👲",
+    "name": "person with skullcap",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🧕",
+    "name": "woman with headscarf",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🤵",
+    "name": "person in tuxedo",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "👰",
+    "name": "person with veil",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🤰",
+    "name": "pregnant woman",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🫄",
+    "name": "pregnant man",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🫃",
+    "name": "pregnant person",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🤱",
+    "name": "breast-feeding",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "👼",
+    "name": "baby angel",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🎅",
+    "name": "santa claus",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🤶",
+    "name": "mrs claus",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🧑‍🎄",
+    "name": "mx claus",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🦸",
+    "name": "superhero",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🦹",
+    "name": "supervillain",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🧙",
+    "name": "mage",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🧚",
+    "name": "fairy",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🧛",
+    "name": "vampire",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🧜",
+    "name": "merperson",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🧝",
+    "name": "elf",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🧞",
+    "name": "genie",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🧟",
+    "name": "zombie",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🧌",
+    "name": "troll",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "💆",
+    "name": "person getting massage",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "💇",
+    "name": "person getting haircut",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🚶",
+    "name": "person walking",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🧍",
+    "name": "person standing",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🧎",
+    "name": "person kneeling",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🏃",
+    "name": "person running",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "💃",
+    "name": "woman dancing",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🕺",
+    "name": "man dancing",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🕴️",
+    "name": "person in suit levitating",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "👯",
+    "name": "people with bunny ears",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🧖",
+    "name": "person in steamy room",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🧗",
+    "name": "person climbing",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🤺",
+    "name": "person fencing",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🏇",
+    "name": "horse racing",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "⛷️",
+    "name": "skier",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🏂",
+    "name": "snowboarder",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🏌️",
+    "name": "person golfing",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🏄",
+    "name": "person surfing",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🚣",
+    "name": "person rowing boat",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🏊",
+    "name": "person swimming",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "⛹️",
+    "name": "person bouncing ball",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🏋️",
+    "name": "person lifting weights",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🚴",
+    "name": "person biking",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🚵",
+    "name": "person mountain biking",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🤸",
+    "name": "person cartwheeling",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🤼",
+    "name": "people wrestling",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🤽",
+    "name": "person playing water polo",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🤾",
+    "name": "person playing handball",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🤹",
+    "name": "person juggling",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🧘",
+    "name": "person in lotus position",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🛀",
+    "name": "person taking bath",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🛌",
+    "name": "person in bed",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "👭",
+    "name": "women holding hands",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "👫",
+    "name": "woman and man holding hands",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "👬",
+    "name": "men holding hands",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "💏",
+    "name": "kiss",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "💑",
+    "name": "couple with heart",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "👨‍👩‍👦",
+    "name": "family man woman boy",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "👨‍👩‍👧",
+    "name": "family man woman girl",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "👨‍👩‍👧‍👦",
+    "name": "family man woman girl boy",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "👨‍👩‍👦‍👦",
+    "name": "family man woman boys",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "👨‍👩‍👧‍👧",
+    "name": "family man woman girls",
+    "category": "Smileys"
+  },
+  {
+    "emoji": "🐶",
+    "name": "dog face",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🐱",
+    "name": "cat face",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🐭",
+    "name": "mouse face",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🐹",
+    "name": "hamster",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🐰",
+    "name": "rabbit face",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🦊",
+    "name": "fox",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🐻",
+    "name": "bear",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🐼",
+    "name": "panda",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🐨",
+    "name": "koala",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🐯",
+    "name": "tiger face",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🦁",
+    "name": "lion",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🐮",
+    "name": "cow face",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🐷",
+    "name": "pig face",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🐽",
+    "name": "pig nose",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🐸",
+    "name": "frog",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🐵",
+    "name": "monkey face",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🙈",
+    "name": "see-no-evil monkey",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🙉",
+    "name": "hear-no-evil monkey",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🙊",
+    "name": "speak-no-evil monkey",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🐒",
+    "name": "monkey",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🐔",
+    "name": "chicken",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🐧",
+    "name": "penguin",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🐦",
+    "name": "bird",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🐤",
+    "name": "baby chick",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🐣",
+    "name": "hatching chick",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🐥",
+    "name": "front-facing baby chick",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🦆",
+    "name": "duck",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🦅",
+    "name": "eagle",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🦉",
+    "name": "owl",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🦇",
+    "name": "bat",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🐺",
+    "name": "wolf",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🐗",
+    "name": "boar",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🐴",
+    "name": "horse face",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🦄",
+    "name": "unicorn",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🐝",
+    "name": "honeybee",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🪱",
+    "name": "worm",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🐛",
+    "name": "bug",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🦋",
+    "name": "butterfly",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🐌",
+    "name": "snail",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🐞",
+    "name": "lady beetle",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🐜",
+    "name": "ant",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🪲",
+    "name": "beetle",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🦟",
+    "name": "mosquito",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🪳",
+    "name": "cockroach",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🦗",
+    "name": "cricket",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🕷️",
+    "name": "spider",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🦂",
+    "name": "scorpion",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🐢",
+    "name": "turtle",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🐍",
+    "name": "snake",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🦎",
+    "name": "lizard",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🦖",
+    "name": "t-rex",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🦕",
+    "name": "sauropod",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🐙",
+    "name": "octopus",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🦑",
+    "name": "squid",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🦐",
+    "name": "shrimp",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🦞",
+    "name": "lobster",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🦀",
+    "name": "crab",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🐡",
+    "name": "blowfish",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🐠",
+    "name": "tropical fish",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🐟",
+    "name": "fish",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🐬",
+    "name": "dolphin",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🐳",
+    "name": "spouting whale",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🐋",
+    "name": "whale",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🦈",
+    "name": "shark",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🐊",
+    "name": "crocodile",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🐅",
+    "name": "tiger",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🐆",
+    "name": "leopard",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🦓",
+    "name": "zebra",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🦍",
+    "name": "gorilla",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🦧",
+    "name": "orangutan",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🦣",
+    "name": "mammoth",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🐘",
+    "name": "elephant",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🦛",
+    "name": "hippopotamus",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🦏",
+    "name": "rhinoceros",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🐪",
+    "name": "camel",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🐫",
+    "name": "two-hump camel",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🦒",
+    "name": "giraffe",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🦘",
+    "name": "kangaroo",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🦬",
+    "name": "bison",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🐃",
+    "name": "water buffalo",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🐂",
+    "name": "ox",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🐄",
+    "name": "cow",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🐎",
+    "name": "horse",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🐖",
+    "name": "pig",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🐏",
+    "name": "ram",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🐑",
+    "name": "ewe",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🦙",
+    "name": "llama",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🐐",
+    "name": "goat",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🦌",
+    "name": "deer",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🐕",
+    "name": "dog",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🐩",
+    "name": "poodle",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🦮",
+    "name": "guide dog",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🐕‍🦺",
+    "name": "service dog",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🐈",
+    "name": "cat",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🐈‍⬛",
+    "name": "black cat",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🪶",
+    "name": "feather",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🐓",
+    "name": "rooster",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🦃",
+    "name": "turkey",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🦤",
+    "name": "dodo",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🦚",
+    "name": "peacock",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🦜",
+    "name": "parrot",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🦩",
+    "name": "flamingo",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🦢",
+    "name": "swan",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🕊️",
+    "name": "dove",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🐇",
+    "name": "rabbit",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🦝",
+    "name": "raccoon",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🦨",
+    "name": "skunk",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🦡",
+    "name": "badger",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🦦",
+    "name": "otter",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🦥",
+    "name": "sloth",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🐁",
+    "name": "mouse",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🐀",
+    "name": "rat",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🐿️",
+    "name": "chipmunk",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🦔",
+    "name": "hedgehog",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🐾",
+    "name": "paw prints",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🐉",
+    "name": "dragon",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🐲",
+    "name": "dragon face",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🌵",
+    "name": "cactus",
+    "category": "Animals"
+  },
+  {
+    "emoji": "🍎",
+    "name": "red apple",
+    "category": "Food"
+  },
+  {
+    "emoji": "🍐",
+    "name": "pear",
+    "category": "Food"
+  },
+  {
+    "emoji": "🍊",
+    "name": "tangerine",
+    "category": "Food"
+  },
+  {
+    "emoji": "🍋",
+    "name": "lemon",
+    "category": "Food"
+  },
+  {
+    "emoji": "🍌",
+    "name": "banana",
+    "category": "Food"
+  },
+  {
+    "emoji": "🍉",
+    "name": "watermelon",
+    "category": "Food"
+  },
+  {
+    "emoji": "🍇",
+    "name": "grapes",
+    "category": "Food"
+  },
+  {
+    "emoji": "🍓",
+    "name": "strawberry",
+    "category": "Food"
+  },
+  {
+    "emoji": "🫐",
+    "name": "blueberries",
+    "category": "Food"
+  },
+  {
+    "emoji": "🍈",
+    "name": "melon",
+    "category": "Food"
+  },
+  {
+    "emoji": "🍒",
+    "name": "cherries",
+    "category": "Food"
+  },
+  {
+    "emoji": "🍑",
+    "name": "peach",
+    "category": "Food"
+  },
+  {
+    "emoji": "🥭",
+    "name": "mango",
+    "category": "Food"
+  },
+  {
+    "emoji": "🍍",
+    "name": "pineapple",
+    "category": "Food"
+  },
+  {
+    "emoji": "🥥",
+    "name": "coconut",
+    "category": "Food"
+  },
+  {
+    "emoji": "🥝",
+    "name": "kiwi fruit",
+    "category": "Food"
+  },
+  {
+    "emoji": "🍅",
+    "name": "tomato",
+    "category": "Food"
+  },
+  {
+    "emoji": "🍆",
+    "name": "eggplant",
+    "category": "Food"
+  },
+  {
+    "emoji": "🥑",
+    "name": "avocado",
+    "category": "Food"
+  },
+  {
+    "emoji": "🫛",
+    "name": "pea pod",
+    "category": "Food"
+  },
+  {
+    "emoji": "🥦",
+    "name": "broccoli",
+    "category": "Food"
+  },
+  {
+    "emoji": "🥬",
+    "name": "leafy green",
+    "category": "Food"
+  },
+  {
+    "emoji": "🥒",
+    "name": "cucumber",
+    "category": "Food"
+  },
+  {
+    "emoji": "🌶️",
+    "name": "hot pepper",
+    "category": "Food"
+  },
+  {
+    "emoji": "🫑",
+    "name": "bell pepper",
+    "category": "Food"
+  },
+  {
+    "emoji": "🌽",
+    "name": "ear of corn",
+    "category": "Food"
+  },
+  {
+    "emoji": "🥕",
+    "name": "carrot",
+    "category": "Food"
+  },
+  {
+    "emoji": "🧄",
+    "name": "garlic",
+    "category": "Food"
+  },
+  {
+    "emoji": "🧅",
+    "name": "onion",
+    "category": "Food"
+  },
+  {
+    "emoji": "🥔",
+    "name": "potato",
+    "category": "Food"
+  },
+  {
+    "emoji": "🍠",
+    "name": "roasted sweet potato",
+    "category": "Food"
+  },
+  {
+    "emoji": "🫘",
+    "name": "beans",
+    "category": "Food"
+  },
+  {
+    "emoji": "🥐",
+    "name": "croissant",
+    "category": "Food"
+  },
+  {
+    "emoji": "🥯",
+    "name": "bagel",
+    "category": "Food"
+  },
+  {
+    "emoji": "🍞",
+    "name": "bread",
+    "category": "Food"
+  },
+  {
+    "emoji": "🥖",
+    "name": "baguette bread",
+    "category": "Food"
+  },
+  {
+    "emoji": "🥨",
+    "name": "pretzel",
+    "category": "Food"
+  },
+  {
+    "emoji": "🧀",
+    "name": "cheese wedge",
+    "category": "Food"
+  },
+  {
+    "emoji": "🥚",
+    "name": "egg",
+    "category": "Food"
+  },
+  {
+    "emoji": "🍳",
+    "name": "cooking",
+    "category": "Food"
+  },
+  {
+    "emoji": "🧈",
+    "name": "butter",
+    "category": "Food"
+  },
+  {
+    "emoji": "🥞",
+    "name": "pancakes",
+    "category": "Food"
+  },
+  {
+    "emoji": "🧇",
+    "name": "waffle",
+    "category": "Food"
+  },
+  {
+    "emoji": "🥓",
+    "name": "bacon",
+    "category": "Food"
+  },
+  {
+    "emoji": "🥩",
+    "name": "cut of meat",
+    "category": "Food"
+  },
+  {
+    "emoji": "🍗",
+    "name": "poultry leg",
+    "category": "Food"
+  },
+  {
+    "emoji": "🍖",
+    "name": "meat on bone",
+    "category": "Food"
+  },
+  {
+    "emoji": "🌭",
+    "name": "hot dog",
+    "category": "Food"
+  },
+  {
+    "emoji": "🍔",
+    "name": "hamburger",
+    "category": "Food"
+  },
+  {
+    "emoji": "🍟",
+    "name": "french fries",
+    "category": "Food"
+  },
+  {
+    "emoji": "🍕",
+    "name": "pizza",
+    "category": "Food"
+  },
+  {
+    "emoji": "🫓",
+    "name": "flatbread",
+    "category": "Food"
+  },
+  {
+    "emoji": "🥪",
+    "name": "sandwich",
+    "category": "Food"
+  },
+  {
+    "emoji": "🥙",
+    "name": "stuffed flatbread",
+    "category": "Food"
+  },
+  {
+    "emoji": "🧆",
+    "name": "falafel",
+    "category": "Food"
+  },
+  {
+    "emoji": "🌮",
+    "name": "taco",
+    "category": "Food"
+  },
+  {
+    "emoji": "🌯",
+    "name": "burrito",
+    "category": "Food"
+  },
+  {
+    "emoji": "🫔",
+    "name": "tamale",
+    "category": "Food"
+  },
+  {
+    "emoji": "🥗",
+    "name": "green salad",
+    "category": "Food"
+  },
+  {
+    "emoji": "🥘",
+    "name": "shallow pan of food",
+    "category": "Food"
+  },
+  {
+    "emoji": "🫕",
+    "name": "fondue",
+    "category": "Food"
+  },
+  {
+    "emoji": "🥫",
+    "name": "canned food",
+    "category": "Food"
+  },
+  {
+    "emoji": "🍝",
+    "name": "spaghetti",
+    "category": "Food"
+  },
+  {
+    "emoji": "🍜",
+    "name": "steaming bowl",
+    "category": "Food"
+  },
+  {
+    "emoji": "🍲",
+    "name": "pot of food",
+    "category": "Food"
+  },
+  {
+    "emoji": "🍛",
+    "name": "curry rice",
+    "category": "Food"
+  },
+  {
+    "emoji": "🍣",
+    "name": "sushi",
+    "category": "Food"
+  },
+  {
+    "emoji": "🍱",
+    "name": "bento box",
+    "category": "Food"
+  },
+  {
+    "emoji": "🥟",
+    "name": "dumpling",
+    "category": "Food"
+  },
+  {
+    "emoji": "🦪",
+    "name": "oyster",
+    "category": "Food"
+  },
+  {
+    "emoji": "🍤",
+    "name": "fried shrimp",
+    "category": "Food"
+  },
+  {
+    "emoji": "🍙",
+    "name": "rice ball",
+    "category": "Food"
+  },
+  {
+    "emoji": "🍚",
+    "name": "cooked rice",
+    "category": "Food"
+  },
+  {
+    "emoji": "🍘",
+    "name": "rice cracker",
+    "category": "Food"
+  },
+  {
+    "emoji": "🍥",
+    "name": "fish cake with swirl",
+    "category": "Food"
+  },
+  {
+    "emoji": "🥮",
+    "name": "moon cake",
+    "category": "Food"
+  },
+  {
+    "emoji": "🍢",
+    "name": "oden",
+    "category": "Food"
+  },
+  {
+    "emoji": "🧁",
+    "name": "cupcake",
+    "category": "Food"
+  },
+  {
+    "emoji": "🍰",
+    "name": "shortcake",
+    "category": "Food"
+  },
+  {
+    "emoji": "🎂",
+    "name": "birthday cake",
+    "category": "Food"
+  },
+  {
+    "emoji": "🍮",
+    "name": "custard",
+    "category": "Food"
+  },
+  {
+    "emoji": "🍭",
+    "name": "lollipop",
+    "category": "Food"
+  },
+  {
+    "emoji": "🍬",
+    "name": "candy",
+    "category": "Food"
+  },
+  {
+    "emoji": "🍫",
+    "name": "chocolate bar",
+    "category": "Food"
+  },
+  {
+    "emoji": "🍿",
+    "name": "popcorn",
+    "category": "Food"
+  },
+  {
+    "emoji": "🍩",
+    "name": "doughnut",
+    "category": "Food"
+  },
+  {
+    "emoji": "🍪",
+    "name": "cookie",
+    "category": "Food"
+  },
+  {
+    "emoji": "🌰",
+    "name": "chestnut",
+    "category": "Food"
+  },
+  {
+    "emoji": "🥜",
+    "name": "peanuts",
+    "category": "Food"
+  },
+  {
+    "emoji": "🍯",
+    "name": "honey pot",
+    "category": "Food"
+  },
+  {
+    "emoji": "🧂",
+    "name": "salt",
+    "category": "Food"
+  },
+  {
+    "emoji": "🫙",
+    "name": "jar",
+    "category": "Food"
+  },
+  {
+    "emoji": "🍼",
+    "name": "baby bottle",
+    "category": "Food"
+  },
+  {
+    "emoji": "🥛",
+    "name": "glass of milk",
+    "category": "Food"
+  },
+  {
+    "emoji": "☕",
+    "name": "hot beverage",
+    "category": "Food"
+  },
+  {
+    "emoji": "🫖",
+    "name": "teapot",
+    "category": "Food"
+  },
+  {
+    "emoji": "🍵",
+    "name": "teacup without handle",
+    "category": "Food"
+  },
+  {
+    "emoji": "🧃",
+    "name": "beverage box",
+    "category": "Food"
+  },
+  {
+    "emoji": "🥤",
+    "name": "cup with straw",
+    "category": "Food"
+  },
+  {
+    "emoji": "🧋",
+    "name": "bubble tea",
+    "category": "Food"
+  },
+  {
+    "emoji": "🍶",
+    "name": "sake",
+    "category": "Food"
+  },
+  {
+    "emoji": "🍺",
+    "name": "beer mug",
+    "category": "Food"
+  },
+  {
+    "emoji": "🍻",
+    "name": "clinking beer mugs",
+    "category": "Food"
+  },
+  {
+    "emoji": "🥂",
+    "name": "clinking glasses",
+    "category": "Food"
+  },
+  {
+    "emoji": "🍷",
+    "name": "wine glass",
+    "category": "Food"
+  },
+  {
+    "emoji": "🥃",
+    "name": "tumbler glass",
+    "category": "Food"
+  },
+  {
+    "emoji": "🍸",
+    "name": "cocktail glass",
+    "category": "Food"
+  },
+  {
+    "emoji": "🍹",
+    "name": "tropical drink",
+    "category": "Food"
+  },
+  {
+    "emoji": "🍾",
+    "name": "bottle with popping cork",
+    "category": "Food"
+  },
+  {
+    "emoji": "🧊",
+    "name": "ice",
+    "category": "Food"
+  },
+  {
+    "emoji": "🥄",
+    "name": "spoon",
+    "category": "Food"
+  },
+  {
+    "emoji": "🍴",
+    "name": "fork and knife",
+    "category": "Food"
+  },
+  {
+    "emoji": "🍽️",
+    "name": "fork and knife with plate",
+    "category": "Food"
+  },
+  {
+    "emoji": "🥢",
+    "name": "chopsticks",
+    "category": "Food"
+  },
+  {
+    "emoji": "✈️",
+    "name": "airplane",
+    "category": "Travel"
+  },
+  {
+    "emoji": "⛵",
+    "name": "sailboat",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🚤",
+    "name": "speedboat",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🛥️",
+    "name": "motor boat",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🛳️",
+    "name": "passenger ship",
+    "category": "Travel"
+  },
+  {
+    "emoji": "⛴️",
+    "name": "ferry",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🚢",
+    "name": "ship",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🛩️",
+    "name": "small airplane",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🛫",
+    "name": "airplane departure",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🛬",
+    "name": "airplane arrival",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🪂",
+    "name": "parachute",
+    "category": "Travel"
+  },
+  {
+    "emoji": "💺",
+    "name": "seat",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🚁",
+    "name": "helicopter",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🚟",
+    "name": "suspension railway",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🚠",
+    "name": "mountain cableway",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🚡",
+    "name": "aerial tramway",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🛰️",
+    "name": "satellite",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🚀",
+    "name": "rocket",
+    "category": "Travel"
+  },
+
+  {
+    "emoji": "🚂",
+    "name": "locomotive",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🚃",
+    "name": "railway car",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🚄",
+    "name": "bullet train",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🚅",
+    "name": "bullet train front",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🚆",
+    "name": "train",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🚇",
+    "name": "metro",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🚈",
+    "name": "light rail",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🚉",
+    "name": "station",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🚊",
+    "name": "tram",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🚝",
+    "name": "monorail",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🚞",
+    "name": "mountain railway",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🚋",
+    "name": "tram car",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🚌",
+    "name": "bus",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🚍",
+    "name": "oncoming bus",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🚎",
+    "name": "trolleybus",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🚐",
+    "name": "minibus",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🚑",
+    "name": "ambulance",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🚒",
+    "name": "fire engine",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🚓",
+    "name": "police car",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🚔",
+    "name": "oncoming police car",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🚕",
+    "name": "taxi",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🚖",
+    "name": "oncoming taxi",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🚗",
+    "name": "automobile",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🚘",
+    "name": "oncoming automobile",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🚙",
+    "name": "sport utility vehicle",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🛻",
+    "name": "pickup truck",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🚚",
+    "name": "delivery truck",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🚛",
+    "name": "articulated lorry",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🚜",
+    "name": "tractor",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🏎️",
+    "name": "racing car",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🏍️",
+    "name": "motorcycle",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🛵",
+    "name": "motor scooter",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🛺",
+    "name": "auto rickshaw",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🚲",
+    "name": "bicycle",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🛴",
+    "name": "kick scooter",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🛹",
+    "name": "skateboard",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🛼",
+    "name": "roller skate",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🗺️",
+    "name": "world map",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🧭",
+    "name": "compass",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🏔️",
+    "name": "snow-capped mountain",
+    "category": "Travel"
+  },
+  {
+    "emoji": "⛰️",
+    "name": "mountain",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🌋",
+    "name": "volcano",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🗻",
+    "name": "mount fuji",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🏕️",
+    "name": "camping",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🏖️",
+    "name": "beach with umbrella",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🏜️",
+    "name": "desert",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🏝️",
+    "name": "desert island",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🏞️",
+    "name": "national park",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🏟️",
+    "name": "stadium",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🏛️",
+    "name": "classical building",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🏗️",
+    "name": "building construction",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🏘️",
+    "name": "houses",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🏙️",
+    "name": "cityscape",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🏚️",
+    "name": "derelict house",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🏠",
+    "name": "house",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🏡",
+    "name": "house with garden",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🏢",
+    "name": "office building",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🏣",
+    "name": "japanese post office",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🏤",
+    "name": "post office",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🏥",
+    "name": "hospital",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🏦",
+    "name": "bank",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🏧",
+    "name": "atm sign",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🏨",
+    "name": "hotel",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🏩",
+    "name": "love hotel",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🏪",
+    "name": "convenience store",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🏫",
+    "name": "school",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🏬",
+    "name": "department store",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🏭",
+    "name": "factory",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🏯",
+    "name": "japanese castle",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🏰",
+    "name": "european castle",
+    "category": "Travel"
+  },
+  {
+    "emoji": "💒",
+    "name": "wedding",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🗼",
+    "name": "tokyo tower",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🗽",
+    "name": "statue of liberty",
+    "category": "Travel"
+  },
+  {
+    "emoji": "⛪",
+    "name": "church",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🕌",
+    "name": "mosque",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🛕",
+    "name": "hindu temple",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🕍",
+    "name": "synagogue",
+    "category": "Travel"
+  },
+  {
+    "emoji": "⛩️",
+    "name": "shinto shrine",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🕋",
+    "name": "kaaba",
+    "category": "Travel"
+  },
+  {
+    "emoji": "⛲",
+    "name": "fountain",
+    "category": "Travel"
+  },
+  {
+    "emoji": "⛺",
+    "name": "tent",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🌁",
+    "name": "foggy",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🌃",
+    "name": "night with stars",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🌄",
+    "name": "sunrise over mountains",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🌅",
+    "name": "sunrise",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🌆",
+    "name": "cityscape at dusk",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🌇",
+    "name": "sunset",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🌉",
+    "name": "bridge at night",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🎠",
+    "name": "carousel horse",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🛝",
+    "name": "playground slide",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🎡",
+    "name": "ferris wheel",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🎢",
+    "name": "roller coaster",
+    "category": "Travel"
+  },
+  {
+    "emoji": "💈",
+    "name": "barber pole",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🎪",
+    "name": "circus tent",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🚏",
+    "name": "bus stop",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🛣️",
+    "name": "motorway",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🛤️",
+    "name": "railway track",
+    "category": "Travel"
+  },
+  {
+    "emoji": "⛽",
+    "name": "fuel pump",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🚨",
+    "name": "police car light",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🚥",
+    "name": "horizontal traffic light",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🚦",
+    "name": "vertical traffic light",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🛑",
+    "name": "stop sign",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🚧",
+    "name": "construction",
+    "category": "Travel"
+  },
+  {
+    "emoji": "⚓",
+    "name": "anchor",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🛟",
+    "name": "ring buoy",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🛸",
+    "name": "flying saucer",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🪐",
+    "name": "ringed planet",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🌌",
+    "name": "milky way",
+    "category": "Travel"
+  },
+  {
+    "emoji": "☀️",
+    "name": "sun",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🌲",
+    "name": "evergreen tree",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🎄",
+    "name": "christmas tree",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🌳",
+    "name": "deciduous tree",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🌴",
+    "name": "palm tree",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🪵",
+    "name": "log",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🌱",
+    "name": "seedling",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🌿",
+    "name": "herb",
+    "category": "Travel"
+  },
+  {
+    "emoji": "☘️",
+    "name": "shamrock",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🍀",
+    "name": "four leaf clover",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🎍",
+    "name": "pine decoration",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🎋",
+    "name": "tanabata tree",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🍃",
+    "name": "leaves",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🍂",
+    "name": "fallen leaf",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🍁",
+    "name": "maple leaf",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🪺",
+    "name": "nest with eggs",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🪹",
+    "name": "empty nest",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🍄",
+    "name": "mushroom",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🌾",
+    "name": "sheaf of rice",
+    "category": "Travel"
+  },
+  {
+    "emoji": "💐",
+    "name": "bouquet",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🌷",
+    "name": "tulip",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🌹",
+    "name": "rose",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🥀",
+    "name": "wilted flower",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🪷",
+    "name": "lotus",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🌺",
+    "name": "hibiscus",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🌸",
+    "name": "cherry blossom",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🌼",
+    "name": "blossom",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🌻",
+    "name": "sunflower",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🌞",
+    "name": "sun with face",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🌝",
+    "name": "full moon face",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🌛",
+    "name": "first quarter moon face",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🌜",
+    "name": "last quarter moon face",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🌚",
+    "name": "new moon face",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🌕",
+    "name": "full moon",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🌖",
+    "name": "waning gibbous moon",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🌗",
+    "name": "last quarter moon",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🌘",
+    "name": "waning crescent moon",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🌑",
+    "name": "new moon",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🌒",
+    "name": "waxing crescent moon",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🌓",
+    "name": "first quarter moon",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🌔",
+    "name": "waxing gibbous moon",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🌙",
+    "name": "crescent moon",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🌟",
+    "name": "glowing star",
+    "category": "Travel"
+  },
+  {
+    "emoji": "⭐",
+    "name": "star",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🌠",
+    "name": "shooting star",
+    "category": "Travel"
+  },
+  {
+    "emoji": "💫",
+    "name": "dizzy",
+    "category": "Travel"
+  },
+  {
+    "emoji": "✨",
+    "name": "sparkles",
+    "category": "Travel"
+  },
+  {
+    "emoji": "⚡",
+    "name": "lightning",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🌤️",
+    "name": "sun behind small cloud",
+    "category": "Travel"
+  },
+  {
+    "emoji": "⛅",
+    "name": "sun behind cloud",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🌥️",
+    "name": "sun behind large cloud",
+    "category": "Travel"
+  },
+  {
+    "emoji": "☁️",
+    "name": "cloud",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🌦️",
+    "name": "sun behind rain cloud",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🌧️",
+    "name": "cloud with rain",
+    "category": "Travel"
+  },
+  {
+    "emoji": "⛈️",
+    "name": "cloud with lightning and rain",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🌩️",
+    "name": "cloud with lightning",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🌨️",
+    "name": "cloud with snow",
+    "category": "Travel"
+  },
+  {
+    "emoji": "❄️",
+    "name": "snowflake",
+    "category": "Travel"
+  },
+  {
+    "emoji": "☃️",
+    "name": "snowman",
+    "category": "Travel"
+  },
+  {
+    "emoji": "⛄",
+    "name": "snowman without snow",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🌬️",
+    "name": "wind face",
+    "category": "Travel"
+  },
+  {
+    "emoji": "💨",
+    "name": "dashing away",
+    "category": "Travel"
+  },
+  {
+    "emoji": "💧",
+    "name": "droplet",
+    "category": "Travel"
+  },
+  {
+    "emoji": "💦",
+    "name": "sweat droplets",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🫧",
+    "name": "bubbles",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🌊",
+    "name": "water wave",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🌀",
+    "name": "cyclone",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🌈",
+    "name": "rainbow",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🌂",
+    "name": "closed umbrella",
+    "category": "Travel"
+  },
+  {
+    "emoji": "☂️",
+    "name": "umbrella",
+    "category": "Travel"
+  },
+  {
+    "emoji": "☔",
+    "name": "umbrella with rain drops",
+    "category": "Travel"
+  },
+  {
+    "emoji": "⛱️",
+    "name": "umbrella on ground",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🌪️",
+    "name": "tornado",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🌫️",
+    "name": "fog",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🔥",
+    "name": "fire",
+    "category": "Travel"
+  },
+  {
+    "emoji": "💥",
+    "name": "collision",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🌍",
+    "name": "earth globe europe-africa",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🌎",
+    "name": "earth globe americas",
+    "category": "Travel"
+  },
+  {
+    "emoji": "🌏",
+    "name": "earth globe asia-australia",
+    "category": "Travel"
+  },
+  {
+    "emoji": "⚽",
+    "name": "soccer ball",
+    "category": "Sports"
+  },
+  {
+    "emoji": "🏀",
+    "name": "basketball",
+    "category": "Sports"
+  },
+  {
+    "emoji": "🏈",
+    "name": "american football",
+    "category": "Sports"
+  },
+  {
+    "emoji": "⚾",
+    "name": "baseball",
+    "category": "Sports"
+  },
+  {
+    "emoji": "🥎",
+    "name": "softball",
+    "category": "Sports"
+  },
+  {
+    "emoji": "🎾",
+    "name": "tennis",
+    "category": "Sports"
+  },
+  {
+    "emoji": "🏐",
+    "name": "volleyball",
+    "category": "Sports"
+  },
+  {
+    "emoji": "🏉",
+    "name": "rugby football",
+    "category": "Sports"
+  },
+  {
+    "emoji": "🥏",
+    "name": "flying disc",
+    "category": "Sports"
+  },
+  {
+    "emoji": "🎱",
+    "name": "pool 8 ball",
+    "category": "Sports"
+  },
+  {
+    "emoji": "🪃",
+    "name": "boomerang",
+    "category": "Sports"
+  },
+  {
+    "emoji": "🏏",
+    "name": "cricket game",
+    "category": "Sports"
+  },
+  {
+    "emoji": "🏑",
+    "name": "field hockey",
+    "category": "Sports"
+  },
+  {
+    "emoji": "🏒",
+    "name": "ice hockey",
+    "category": "Sports"
+  },
+  {
+    "emoji": "🥍",
+    "name": "lacrosse",
+    "category": "Sports"
+  },
+  {
+    "emoji": "🏓",
+    "name": "ping pong",
+    "category": "Sports"
+  },
+  {
+    "emoji": "🏸",
+    "name": "badminton",
+    "category": "Sports"
+  },
+  {
+    "emoji": "🥊",
+    "name": "boxing glove",
+    "category": "Sports"
+  },
+  {
+    "emoji": "🥋",
+    "name": "martial arts uniform",
+    "category": "Sports"
+  },
+  {
+    "emoji": "🥅",
+    "name": "goal net",
+    "category": "Sports"
+  },
+  {
+    "emoji": "⛳",
+    "name": "flag in hole",
+    "category": "Sports"
+  },
+  {
+    "emoji": "🪁",
+    "name": "bow and arrow",
+    "category": "Sports"
+  },
+  {
+    "emoji": "🎣",
+    "name": "fishing pole",
+    "category": "Sports"
+  },
+  {
+    "emoji": "🤿",
+    "name": "diving mask",
+    "category": "Sports"
+  },
+  {
+    "emoji": "🎽",
+    "name": "running shirt",
+    "category": "Sports"
+  },
+  {
+    "emoji": "🎿",
+    "name": "skis",
+    "category": "Sports"
+  },
+  {
+    "emoji": "🛷",
+    "name": "sled",
+    "category": "Sports"
+  },
+  {
+    "emoji": "🥌",
+    "name": "curling stone",
+    "category": "Sports"
+  },
+  {
+    "emoji": "🎯",
+    "name": "bullseye",
+    "category": "Sports"
+  },
+  {
+    "emoji": "🪀",
+    "name": "yo-yo",
+    "category": "Sports"
+  },
+  {
+    "emoji": "🪆",
+    "name": "nesting dolls",
+    "category": "Sports"
+  },
+  {
+    "emoji": "🎮",
+    "name": "video game",
+    "category": "Sports"
+  },
+  {
+    "emoji": "🕹️",
+    "name": "joystick",
+    "category": "Sports"
+  },
+  {
+    "emoji": "🎲",
+    "name": "game die",
+    "category": "Sports"
+  },
+  {
+    "emoji": "♟️",
+    "name": "chess pawn",
+    "category": "Sports"
+  },
+  {
+    "emoji": "🎭",
+    "name": "performing arts",
+    "category": "Sports"
+  },
+  {
+    "emoji": "🎨",
+    "name": "artist palette",
+    "category": "Sports"
+  },
+  {
+    "emoji": "🖼️",
+    "name": "framed picture",
+    "category": "Sports"
+  },
+  {
+    "emoji": "🎤",
+    "name": "microphone",
+    "category": "Sports"
+  },
+  {
+    "emoji": "🎧",
+    "name": "headphone",
+    "category": "Sports"
+  },
+  {
+    "emoji": "🎼",
+    "name": "musical score",
+    "category": "Sports"
+  },
+  {
+    "emoji": "🎵",
+    "name": "musical note",
+    "category": "Sports"
+  },
+  {
+    "emoji": "🎶",
+    "name": "musical notes",
+    "category": "Sports"
+  },
+  {
+    "emoji": "🎷",
+    "name": "saxophone",
+    "category": "Sports"
+  },
+  {
+    "emoji": "🪗",
+    "name": "accordion",
+    "category": "Sports"
+  },
+  {
+    "emoji": "🎸",
+    "name": "guitar",
+    "category": "Sports"
+  },
+  {
+    "emoji": "🎹",
+    "name": "musical keyboard",
+    "category": "Sports"
+  },
+  {
+    "emoji": "🎺",
+    "name": "trumpet",
+    "category": "Sports"
+  },
+  {
+    "emoji": "🎻",
+    "name": "violin",
+    "category": "Sports"
+  },
+  {
+    "emoji": "🪕",
+    "name": "banjo",
+    "category": "Sports"
+  },
+  {
+    "emoji": "🥁",
+    "name": "drum",
+    "category": "Sports"
+  },
+  {
+    "emoji": "🪘",
+    "name": "long drum",
+    "category": "Sports"
+  },
+  {
+    "emoji": "🎬",
+    "name": "clapper board",
+    "category": "Sports"
+  },
+  {
+    "emoji": "🎥",
+    "name": "movie camera",
+    "category": "Sports"
+  },
+  {
+    "emoji": "📽️",
+    "name": "film projector",
+    "category": "Sports"
+  },
+  {
+    "emoji": "🎞️",
+    "name": "film frames",
+    "category": "Sports"
+  },
+  {
+    "emoji": "📺",
+    "name": "television",
+    "category": "Sports"
+  },
+  {
+    "emoji": "💡",
+    "name": "light bulb",
+    "category": "Objects"
+  },
+  {
+    "emoji": "⌚",
+    "name": "watch",
+    "category": "Objects"
+  },
+  {
+    "emoji": "📱",
+    "name": "mobile phone",
+    "category": "Objects"
+  },
+  {
+    "emoji": "💻",
+    "name": "laptop",
+    "category": "Objects"
+  },
+  {
+    "emoji": "🖥️",
+    "name": "desktop computer",
+    "category": "Objects"
+  },
+  {
+    "emoji": "🖨️",
+    "name": "printer",
+    "category": "Objects"
+  },
+  {
+    "emoji": "⌨️",
+    "name": "keyboard",
+    "category": "Objects"
+  },
+  {
+    "emoji": "🖱️",
+    "name": "computer mouse",
+    "category": "Objects"
+  },
+  {
+    "emoji": "💾",
+    "name": "floppy disk",
+    "category": "Objects"
+  },
+  {
+    "emoji": "💿",
+    "name": "optical disk",
+    "category": "Objects"
+  },
+  {
+    "emoji": "📀",
+    "name": "dvd",
+    "category": "Objects"
+  },
+  {
+    "emoji": "📷",
+    "name": "camera",
+    "category": "Objects"
+  },
+  {
+    "emoji": "📸",
+    "name": "camera with flash",
+    "category": "Objects"
+  },
+  {
+    "emoji": "📹",
+    "name": "video camera",
+    "category": "Objects"
+  },
+  {
+    "emoji": "📡",
+    "name": "satellite antenna",
+    "category": "Objects"
+  },
+  {
+    "emoji": "📞",
+    "name": "telephone receiver",
+    "category": "Objects"
+  },
+  {
+    "emoji": "☎️",
+    "name": "telephone",
+    "category": "Objects"
+  },
+  {
+    "emoji": "📟",
+    "name": "pager",
+    "category": "Objects"
+  },
+  {
+    "emoji": "📠",
+    "name": "fax machine",
+    "category": "Objects"
+  },
+  {
+    "emoji": "📻",
+    "name": "radio",
+    "category": "Objects"
+  },
+  {
+    "emoji": "⏱️",
+    "name": "stopwatch",
+    "category": "Objects"
+  },
+  {
+    "emoji": "⏰",
+    "name": "alarm clock",
+    "category": "Objects"
+  },
+  {
+    "emoji": "⏳",
+    "name": "hourglass not done",
+    "category": "Objects"
+  },
+  {
+    "emoji": "⌛",
+    "name": "hourglass done",
+    "category": "Objects"
+  },
+  {
+    "emoji": "🔋",
+    "name": "battery",
+    "category": "Objects"
+  },
+  {
+    "emoji": "🔌",
+    "name": "electric plug",
+    "category": "Objects"
+  },
+  {
+    "emoji": "🔦",
+    "name": "flashlight",
+    "category": "Objects"
+  },
+  {
+    "emoji": "🕯️",
+    "name": "candle",
+    "category": "Objects"
+  },
+  {
+    "emoji": "🪔",
+    "name": "diya lamp",
+    "category": "Objects"
+  },
+  {
+    "emoji": "🧯",
+    "name": "fire extinguisher",
+    "category": "Objects"
+  },
+  {
+    "emoji": "🛢️",
+    "name": "oil drum",
+    "category": "Objects"
+  },
+  {
+    "emoji": "💰",
+    "name": "money bag",
+    "category": "Objects"
+  },
+  {
+    "emoji": "🪙",
+    "name": "coin",
+    "category": "Objects"
+  },
+  {
+    "emoji": "💳",
+    "name": "credit card",
+    "category": "Objects"
+  },
+  {
+    "emoji": "💎",
+    "name": "gem stone",
+    "category": "Objects"
+  },
+  {
+    "emoji": "⚖️",
+    "name": "balance scale",
+    "category": "Objects"
+  },
+  {
+    "emoji": "🧰",
+    "name": "toolbox",
+    "category": "Objects"
+  },
+  {
+    "emoji": "🔧",
+    "name": "wrench",
+    "category": "Objects"
+  },
+  {
+    "emoji": "🪛",
+    "name": "screwdriver",
+    "category": "Objects"
+  },
+  {
+    "emoji": "🔨",
+    "name": "hammer",
+    "category": "Objects"
+  },
+  {
+    "emoji": "⚒️",
+    "name": "hammer and pick",
+    "category": "Objects"
+  },
+  {
+    "emoji": "🛠️",
+    "name": "hammer and wrench",
+    "category": "Objects"
+  },
+  {
+    "emoji": "⛏️",
+    "name": "pick",
+    "category": "Objects"
+  },
+  {
+    "emoji": "🪚",
+    "name": "carpentry saw",
+    "category": "Objects"
+  },
+  {
+    "emoji": "🔩",
+    "name": "nut and bolt",
+    "category": "Objects"
+  },
+  {
+    "emoji": "🧲",
+    "name": "magnet",
+    "category": "Objects"
+  },
+  {
+    "emoji": "🪜",
+    "name": "ladder",
+    "category": "Objects"
+  },
+  {
+    "emoji": "🔫",
+    "name": "pistol",
+    "category": "Objects"
+  },
+  {
+    "emoji": "💣",
+    "name": "bomb",
+    "category": "Objects"
+  },
+  {
+    "emoji": "🪤",
+    "name": "mousetrap",
+    "category": "Objects"
+  },
+  {
+    "emoji": "🔪",
+    "name": "kitchen knife",
+    "category": "Objects"
+  },
+  {
+    "emoji": "🗡️",
+    "name": "dagger",
+    "category": "Objects"
+  },
+  {
+    "emoji": "⚔️",
+    "name": "crossed swords",
+    "category": "Objects"
+  },
+  {
+    "emoji": "🛡️",
+    "name": "shield",
+    "category": "Objects"
+  },
+  {
+    "emoji": "🚬",
+    "name": "cigarette",
+    "category": "Objects"
+  },
+  {
+    "emoji": "⚰️",
+    "name": "coffin",
+    "category": "Objects"
+  },
+  {
+    "emoji": "🪦",
+    "name": "headstone",
+    "category": "Objects"
+  },
+  {
+    "emoji": "⚱️",
+    "name": "funeral urn",
+    "category": "Objects"
+  },
+  {
+    "emoji": "🔮",
+    "name": "crystal ball",
+    "category": "Objects"
+  },
+  {
+    "emoji": "🧿",
+    "name": "nazar amulet",
+    "category": "Objects"
+  },
+  {
+    "emoji": "🪬",
+    "name": "hamsa",
+    "category": "Objects"
+  },
+  {
+    "emoji": "🔭",
+    "name": "telescope",
+    "category": "Objects"
+  },
+  {
+    "emoji": "🔬",
+    "name": "microscope",
+    "category": "Objects"
+  },
+  {
+    "emoji": "🩺",
+    "name": "stethoscope",
+    "category": "Objects"
+  },
+  {
+    "emoji": "🩹",
+    "name": "adhesive bandage",
+    "category": "Objects"
+  },
+  {
+    "emoji": "💊",
+    "name": "pill",
+    "category": "Objects"
+  },
+  {
+    "emoji": "🩻",
+    "name": "x-ray",
+    "category": "Objects"
+  },
+  {
+    "emoji": "🩸",
+    "name": "drop of blood",
+    "category": "Objects"
+  },
+  {
+    "emoji": "🧬",
+    "name": "dna",
+    "category": "Objects"
+  },
+  {
+    "emoji": "🦠",
+    "name": "microbe",
+    "category": "Objects"
+  },
+  {
+    "emoji": "🧪",
+    "name": "test tube",
+    "category": "Objects"
+  },
+  {
+    "emoji": "🧫",
+    "name": "petri dish",
+    "category": "Objects"
+  },
+  {
+    "emoji": "🪣",
+    "name": "bucket",
+    "category": "Objects"
+  },
+  {
+    "emoji": "🧴",
+    "name": "lotion bottle",
+    "category": "Objects"
+  },
+  {
+    "emoji": "🧷",
+    "name": "safety pin",
+    "category": "Objects"
+  },
+  {
+    "emoji": "🧹",
+    "name": "broom",
+    "category": "Objects"
+  },
+  {
+    "emoji": "🧺",
+    "name": "basket",
+    "category": "Objects"
+  },
+  {
+    "emoji": "🧻",
+    "name": "roll of paper",
+    "category": "Objects"
+  },
+  {
+    "emoji": "🧼",
+    "name": "soap",
+    "category": "Objects"
+  },
+  {
+    "emoji": "🪥",
+    "name": "toothbrush",
+    "category": "Objects"
+  },
+  {
+    "emoji": "🧽",
+    "name": "sponge",
+    "category": "Objects"
+  },
+  {
+    "emoji": "🛒",
+    "name": "shopping cart",
+    "category": "Objects"
+  },
+  {
+    "emoji": "🚪",
+    "name": "door",
+    "category": "Objects"
+  },
+  {
+    "emoji": "🪑",
+    "name": "chair",
+    "category": "Objects"
+  },
+  {
+    "emoji": "🛋️",
+    "name": "couch and lamp",
+    "category": "Objects"
+  },
+  {
+    "emoji": "🛏️",
+    "name": "bed",
+    "category": "Objects"
+  },
+  {
+    "emoji": "🛁",
+    "name": "bathtub",
+    "category": "Objects"
+  },
+  {
+    "emoji": "🚿",
+    "name": "shower",
+    "category": "Objects"
+  },
+  {
+    "emoji": "🪠",
+    "name": "plunger",
+    "category": "Objects"
+  },
+  {
+    "emoji": "🪞",
+    "name": "mirror",
+    "category": "Objects"
+  },
+  {
+    "emoji": "🪟",
+    "name": "window",
+    "category": "Objects"
+  },
+  {
+    "emoji": "🧸",
+    "name": "teddy bear",
+    "category": "Objects"
+  },
+  {
+    "emoji": "📚",
+    "name": "books",
+    "category": "Objects"
+  },
+  {
+    "emoji": "📖",
+    "name": "open book",
+    "category": "Objects"
+  },
+  {
+    "emoji": "📝",
+    "name": "memo",
+    "category": "Objects"
+  },
+  {
+    "emoji": "✏️",
+    "name": "pencil",
+    "category": "Objects"
+  },
+  {
+    "emoji": "🖊️",
+    "name": "pen",
+    "category": "Objects"
+  },
+  {
+    "emoji": "🖋️",
+    "name": "fountain pen",
+    "category": "Objects"
+  },
+  {
+    "emoji": "📌",
+    "name": "pushpin",
+    "category": "Objects"
+  },
+  {
+    "emoji": "📍",
+    "name": "round pushpin",
+    "category": "Objects"
+  },
+  {
+    "emoji": "📎",
+    "name": "paperclip",
+    "category": "Objects"
+  },
+  {
+    "emoji": "🖇️",
+    "name": "linked paperclips",
+    "category": "Objects"
+  },
+  {
+    "emoji": "✂️",
+    "name": "scissors",
+    "category": "Objects"
+  },
+  {
+    "emoji": "🗃️",
+    "name": "card file box",
+    "category": "Objects"
+  },
+  {
+    "emoji": "🗑️",
+    "name": "wastebasket",
+    "category": "Objects"
+  },
+  {
+    "emoji": "🔐",
+    "name": "locked with key",
+    "category": "Objects"
+  },
+  {
+    "emoji": "🔒",
+    "name": "locked",
+    "category": "Objects"
+  },
+  {
+    "emoji": "🔓",
+    "name": "unlocked",
+    "category": "Objects"
+  },
+  {
+    "emoji": "🔑",
+    "name": "key",
+    "category": "Objects"
+  },
+  {
+    "emoji": "🗝️",
+    "name": "old key",
+    "category": "Objects"
+  },
+  {
+    "emoji": "🪓",
+    "name": "axe",
+    "category": "Objects"
+  },
+  {
+    "emoji": "❤️",
+    "name": "red heart",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "🧡",
+    "name": "orange heart",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "💛",
+    "name": "yellow heart",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "💚",
+    "name": "green heart",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "💙",
+    "name": "blue heart",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "💜",
+    "name": "purple heart",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "🖤",
+    "name": "black heart",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "🤍",
+    "name": "white heart",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "🤎",
+    "name": "brown heart",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "💔",
+    "name": "broken heart",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "❤️‍🔥",
+    "name": "heart on fire",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "❤️‍🩹",
+    "name": "mending heart",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "💕",
+    "name": "two hearts",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "💞",
+    "name": "revolving hearts",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "💓",
+    "name": "beating heart",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "💗",
+    "name": "growing heart",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "💖",
+    "name": "sparkling heart",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "💘",
+    "name": "heart with arrow",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "💝",
+    "name": "heart with ribbon",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "💟",
+    "name": "heart decoration",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "☮️",
+    "name": "peace symbol",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "✝️",
+    "name": "latin cross",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "☪️",
+    "name": "star and crescent",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "🕉️",
+    "name": "om",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "✡️",
+    "name": "star of david",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "🔯",
+    "name": "dotted six-pointed star",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "🕎",
+    "name": "menorah",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "☯️",
+    "name": "yin yang",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "☦️",
+    "name": "orthodox cross",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "🛐",
+    "name": "place of worship",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "⛎",
+    "name": "ophiuchus",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "♈",
+    "name": "aries",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "♉",
+    "name": "taurus",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "♊",
+    "name": "gemini",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "♋",
+    "name": "cancer",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "♌",
+    "name": "leo",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "♍",
+    "name": "virgo",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "♎",
+    "name": "libra",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "♏",
+    "name": "scorpius",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "♐",
+    "name": "sagittarius",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "♑",
+    "name": "capricorn",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "♒",
+    "name": "aquarius",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "♓",
+    "name": "pisces",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "🆔",
+    "name": "id button",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "⚛️",
+    "name": "atom symbol",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "🉑",
+    "name": "japanese acceptable button",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "☢️",
+    "name": "radioactive",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "☣️",
+    "name": "biohazard",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "📴",
+    "name": "mobile phone off",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "📳",
+    "name": "vibration mode",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "🈶",
+    "name": "japanese not free of charge button",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "🈚",
+    "name": "japanese free of charge button",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "🈸",
+    "name": "japanese application button",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "🈺",
+    "name": "japanese open for business button",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "🈷️",
+    "name": "japanese monthly amount button",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "✴️",
+    "name": "eight-pointed star",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "🆚",
+    "name": "vs button",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "💮",
+    "name": "white flower",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "🉐",
+    "name": "japanese bargain button",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "㊙️",
+    "name": "japanese secret button",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "㊗️",
+    "name": "japanese congratulations button",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "🈴",
+    "name": "japanese passing grade button",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "🈵",
+    "name": "japanese no vacancy button",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "🈹",
+    "name": "japanese discount button",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "🈲",
+    "name": "japanese prohibited button",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "🅰️",
+    "name": "a button blood type",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "🅱️",
+    "name": "b button blood type",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "🆎",
+    "name": "ab button blood type",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "🆑",
+    "name": "cl button",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "🅾️",
+    "name": "o button blood type",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "🆘",
+    "name": "sos button",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "❌",
+    "name": "cross mark",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "⭕",
+    "name": "hollow red circle",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "⛔",
+    "name": "no entry",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "📛",
+    "name": "name badge",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "🚫",
+    "name": "prohibited",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "💯",
+    "name": "hundred points",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "💢",
+    "name": "anger symbol",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "♨️",
+    "name": "hot springs",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "🚷",
+    "name": "no pedestrians",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "🚯",
+    "name": "no littering",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "🚳",
+    "name": "no bicycles",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "🚱",
+    "name": "non-potable water",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "🔞",
+    "name": "no one under eighteen",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "📵",
+    "name": "no mobile phones",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "🔕",
+    "name": "bell with slash",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "🔇",
+    "name": "muted speaker",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "🔈",
+    "name": "speaker low volume",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "🔉",
+    "name": "speaker medium volume",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "🔊",
+    "name": "speaker high volume",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "📢",
+    "name": "loudspeaker",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "📣",
+    "name": "megaphone",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "📯",
+    "name": "postal horn",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "🔔",
+    "name": "bell",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "✅",
+    "name": "check mark button",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "🔀",
+    "name": "shuffle tracks button",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "🔁",
+    "name": "repeat button",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "🔂",
+    "name": "repeat single button",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "▶️",
+    "name": "play button",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "⏩",
+    "name": "fast-forward button",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "⏭️",
+    "name": "next track button",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "⏯️",
+    "name": "play or pause button",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "◀️",
+    "name": "reverse button",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "⏪",
+    "name": "fast reverse button",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "⏮️",
+    "name": "last track button",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "🔼",
+    "name": "upwards button",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "⏫",
+    "name": "fast up button",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "🔽",
+    "name": "downwards button",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "⏬",
+    "name": "fast down button",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "⏸️",
+    "name": "pause button",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "⏹️",
+    "name": "stop button",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "⏺️",
+    "name": "record button",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "🎦",
+    "name": "cinema",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "🔅",
+    "name": "dim button",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "🔆",
+    "name": "bright button",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "📶",
+    "name": "antenna bars",
+    "category": "Symbols"
+  },
+  {
+    "emoji": "🎉",
+    "name": "party popper",
+    "category": "Party"
+  },
+  {
+    "emoji": "🎊",
+    "name": "confetti ball",
+    "category": "Party"
+  },
+  {
+    "emoji": "🎈",
+    "name": "balloon",
+    "category": "Party"
+  },
+  {
+    "emoji": "🎁",
+    "name": "wrapped gift",
+    "category": "Party"
+  },
+  {
+    "emoji": "🎀",
+    "name": "ribbon",
+    "category": "Party"
+  },
+  {
+    "emoji": "🪅",
+    "name": "pinata",
+    "category": "Party"
+  },
+  {
+    "emoji": "🎆",
+    "name": "fireworks",
+    "category": "Party"
+  },
+  {
+    "emoji": "🎇",
+    "name": "sparkler",
+    "category": "Party"
+  },
+  {
+    "emoji": "🎓",
+    "name": "graduation cap",
+    "category": "Party"
+  },
+  {
+    "emoji": "💍",
+    "name": "ring",
+    "category": "Party"
+  },
+  {
+    "emoji": "🪄",
+    "name": "magic wand",
+    "category": "Party"
+  },
+  {
+    "emoji": "🎟️",
+    "name": "admission tickets",
+    "category": "Party"
+  },
+  {
+    "emoji": "🎫",
+    "name": "ticket",
+    "category": "Party"
+  },
+  {
+    "emoji": "🏆",
+    "name": "trophy",
+    "category": "Party"
+  },
+  {
+    "emoji": "🥇",
+    "name": "1st place medal",
+    "category": "Party"
+  },
+  {
+    "emoji": "🥈",
+    "name": "2nd place medal",
+    "category": "Party"
+  },
+  {
+    "emoji": "🥉",
+    "name": "3rd place medal",
+    "category": "Party"
+  },
+  {
+    "emoji": "🎖️",
+    "name": "military medal",
+    "category": "Party"
+  },
+  {
+    "emoji": "🏅",
+    "name": "sports medal",
+    "category": "Party"
+  },
+  {
+    "emoji": "🎗️",
+    "name": "reminder ribbon",
+    "category": "Party"
+  },
+  {
+    "emoji": "🎑",
+    "name": "moon viewing ceremony",
+    "category": "Party"
+  },
+  {
+    "emoji": "🎃",
+    "name": "jack-o-lantern",
+    "category": "Party"
+  },
+  {
+    "emoji": "🎎",
+    "name": "japanese dolls",
+    "category": "Party"
+  },
+  {
+    "emoji": "🎏",
+    "name": "carp streamer",
+    "category": "Party"
+  },
+  {
+    "emoji": "🎐",
+    "name": "wind chime",
+    "category": "Party"
+  },
+  {
+    "emoji": "🧨",
+    "name": "firecracker",
+    "category": "Party"
+  },
+  {
+      "emoji": "🏳️",
+      "name": "white flag",
+      "category": "Flags"
+  },
+  {
+    "emoji": "🇦🇫",
+    "name": "afghanistan flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇦🇱",
+    "name": "albania flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇩🇿",
+    "name": "algeria flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇦🇩",
+    "name": "andorra flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇦🇴",
+    "name": "angola flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇦🇬",
+    "name": "antigua barbuda flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇦🇷",
+    "name": "argentina flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇦🇲",
+    "name": "armenia flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇦🇺",
+    "name": "australia flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇦🇹",
+    "name": "austria flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇦🇿",
+    "name": "azerbaijan flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇧🇸",
+    "name": "bahamas flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇧🇭",
+    "name": "bahrain flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇧🇩",
+    "name": "bangladesh flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇧🇧",
+    "name": "barbados flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇧🇾",
+    "name": "belarus flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇧🇪",
+    "name": "belgium flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇧🇿",
+    "name": "belize flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇧🇯",
+    "name": "benin flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇧🇹",
+    "name": "bhutan flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇧🇴",
+    "name": "bolivia flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇧🇦",
+    "name": "bosnia herzegovina flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇧🇼",
+    "name": "botswana flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇧🇷",
+    "name": "brazil flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇧🇳",
+    "name": "brunei flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇧🇬",
+    "name": "bulgaria flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇧🇫",
+    "name": "burkina faso flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇧🇮",
+    "name": "burundi flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇨🇻",
+    "name": "cape verde flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇰🇭",
+    "name": "cambodia flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇨🇲",
+    "name": "cameroon flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇨🇦",
+    "name": "canada flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇨🇫",
+    "name": "central african republic flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇹🇩",
+    "name": "chad flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇨🇱",
+    "name": "chile flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇨🇳",
+    "name": "china flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇨🇴",
+    "name": "colombia flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇰🇲",
+    "name": "comoros flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇨🇬",
+    "name": "congo flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇨🇷",
+    "name": "costa rica flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇭🇷",
+    "name": "croatia flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇨🇺",
+    "name": "cuba flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇨🇾",
+    "name": "cyprus flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇨🇿",
+    "name": "czechia flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇩🇰",
+    "name": "denmark flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇩🇯",
+    "name": "djibouti flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇩🇲",
+    "name": "dominica flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇩🇴",
+    "name": "dominican republic flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇪🇨",
+    "name": "ecuador flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇪🇬",
+    "name": "egypt flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇸🇻",
+    "name": "el salvador flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇬🇶",
+    "name": "equatorial guinea flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇪🇷",
+    "name": "eritrea flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇪🇪",
+    "name": "estonia flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇸🇿",
+    "name": "eswatini flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇪🇹",
+    "name": "ethiopia flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇫🇯",
+    "name": "fiji flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇫🇮",
+    "name": "finland flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇫🇷",
+    "name": "france flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇬🇦",
+    "name": "gabon flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇬🇲",
+    "name": "gambia flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇬🇪",
+    "name": "georgia flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇩🇪",
+    "name": "germany flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇬🇭",
+    "name": "ghana flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇬🇷",
+    "name": "greece flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇬🇩",
+    "name": "grenada flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇬🇹",
+    "name": "guatemala flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇬🇳",
+    "name": "guinea flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇬🇼",
+    "name": "guinea bissau flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇬🇾",
+    "name": "guyana flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇭🇹",
+    "name": "haiti flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇭🇳",
+    "name": "honduras flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇭🇺",
+    "name": "hungary flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇮🇸",
+    "name": "iceland flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇮🇳",
+    "name": "india flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇮🇩",
+    "name": "indonesia flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇮🇷",
+    "name": "iran flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇮🇶",
+    "name": "iraq flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇮🇪",
+    "name": "ireland flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇮🇱",
+    "name": "israel flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇮🇹",
+    "name": "italy flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇯🇲",
+    "name": "jamaica flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇯🇵",
+    "name": "japan flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇯🇴",
+    "name": "jordan flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇰🇿",
+    "name": "kazakhstan flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇰🇪",
+    "name": "kenya flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇰🇮",
+    "name": "kiribati flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇰🇼",
+    "name": "kuwait flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇰🇬",
+    "name": "kyrgyzstan flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇱🇦",
+    "name": "laos flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇱🇻",
+    "name": "latvia flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇱🇧",
+    "name": "lebanon flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇱🇸",
+    "name": "lesotho flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇱🇷",
+    "name": "liberia flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇱🇾",
+    "name": "libya flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇱🇮",
+    "name": "liechtenstein flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇱🇹",
+    "name": "lithuania flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇱🇺",
+    "name": "luxembourg flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇲🇬",
+    "name": "madagascar flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇲🇼",
+    "name": "malawi flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇲🇾",
+    "name": "malaysia flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇲🇻",
+    "name": "maldives flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇲🇱",
+    "name": "mali flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇲🇹",
+    "name": "malta flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇲🇭",
+    "name": "marshall islands flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇲🇷",
+    "name": "mauritania flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇲🇺",
+    "name": "mauritius flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇲🇽",
+    "name": "mexico flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇫🇲",
+    "name": "micronesia flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇲🇩",
+    "name": "moldova flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇲🇨",
+    "name": "monaco flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇲🇳",
+    "name": "mongolia flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇲🇪",
+    "name": "montenegro flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇲🇦",
+    "name": "morocco flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇲🇿",
+    "name": "mozambique flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇲🇲",
+    "name": "myanmar flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇳🇦",
+    "name": "namibia flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇳🇷",
+    "name": "nauru flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇳🇵",
+    "name": "nepal flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇳🇱",
+    "name": "netherlands flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇳🇿",
+    "name": "new zealand flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇳🇮",
+    "name": "nicaragua flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇳🇪",
+    "name": "niger flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇳🇬",
+    "name": "nigeria flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇳🇴",
+    "name": "norway flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇴🇲",
+    "name": "oman flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇵🇰",
+    "name": "pakistan flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇵🇼",
+    "name": "palau flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇵🇦",
+    "name": "panama flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇵🇬",
+    "name": "papua new guinea flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇵🇾",
+    "name": "paraguay flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇵🇪",
+    "name": "peru flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇵🇭",
+    "name": "philippines flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇵🇱",
+    "name": "poland flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇵🇹",
+    "name": "portugal flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇶🇦",
+    "name": "qatar flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇷🇴",
+    "name": "romania flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇷🇺",
+    "name": "russia flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇷🇼",
+    "name": "rwanda flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇰🇳",
+    "name": "saint kitts nevis flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇱🇨",
+    "name": "saint lucia flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇻🇨",
+    "name": "saint vincent grenadines flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇼🇸",
+    "name": "samoa flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇸🇲",
+    "name": "san marino flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇸🇹",
+    "name": "sao tome principe flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇸🇦",
+    "name": "saudi arabia flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇸🇳",
+    "name": "senegal flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇷🇸",
+    "name": "serbia flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇸🇨",
+    "name": "seychelles flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇸🇱",
+    "name": "sierra leone flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇸🇬",
+    "name": "singapore flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇸🇰",
+    "name": "slovakia flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇸🇮",
+    "name": "slovenia flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇸🇧",
+    "name": "solomon islands flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇸🇴",
+    "name": "somalia flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇿🇦",
+    "name": "south africa flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇸🇸",
+    "name": "south sudan flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇪🇸",
+    "name": "spain flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇱🇰",
+    "name": "sri lanka flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇸🇩",
+    "name": "sudan flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇸🇷",
+    "name": "suriname flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇸🇪",
+    "name": "sweden flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇨🇭",
+    "name": "switzerland flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇸🇾",
+    "name": "syria flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇹🇼",
+    "name": "taiwan flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇹🇯",
+    "name": "tajikistan flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇹🇿",
+    "name": "tanzania flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇹🇭",
+    "name": "thailand flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇹🇱",
+    "name": "timor leste flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇹🇬",
+    "name": "togo flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇹🇴",
+    "name": "tonga flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇹🇹",
+    "name": "trinidad tobago flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇹🇳",
+    "name": "tunisia flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇹🇷",
+    "name": "turkey flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇹🇲",
+    "name": "turkmenistan flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇹🇻",
+    "name": "tuvalu flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇺🇬",
+    "name": "uganda flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇺🇦",
+    "name": "ukraine flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇦🇪",
+    "name": "united arab emirates flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇬🇧",
+    "name": "united kingdom flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇺🇸",
+    "name": "united states flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇺🇾",
+    "name": "uruguay flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇺🇿",
+    "name": "uzbekistan flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇻🇺",
+    "name": "vanuatu flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇻🇪",
+    "name": "venezuela flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇻🇳",
+    "name": "vietnam flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇾🇪",
+    "name": "yemen flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇿🇲",
+    "name": "zambia flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🇿🇼",
+    "name": "zimbabwe flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🏴󠁧󠁢󠁥󠁮󠁧󠁿",
+    "name": "england flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🏴󠁧󠁢󠁳󠁣󠁴󠁿",
+    "name": "scotland flag",
+    "category": "Flags"
+  },
+  {
+    "emoji": "🏴󠁧󠁢󠁷󠁬󠁳󠁿",
+    "name": "wales flag",
+    "category": "Flags"
+  }
+]
