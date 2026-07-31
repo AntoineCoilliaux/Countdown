@@ -18,13 +18,11 @@ struct EditorView: View {
     
     @State private var isShowingImageSheet = false
     @State private var isShowingEmojiPicker = false
-    @State private var selectedHex: String?
     @State private var showDeleteAlert = false
     @State private var dateExpanded = false
     @State private var reminderExpanded = false
     @State private var currentCategoryColor: Color?
     @State private var showingManageCategories = false
-    @State private var isShowingReminderSheet = false
     
     private var selectedCategoryEventCount: Int {
         guard let id = vm.selectedCategoryId else { return 0 }
@@ -68,7 +66,6 @@ struct EditorView: View {
                             }
                         }
                     }
-                    .disabled(!vm.canSave || vm.selectionState != .reading)
                 }
             }
         }
@@ -128,12 +125,6 @@ struct EditorView: View {
         }
         .onChange(of: vm.selectedCategoryId) { _, _ in
             refreshCurrentColor()
-        }
-        
-        .onChange(of: selectedHex ?? K.Colors.appBackground) { _, newHex in
-            if vm.selectionState == .creating || vm.selectionState == .editing {
-                currentCategoryColor = Color(hex: newHex)
-            }
         }
         
         .onChange(of: vm.date) { _, newDate in
@@ -283,7 +274,7 @@ struct EditorView: View {
         VStack(alignment: .leading, spacing: 8) {
             CategorySelectorView(
                 selectedCategoryId: $vm.selectedCategoryId,
-                showingManageCategories: $showingManageCategories,
+                onManageCategories: { showingManageCategories = true },
                 showAllOption: false
             )
         }
@@ -416,7 +407,7 @@ struct EditorView: View {
             
             if reminderExpanded {
                 AppDivider()
-                ReminderPickerView(eventDate: vm.date, reminders: $vm.reminders, borderColor: currentCategoryColor ?? .white)
+                ReminderPickerView(eventDate: vm.date, borderColor: currentCategoryColor ?? .white, reminders: $vm.reminders)
                     .transition(.move(edge: .top).combined(with: .opacity))
             }
         }

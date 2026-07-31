@@ -11,8 +11,8 @@ struct CategorySelectorView: View {
     @EnvironmentObject var categoryManager: CategoryManager
     
     @Binding var selectedCategoryId: UUID?
-    @Binding var showingManageCategories: Bool
-    
+    let onManageCategories: () -> Void
+
     var showAllOption: Bool = true
 
     var body: some View {
@@ -36,7 +36,7 @@ struct CategorySelectorView: View {
                 }
                 
                 Button {
-                    showingManageCategories = true
+                    onManageCategories()
                 } label: {
                     Label(K.Common.Category.manageCategories, systemImage: "pencil")
                         .categoryButtonStyle(

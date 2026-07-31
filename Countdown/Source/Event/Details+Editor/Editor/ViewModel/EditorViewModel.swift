@@ -10,14 +10,11 @@ import Foundation
 import SwiftUI
 
 final class EditorViewModel: ObservableObject {
-    @Published var selectionState: CategorySelectionState = .reading
 
     @Published var name: String
-    @Published var color: String?
     @Published var date: Date
     @Published var imageName: URL
     @Published var selectedCategoryId: UUID?
-    @Published var categoryName: String = ""
     @Published var showSaveError: Bool = false
     @Published var emoji: String = ""
     @Published var displayMode: EventDisplayMode = .emoji
@@ -26,10 +23,6 @@ final class EditorViewModel: ObservableObject {
     let mode: Mode
     let randomNumber = Int.random(in: 1...100)
     let characterLimit: Int = 35
-    
-    enum CategorySelectionState {
-        case reading, creating, editing
-    }
     
     enum Mode {
         case add
@@ -56,22 +49,6 @@ final class EditorViewModel: ObservableObject {
             self.reminders = existing.reminders
         }
     }
-
-    func startCreating() {
-        resetNewCategoryName()
-        selectionState = .creating
-    }
-
-    func startEditing(category: Category) {
-        categoryName = category.name
-        color = category.color
-        selectionState = .editing
-    }
-
-    func cancelCategoryAction() {
-        resetNewCategoryName()
-        selectionState = .reading
-    }
     
     var formattedDate: String {
         date.formatted(date: .abbreviated, time: .shortened)
@@ -95,14 +72,6 @@ final class EditorViewModel: ObservableObject {
         name.count > characterLimit
     }
     
-    var categoryNameIsTooLong: Bool {
-        categoryName.count > characterLimit
-    }
-    
-    var categoryNameIsValid: Bool {
-        !categoryName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty && !categoryNameIsTooLong
-    }
-    
     var isLocalImage: Bool {
         imageName.isLocalImage
     }
@@ -114,46 +83,6 @@ final class EditorViewModel: ObservableObject {
         
         let targetSize = CGSize(width: 400 * 3, height: 200 * 3)
         return UIImage().downsampledImage(at: fileURL, targetSize: targetSize)
-    }
-    
-    func createCategory(in categoryManager: CategoryManager) -> Category? {
-        let trimmed = categoryName.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !trimmed.isEmpty, trimmed.count <= characterLimit else { return nil }
-        
-        let newCategory = Category(id: UUID(), name: trimmed, color: color ?? K.Colors.defaultCategoryHex)
-        categoryManager.addCategory(newCategory)
-        selectedCategoryId = newCategory.id
-        resetNewCategoryName()
-        color = nil
-        
-        return newCategory
-    }
-    
-    func saveCategory(in categoryManager: CategoryManager, hex: String) {
-        color = hex
-        switch selectionState {
-        case .editing:
-            updateCategory(in: categoryManager)
-        case .creating:
-            _ = createCategory(in: categoryManager)
-        case .reading:
-            break
-        }
-        selectionState = .reading
-    }
-    
-    func updateCategory(in categoryManager: CategoryManager) {
-        guard let id = selectedCategoryId else { return }
-        let trimmed = categoryName.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !trimmed.isEmpty, trimmed.count <= characterLimit else { return }
-        
-        let updatedCategory = Category(id: id, name: trimmed, color: color ?? K.Colors.defaultCategoryHex)
-        categoryManager.updateCategory(updatedCategory)
-        resetNewCategoryName()
-    }
-    
-    func resetNewCategoryName() {
-        categoryName = ""
     }
     
     func save() async -> Event? {

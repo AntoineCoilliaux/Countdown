@@ -16,11 +16,11 @@ final class ManageCategoriesViewModel: ObservableObject {
     
     @Published var selectionState: SelectionState = .reading
     @Published var categoryName: String = ""
-    @Published var selectedCategoryId: UUID? = nil
     @Published var showDeleteAlert = false
     @Published var pendingDeleteEventCount: Int = 0
     @Published var selectedHex: String?
     
+    var selectedCategoryId: UUID?
     private var categoryToDelete: Category?
     let characterLimit: Int = 35
 

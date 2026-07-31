@@ -29,7 +29,7 @@ struct SplashView: View {
                     .opacity(opacity)
                     .offset(y: -30)
 
-                Text("Countdown")
+                Text(K.SplashView.appName)
                     .font(.system(size: 32, weight: .semibold, design: .rounded))
                     .foregroundStyle(Color(hex: "#BBD2E1") ?? .white)
                     .opacity(opacity)

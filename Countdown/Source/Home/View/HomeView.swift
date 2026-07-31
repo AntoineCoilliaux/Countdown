@@ -21,7 +21,11 @@ struct HomeView: View {
     var body: some View {
         NavigationStack {
             VStack(spacing: 0) {
-                CategorySelectorView( selectedCategoryId: $categoryManager.selectedCategoryId, showingManageCategories: $showingManageCategories, showAllOption: true )
+                CategorySelectorView(
+                    selectedCategoryId: $categoryManager.selectedCategoryId,
+                    onManageCategories: { showingManageCategories = true },
+                    showAllOption: true
+                )
                     .padding(.vertical, 10)
                     .padding(.horizontal, 16)
                     .background(Color.black)
@@ -139,27 +143,6 @@ struct HomeView: View {
         }
         return eventStore.events.filter { $0.categoryID == id }
     }
-
-    private var currentCategoryName: String {
-        guard let id = categoryManager.selectedCategoryId,
-              let category = categoryManager.categories.first(where: { $0.id == id })
-        else { return K.HomeView.all }
-        return category.name
-    }
-    
-    private func categoryColor(for event: Event) -> Color {
-        guard let id = event.categoryID,
-              let category = categoryManager.categories.first(where: { $0.id == id }) else {
-            return .black
-        }
-        return Color(hex: category.color) ?? .black
-    }
-    
-    private func categoryColorHex(for event: Event) -> String? {
-        guard let id = event.categoryID,
-              let category = categoryManager.categories.first(where: { $0.id == id }) else { return nil }
-        return category.color
-    }
     
     private var pastSeparator: some View {
         Rectangle()
@@ -183,6 +166,25 @@ struct HomeView: View {
         }
         .listRowInsets(EdgeInsets(top: 4, leading: 12, bottom: 4, trailing: 12))
         .listRowBackground(Color.clear)
+    }
+    
+    private func downloadPendingImages() async {
+        for event in eventStore.events where !event.imageName.isLocalImage {
+            if let localURL = await URL.saveImageFromURL(event.imageName) {
+                var updatedEvent = event
+                updatedEvent.imageName = localURL
+                eventStore.update(updatedEvent)
+            }
+        }
+    }
+    
+    private func resizeForWidget(_ image: UIImage) -> UIImage {
+        // Le widget medium fait ~160pt de large côté image, @3x = 480px max
+        let targetSize = CGSize(width: 160, height: 160)
+        let renderer = UIGraphicsImageRenderer(size: targetSize)
+        return renderer.image { _ in
+            image.draw(in: CGRect(origin: .zero, size: targetSize))
+        }
     }
     
     private func syncWidgetEvents() {
@@ -216,25 +218,6 @@ struct HomeView: View {
         }
         WidgetDataStore.saveAllEvents(widgetEvents)
         WidgetCenter.shared.reloadAllTimelines()
-    }
-    
-    private func downloadPendingImages() async {
-        for event in eventStore.events where !event.imageName.isLocalImage {
-            if let localURL = await URL.saveImageFromURL(event.imageName) {
-                var updatedEvent = event
-                updatedEvent.imageName = localURL
-                eventStore.update(updatedEvent)
-            }
-        }
-    }
-    
-    private func resizeForWidget(_ image: UIImage) -> UIImage {
-        // Le widget medium fait ~160pt de large côté image, @3x = 480px max
-        let targetSize = CGSize(width: 160, height: 160)
-        let renderer = UIGraphicsImageRenderer(size: targetSize)
-        return renderer.image { _ in
-            image.draw(in: CGRect(origin: .zero, size: targetSize))
-        }
     }
 }
 

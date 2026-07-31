@@ -151,6 +151,22 @@ struct K {
         static let editCategory = "Edit category"
     }
     
+    struct ReminderPickerView {
+        static let custom = "Custom"
+        
+        static let removeReminder = "Remove custom reminder"
+        
+        static let scheduled = "SCHEDULED"
+        static let inThePast = "In the past"
+        static let notificationsDisabledMessage = "Notifications disabled"
+        static let enableNotifications = "Enable them in Settings to receive reminders."
+        static let settings = "Settings"
+    }
+    
+    struct SplashView {
+        static let appName = "Countdown"
+    }
+    
     struct UserPicturesPickerView {
         static let progressViewText = "Uploading..."
         static let pickerText = "Choose from Photos"

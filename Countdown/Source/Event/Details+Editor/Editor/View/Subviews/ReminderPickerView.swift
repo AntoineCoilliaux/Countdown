@@ -9,9 +9,10 @@ import SwiftUI
 
 struct ReminderPickerView: View {
     let eventDate: Date
-    @Binding var reminders: [ReminderOption]
     let borderColor : Color
     
+    @Binding var reminders: [ReminderOption]
+
     @State private var isCustomExpanded: Bool = false
     @State private var customDate: Date = Date()
     @State private var showDeniedBanner: Bool = false
@@ -61,7 +62,7 @@ struct ReminderPickerView: View {
                     // 1️⃣ On passe une structure SwiftUI personnalisée au lieu d'un simple String pour le sublabel
                     HStack {
                         VStack(alignment: .leading) {
-                            Text("Custom")
+                            Text(K.ReminderPickerView.custom)
                                 .font(.system(size: 16))
                                 .foregroundStyle(.white)
                             
@@ -119,7 +120,7 @@ struct ReminderPickerView: View {
                                 removeCustomReminder()
                                 isCustomExpanded = false
                         } label: {
-                            Text("Remove custom reminder")
+                            Text(K.ReminderPickerView.removeReminder)
                                 .font(.system(size: 15))
                                 .foregroundStyle(.red)
                                 .frame(maxWidth: .infinity)
@@ -177,7 +178,7 @@ struct ReminderPickerView: View {
     /// Small summary card at the bottom listing all active reminders.
     private var reminderSummary: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("SCHEDULED")
+            Text(K.ReminderPickerView.scheduled)
                 .font(.system(size: 11, weight: .semibold))
                 .foregroundStyle(.white.opacity(0.4))
                 .tracking(1.2)
@@ -196,7 +197,7 @@ struct ReminderPickerView: View {
                                 .font(.system(size: 12))
                                 .foregroundStyle(.white.opacity(0.45))
                         } else {
-                            Text("In the past")
+                            Text(K.ReminderPickerView.inThePast)
                                 .font(.system(size: 12))
                                 .foregroundStyle(.red.opacity(0.8))
                         }
@@ -218,10 +219,10 @@ struct ReminderPickerView: View {
             Image(systemName: "bell.slash.fill")
                 .foregroundStyle(.red)
             VStack(alignment: .leading, spacing: 2) {
-                Text("Notifications disabled")
+                Text(K.ReminderPickerView.notificationsDisabledMessage)
                     .font(.system(size: 14, weight: .semibold))
                     .foregroundStyle(.white)
-                Text("Enable them in Settings to receive reminders.")
+                Text(K.ReminderPickerView.enableNotifications)
                     .font(.system(size: 12))
                     .foregroundStyle(.white.opacity(0.6))
             }
@@ -231,7 +232,7 @@ struct ReminderPickerView: View {
                     UIApplication.shared.open(url)
                 }
             } label: {
-                Text("Settings")
+                Text(K.ReminderPickerView.settings)
                     .font(.system(size: 13, weight: .semibold))
             }
         }
