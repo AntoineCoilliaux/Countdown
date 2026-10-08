@@ -114,7 +114,7 @@ struct EventDetailView: View {
     private var countdownRow: some View {
         HStack(spacing: 8) {
             countdownBox(value: event.isUnder24Hours ? 0 : event.dayNumber(includeHours: true), label: event.dayNumber (includeHours: true) > 1 ? K.EventDetailView.countdownRowDays : K.EventDetailView.countdownRowDay)
-            countdownBox(value: event.hourNumber(), label: K.EventDetailView.countdownRowHours)
+            countdownBox(value: event.hourNumber(includeSeconds: true), label: K.EventDetailView.countdownRowHours)
             countdownBox(value: event.minuteNumber(includeSeconds: true), label: K.EventDetailView.countdownRowMinutes)
             countdownBox(value: event.secondNumber, label: K.EventDetailView.countdownRowSeconds, accent: true)
         }
