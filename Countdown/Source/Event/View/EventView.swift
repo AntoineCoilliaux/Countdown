@@ -67,7 +67,7 @@ struct EventView: View {
                                 .font(.system(size: 14, weight: .regular))
                                 .foregroundStyle(.white.opacity(0.5))
                         } else {
-                            Text("\(event.hourNumber())")
+                            Text("\(event.hourNumber(includeSeconds: false))")
                                 .font(.system(size: 36, weight: .light))
                                 .foregroundStyle(.white)
                             

@@ -37,9 +37,15 @@ extension Event {
         }
     }
 
-    func hourNumber() -> Int {
-        let interval = date.timeIntervalSince(Date())
-        let totalMinutes = Int(ceil(abs(interval) / 60))
+    func hourNumber(includeSeconds: Bool = false) -> Int {
+        let absoluteInterval = abs(date.timeIntervalSince(Date()))
+
+        let totalMinutes: Int
+        if includeSeconds || !isInFuture {
+            totalMinutes = Int(absoluteInterval / 60)
+        } else {
+            totalMinutes = Int(ceil(absoluteInterval / 60))
+        }
         return (totalMinutes / 60) % 24
     }
 
