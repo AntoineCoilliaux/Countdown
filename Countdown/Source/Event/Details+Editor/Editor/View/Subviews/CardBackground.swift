@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CardBackground: View {
     let borderColor: Color
-    
+
     var body: some View {
         RoundedRectangle(cornerRadius: 12)
             .fill(.clear)
@@ -21,5 +21,5 @@ struct CardBackground: View {
 }
 
 #Preview {
-    CardBackground(borderColor: .white)
+    CardBackground(borderColor: Color.textPrimary)
 }

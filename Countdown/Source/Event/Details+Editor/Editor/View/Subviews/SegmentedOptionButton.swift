@@ -22,12 +22,12 @@ struct SegmentedOptionButton<Content: View>: View {
             .frame(maxWidth: .infinity)
             .frame(height: 25)
             .padding(.vertical, 10)
-            .background(isSelected ? Color.white.opacity(0.15) : .clear)
-            .foregroundStyle(isSelected ? .white : .white.opacity(0.4))
+            .background(isSelected ? Color.textPrimary.opacity(0.15) : .clear)
+            .foregroundStyle(isSelected ? Color.textPrimary : Color.textPrimary.opacity(0.4))
             .clipShape(RoundedRectangle(cornerRadius: 10))
             .overlay {
                 RoundedRectangle(cornerRadius: 10)
-                    .stroke(.white.opacity(isSelected ? 0.3 : 0.1), lineWidth: 1)
+                    .stroke(Color.textPrimary.opacity(isSelected ? 0.3 : 0.1), lineWidth: 1)
             }
         }
     }

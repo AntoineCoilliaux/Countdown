@@ -19,10 +19,10 @@ struct CategoryFormView: View {
         VStack(spacing: 0) {
  
             TextField("", text: $categoryName, prompt: Text(K.Common.Category.namePlaceholder)
-                .foregroundStyle(.white.opacity(0.5)))
+                .foregroundStyle(Color.textPrimary.opacity(0.5)))
                 .textFieldStyle(.plain)
-                .foregroundStyle(.white)
-                .tint(.white)
+                .foregroundStyle(Color.textPrimary)
+                .tint(Color.textPrimary)
                 .paddingStyle()
 
             AppDivider()
@@ -35,9 +35,9 @@ struct CategoryFormView: View {
                 Button(K.Common.Buttons.cancel, role: .cancel) {
                     onCancel()
                 }
-                .foregroundStyle(.red)
+                .foregroundStyle(Color.appRed)
                 .paddingStyle()
-
+                
                 if categoryNameIsValid && selectedHex != nil {
                     AppDivider()
                     Button {

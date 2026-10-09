@@ -29,6 +29,11 @@ struct EditorView: View {
         return eventStore.events.filter { $0.categoryID == id }.count
     }
     
+    /// Couleur d'accent : celle de la catégorie, sinon la couleur de texte principale.
+    private var accentColor: Color {
+        currentCategoryColor ?? Color.textPrimary
+    }
+    
     let onSave: (Event) -> Void
     
     init(onSave: @escaping (Event) -> Void) {
@@ -55,7 +60,7 @@ struct EditorView: View {
                 .padding(.vertical, 20)
             }
             .scrollDismissesKeyboard(.immediately)
-            .background(.black)
+            .background(Color.screenBackground)
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
                     Button(K.EditorView.doneButton) {
@@ -69,9 +74,8 @@ struct EditorView: View {
                 }
             }
         }
-        .toolbarBackground(.black, for: .navigationBar)
+        .toolbarBackground(Color.screenBackground, for: .navigationBar)
         .toolbarBackground(.visible, for: .navigationBar)
-        .toolbarColorScheme(.dark, for: .navigationBar)
         
         .sheet(isPresented: $isShowingImageSheet) {
             ImagePickerSheetView { url in
@@ -174,7 +178,7 @@ struct EditorView: View {
     private var emojiView: some View {
         ZStack {
             LinearGradient(
-                colors: [(currentCategoryColor ?? .white).opacity(0.35), (currentCategoryColor ?? .white).opacity(0.15)],
+                colors: [accentColor.opacity(0.35), accentColor.opacity(0.15)],
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing
             )
@@ -190,7 +194,7 @@ struct EditorView: View {
             EventMediaView(
                 displayMode: vm.displayMode,
                 emoji: vm.emoji,
-                categoryColor: currentCategoryColor ?? .white,
+                categoryColor: accentColor,
                 emojiHeight: 190,
                 photoHeight: 190
             ) {
@@ -198,7 +202,7 @@ struct EditorView: View {
             }
             .frame(maxWidth: .infinity)
             .overlay(RoundedRectangle(cornerRadius: 12)
-                .stroke(.white.opacity(0.15), lineWidth: 1))
+                .stroke(Color.textPrimary.opacity(0.15), lineWidth: 1))
             .clipShape(RoundedRectangle(cornerRadius: 12))
             .onTapGesture {
                 if vm.displayMode == .emoji {
@@ -245,19 +249,19 @@ struct EditorView: View {
                 .fontWeight(.medium)
                 .textCase(.uppercase)
                 .tracking(1.2)
-                .foregroundStyle(.white.opacity(0.75))
+                .foregroundStyle(Color.textPrimary.opacity(0.75))
             
             TextField("", text: $vm.name, prompt: Text(K.EditorView.textfieldPlaceholder)
-                .foregroundStyle(.white.opacity(0.5)))
+                .foregroundStyle(Color.textPrimary.opacity(0.5)))
             .textFieldStyle(.plain)
             .font(.system(size: 30))
-            .foregroundStyle(.white)
-            .tint(.white)
+            .foregroundStyle(Color.textPrimary)
+            .tint(Color.textPrimary)
             .submitLabel(.done)
             .overlay(
                 Rectangle()
                     .frame(height: 0.5)
-                    .foregroundStyle(.white.opacity(0.3)), alignment: .bottom)
+                    .foregroundStyle(Color.textPrimary.opacity(0.3)), alignment: .bottom)
             .padding(.vertical, 14)
             
             if vm.eventTitleIsTooLong {
@@ -265,7 +269,7 @@ struct EditorView: View {
                     .padding(.horizontal, 16)
             }
         }
-        .background(CardBackground(borderColor: vm.eventTitleIsTooLong ? .red : .clear))
+        .background(CardBackground(borderColor: vm.eventTitleIsTooLong ? Color.appRed : .clear))
     }
     
     // MARK: - Category
@@ -290,7 +294,7 @@ struct EditorView: View {
             AppDivider()
             remindMe
         }
-        .background(CardBackground(borderColor: currentCategoryColor ?? .white))
+        .background(CardBackground(borderColor: accentColor))
     }
     
     // MARK: - Helpers
@@ -305,7 +309,7 @@ struct EditorView: View {
     private func refreshCurrentColor() {
         if let id = vm.selectedCategoryId,
            let category = categoryManager.categories.first(where: { $0.id == id }) {
-            currentCategoryColor = Color(hex: category.color)
+            currentCategoryColor = Color.category(hex: category.color)
         } else {
             currentCategoryColor = nil
         }
@@ -314,8 +318,7 @@ struct EditorView: View {
     private func selectionGradient(when condition: Bool) -> LinearGradient {
         LinearGradient(
             colors: condition
-                ? [(currentCategoryColor ?? .white).opacity(0.35),
-                   (currentCategoryColor ?? .white).opacity(0.15)]
+                ? [accentColor.opacity(0.35), accentColor.opacity(0.15)]
                 : [.clear, .clear],
             startPoint: .topLeading,
             endPoint: .bottomTrailing
@@ -332,11 +335,11 @@ struct EditorView: View {
                 scheduleRow(title: K.EditorView.date, titleOpacity: 1) {
                     HStack(spacing: 6) {
                         Text(vm.formattedDate)
-                            .foregroundStyle(.white)
+                            .foregroundStyle(Color.textPrimary)
                             .font(.system(size: 15))
                         Image(systemName: "chevron.down")
                             .font(.system(size: 12, weight: .semibold))
-                            .foregroundStyle(.white.opacity(0.3))
+                            .foregroundStyle(Color.textPrimary.opacity(0.3))
                             .rotationEffect(.degrees(dateExpanded ? 180 : 0))
                     }
                 }
@@ -351,7 +354,6 @@ struct EditorView: View {
                     displayedComponents: [.date, .hourAndMinute]
                 )
                 .datePickerStyle(.graphical)
-                .colorScheme(.dark)
                 .padding(12)
             }
         }
@@ -371,7 +373,7 @@ struct EditorView: View {
                     }
                 ))
                 .labelsHidden()
-                .tint(currentCategoryColor ?? .green)
+                .tint(currentCategoryColor ?? Color.appGreen)
             }
         }
         .disabled(vm.date <= Date())
@@ -389,14 +391,14 @@ struct EditorView: View {
                     HStack(spacing: 6) {
                         Image(systemName: vm.reminders.isEmpty ? "bell" : "bell.badge")
                             .font(.system(size: 11))
-                            .foregroundStyle(vm.reminders.isEmpty ? .white.opacity(0.3) : currentCategoryColor ?? .white)
+                            .foregroundStyle(vm.reminders.isEmpty ? Color.textPrimary.opacity(0.3) : accentColor)
                         Text(vm.remindersSummary)
                             .font(.system(size: 13))
-                            .foregroundStyle(vm.reminders.isEmpty ? .white.opacity(0.4) : .white.opacity(0.6))
+                            .foregroundStyle(Color.textPrimary.opacity(vm.reminders.isEmpty ? 0.4 : 0.6))
                             .lineLimit(3)
                         Image(systemName: "chevron.down")
                             .font(.system(size: 12, weight: .semibold))
-                            .foregroundStyle(.white.opacity(0.3))
+                            .foregroundStyle(Color.textPrimary.opacity(0.3))
                             .rotationEffect(.degrees(reminderExpanded ? 180 : 0))
                     }
                 }
@@ -407,7 +409,7 @@ struct EditorView: View {
             
             if reminderExpanded {
                 AppDivider()
-                ReminderPickerView(eventDate: vm.date, borderColor: currentCategoryColor ?? .white, reminders: $vm.reminders)
+                ReminderPickerView(eventDate: vm.date, borderColor: accentColor, reminders: $vm.reminders)
                     .transition(.move(edge: .top).combined(with: .opacity))
             }
         }
@@ -417,7 +419,7 @@ struct EditorView: View {
     private func scheduleRow<Trailing: View>(title: String, titleOpacity: CGFloat, @ViewBuilder trailing: () -> Trailing) -> some View {
         HStack {
             Text(title)
-                .foregroundStyle(.white.opacity(titleOpacity))
+                .foregroundStyle(Color.textPrimary.opacity(titleOpacity))
             Spacer()
             trailing()
         }

@@ -17,7 +17,7 @@ struct SplashView: View {
             HomeView()
         } else {
             ZStack {
-                Color(hex: K.Colors.appBackground)
+                Color.appBackground
                     .ignoresSafeArea()
 
                 Image("CountdownIcon")
@@ -31,7 +31,7 @@ struct SplashView: View {
 
                 Text(K.SplashView.appName)
                     .font(.system(size: 32, weight: .semibold, design: .rounded))
-                    .foregroundStyle(Color(hex: "#BBD2E1") ?? .white)
+                    .foregroundStyle(Color(light: Color(hex: "#3B5B72") ?? .black, dark: Color(hex: "#BBD2E1") ?? .white))
                     .opacity(opacity)
                     .offset(y: 100)
             }
