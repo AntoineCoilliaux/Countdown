@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CategorySelectorView: View {
     @EnvironmentObject var categoryManager: CategoryManager
-    
+
     @Binding var selectedCategoryId: UUID?
     let onManageCategories: () -> Void
 
@@ -18,29 +18,30 @@ struct CategorySelectorView: View {
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 8) {
-                
+
                 if showAllOption {
                     Button {
                         selectedCategoryId = nil
                     } label: {
+                        let isSelected = selectedCategoryId == nil
                         Text(K.HomeView.all)
                             .categoryButtonStyle(
-                                foreground: selectedCategoryId == nil ? .black : .white,
-                                background: selectedCategoryId == nil ? .white : .white.opacity(0.15)
+                                foreground: isSelected ? Color.screenBackground : Color.textPrimary,
+                                background: isSelected ? Color.textPrimary : Color.textPrimary.opacity(0.15)
                             )
                     }
                 }
-                
+
                 ForEach(categoryManager.categories) { category in
                     categoryPill(category)
                 }
-                
+
                 Button {
                     onManageCategories()
                 } label: {
                     Label(K.Common.Category.manageCategories, systemImage: "pencil")
                         .categoryButtonStyle(
-                            foreground: .white.opacity(0.5),
+                            foreground: Color.textPrimary.opacity(0.5),
                             dashed: true
                         )
                 }
@@ -50,20 +51,16 @@ struct CategorySelectorView: View {
 
     private func categoryPill(_ category: Category) -> some View {
         let isSelected = selectedCategoryId == category.id
-        let color = Color(hex: category.color) ?? .white
+        let color = Color.category(hex: category.color)
 
         return Button {
             selectedCategoryId = isSelected ? nil : category.id
         } label: {
             Text(category.name)
                 .categoryButtonStyle(
-                    foreground: isSelected ? .black : color,
+                    foreground: isSelected ? Color.onCategory : color,
                     background: isSelected ? color : color.opacity(0.15)
                 )
         }
     }
 }
-
-//#Preview {
-//    CategorySelectorView(showingManageCategories: false)
-//}

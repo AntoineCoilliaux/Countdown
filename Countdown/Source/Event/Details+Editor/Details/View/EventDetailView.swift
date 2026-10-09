@@ -25,11 +25,11 @@ struct EventDetailView: View {
                     
                     Text(event.name)
                         .font(.system(size: 28, weight: .bold))
-                        .foregroundStyle(.white)
+                        .foregroundStyle(Color.textPrimary)
                     
                     Text(event.formattedFullDate)
                         .font(.system(size: 13))
-                        .foregroundStyle(.white.opacity(0.45))
+                        .foregroundStyle(Color.textPrimary.opacity(0.45))
                     
                     TimelineView(.animation) { _ in
                         countdownRow
@@ -41,7 +41,7 @@ struct EventDetailView: View {
                 .padding(.top, 16)
             }
         }
-        .background(.black)
+        .background(Color.screenBackground)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
@@ -59,7 +59,7 @@ struct EventDetailView: View {
             }
             .overlay(alignment: .top) {
                 RoundedRectangle(cornerRadius: 20)
-                    .stroke(Color.white.opacity(0.15), lineWidth: 1)
+                    .stroke(Color.textPrimary.opacity(0.15), lineWidth: 1)
                     .ignoresSafeArea()
             }
         }
@@ -91,7 +91,7 @@ struct EventDetailView: View {
             AsyncImage(url: event.imageName) { image in
                 image.resizable()
             } placeholder: {
-                Rectangle().fill(Color.white.opacity(0.05))
+                Rectangle().fill(Color.textPrimary.opacity(0.05))
             }
         }
     }
@@ -103,10 +103,10 @@ struct EventDetailView: View {
                 Text(category.name.uppercased())
                     .font(.system(size: 16, weight: .bold))
                     .tracking(0.8)
-                    .foregroundStyle(.black)
+                    .foregroundStyle(Color.onCategory)
                     .padding(.horizontal, 10)
                     .padding(.vertical, 5)
-                    .background(Capsule().fill(Color(hex: category.color) ?? .white))
+                    .background(Capsule().fill(Color.category(hex: category.color)))
             }
         }
     }
@@ -114,7 +114,7 @@ struct EventDetailView: View {
     private var countdownRow: some View {
         HStack(spacing: 8) {
             countdownBox(value: event.isUnder24Hours ? 0 : event.dayNumber(includeHours: true), label: event.dayNumber (includeHours: true) > 1 ? K.EventDetailView.countdownRowDays : K.EventDetailView.countdownRowDay)
-            countdownBox(value: event.hourNumber(), label: K.EventDetailView.countdownRowHours)
+            countdownBox(value: event.hourNumber(includeSeconds: true), label: K.EventDetailView.countdownRowHours)
             countdownBox(value: event.minuteNumber(includeSeconds: true), label: K.EventDetailView.countdownRowMinutes)
             countdownBox(value: event.secondNumber, label: K.EventDetailView.countdownRowSeconds, accent: true)
         }
@@ -124,15 +124,15 @@ struct EventDetailView: View {
         VStack(spacing: 3) {
             Text("\(value)")
                 .font(.system(size: 22, weight: .light))
-                .foregroundStyle(accent ? (categoryColor) : .white)
+                .foregroundStyle(accent ? categoryColor : Color.textPrimary)
             Text(label)
                 .font(.system(size: 9, weight: .semibold))
                 .tracking(0.6)
-                .foregroundStyle(.white.opacity(0.35))
+                .foregroundStyle(Color.textPrimary.opacity(0.35))
         }
         .frame(maxWidth: .infinity)
         .padding(.vertical, 10)
-        .background(Color.white.opacity(0.06))
+        .background(Color.cardFill)
         .clipShape(RoundedRectangle(cornerRadius: 12))
     }
     
@@ -140,12 +140,13 @@ struct EventDetailView: View {
         VStack(alignment: .leading, spacing: 6) {
             HStack {
                 if event.isInFuture {
-                    Text("\(Int(event.progressFraction * 100))\(K.EventDetailView.progressSectionFuture)")                        .font(.system(size: 15))
-                        .foregroundStyle(.white.opacity(0.35))
+                    Text("\(Int(event.progressFraction * 100))\(K.EventDetailView.progressSectionFuture)")
+                        .font(.system(size: 15))
+                        .foregroundStyle(Color.textPrimary.opacity(0.35))
                 } else {
                     Text(K.EventDetailView.progressSectionPast)
                         .font(.system(size: 20))
-                        .foregroundStyle(.white.opacity(0.35))
+                        .foregroundStyle(Color.textPrimary.opacity(0.35))
                 }
                 
                 Spacer()
@@ -153,11 +154,11 @@ struct EventDetailView: View {
                     .foregroundStyle(categoryColor)
             }
             .font(.system(size: 11))
-            .foregroundStyle(.white.opacity(0.35))
+            .foregroundStyle(Color.textPrimary.opacity(0.35))
             
             GeometryReader { geo in
                 ZStack(alignment: .leading) {
-                    Capsule().fill(Color.white.opacity(0.1)).frame(height: 3)
+                    Capsule().fill(Color.textPrimary.opacity(0.1)).frame(height: 3)
                     Capsule().fill(categoryColor).frame(width: geo.size.width * event.progressFraction, height: 3)
                 }
             }
@@ -172,20 +173,20 @@ struct EventDetailView: View {
             if event.reminders.isEmpty {
                 HStack() {
                     Text(K.Common.Reminder.remindMe)
-                        .foregroundStyle(.white)
+                        .foregroundStyle(Color.textPrimary)
                     Spacer()
                         Image(systemName: "bell.slash")
                             .font(.system(size: 10))
-                            .foregroundStyle(.white.opacity(0.25))
+                            .foregroundStyle(Color.textPrimary.opacity(0.25))
                     Text(K.EventDetailView.never)
                             .font(.system(size: 14))
-                            .foregroundStyle(.white.opacity(0.25))
+                            .foregroundStyle(Color.textPrimary.opacity(0.25))
                 }
             } else {
                 
                 VStack(alignment: .leading) {
                     Text(K.EventDetailView.remindMe)
-                        .foregroundStyle(.white)
+                        .foregroundStyle(Color.textPrimary)
                     AppDivider()
                     VStack(alignment: .leading, spacing: 4) {
                         ForEach(
@@ -202,15 +203,15 @@ struct EventDetailView: View {
                                         .foregroundStyle(categoryColor)
                                     Text(reminder.label)
                                         .font(.system(size: 14))
-                                        .foregroundStyle(.white.opacity(0.5))
+                                        .foregroundStyle(Color.textPrimary.opacity(0.5))
                                 } else {
                                     Image(systemName: "bell.slash")
                                         .font(.system(size: 10))
-                                        .foregroundStyle(.white.opacity(0.25))
+                                        .foregroundStyle(Color.textPrimary.opacity(0.25))
                                     Text(reminder.label)
                                         .font(.system(size: 14))
-                                        .foregroundStyle(.white.opacity(0.25))
-                                        .strikethrough(true, color: .white.opacity(0.2))
+                                        .foregroundStyle(Color.textPrimary.opacity(0.25))
+                                        .strikethrough(true, color: Color.textPrimary.opacity(0.2))
                                 }
                             }
                         }
@@ -221,14 +222,14 @@ struct EventDetailView: View {
         
         .padding(.horizontal, 16)
         .padding(.vertical, 14)
-        .background(CardBackground(borderColor: .white))
+        .background(CardBackground(borderColor: Color.textPrimary))
     }
     
     private var categoryColor: Color {
         if let id = event.categoryID,
            let category = categoryManager.categories.first(where: { $0.id == id }) {
-            return Color(hex: category.color) ?? .white
+            return Color.category(hex: category.color)
         }
-        return .white
+        return Color.textPrimary
     }
 }

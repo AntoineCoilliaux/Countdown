@@ -15,7 +15,7 @@ struct CategoryEventRow: View {
     var body: some View {
         HStack {
             Image(systemName: isInFuture ? "arrow.down" : "arrow.up")
-                .foregroundStyle(isInFuture ? Color(hex: K.Colors.green) ?? .green : Color(hex: K.Colors.red) ?? .red)
+                .foregroundStyle(isInFuture ? Color.appGreen : Color.appRed)
             Text(event.name)
             Spacer()
             Text(event.date, style: .date)

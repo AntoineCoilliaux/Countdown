@@ -34,10 +34,10 @@ struct EventView: View {
                        let category = categoryManager.categories.first(where: { $0.id == id }) {
                         Text(category.name.uppercased())
                             .font(.system(size: 11, weight: .medium))
-                            .foregroundStyle(.black)
+                            .foregroundStyle(Color.onCategory)
                             .padding(.horizontal, 7)
                             .padding(.vertical, 3)
-                            .background(Color(hex: category.color) ?? .white)
+                            .background(Color.category(hex: category.color))
                             .clipShape(Capsule())
                     }
 
@@ -49,7 +49,7 @@ struct EventView: View {
                         Text(event.date, style: .time)
                     }
                     .font(.system(size: 13, weight: .regular))
-                    .foregroundStyle(.white.opacity(0.5))
+                    .foregroundStyle(Color.textPrimary.opacity(0.5))
                 }
 
                     HStack(alignment: .lastTextBaseline, spacing: 6) {
@@ -57,37 +57,37 @@ struct EventView: View {
                         if event.itsTime {
                             Text(K.EventView.itsTime)
                                   .font(.system(size: 14, weight: .regular))
-                                  .foregroundStyle(.white.opacity(0.5))
+                                  .foregroundStyle(Color.textPrimary.opacity(0.5))
                         } else if !event.isUnder24Hours {
                             Text("\(event.dayNumber(includeHours: false))")
                                 .font(.system(size: 36, weight: .light))
-                                .foregroundStyle(.white)
+                                .foregroundStyle(Color.textPrimary)
                             
                             Text("\(event.dayNumber(includeHours: false) < 2 ? K.EventView.day : K.EventView.days) \(event.isInFuture ? K.EventView.to : K.EventView.since)")
                                 .font(.system(size: 14, weight: .regular))
-                                .foregroundStyle(.white.opacity(0.5))
+                                .foregroundStyle(Color.textPrimary.opacity(0.5))
                         } else {
-                            Text("\(event.hourNumber())")
+                            Text("\(event.hourNumber(includeSeconds: false))")
                                 .font(.system(size: 36, weight: .light))
-                                .foregroundStyle(.white)
+                                .foregroundStyle(Color.textPrimary)
                             
                             Text(K.EventView.hourAbbreviation)
                                 .font(.system(size: 14, weight: .regular))
-                                .foregroundStyle(.white.opacity(0.5))
+                                .foregroundStyle(Color.textPrimary.opacity(0.5))
                             
                             Text(String(format: "%02d", event.minuteNumber(includeSeconds: false)))
                                 .font(.system(size: 36, weight: .light))
-                                .foregroundStyle(.white)
+                                .foregroundStyle(Color.textPrimary)
 
                             
                             Text("\(K.EventView.minuteAbbreviation) \(event.isInFuture ? K.EventView.to : K.EventView.since)")
                                 .font(.system(size: 14, weight: .regular))
-                                .foregroundStyle(.white.opacity(0.5))
+                                .foregroundStyle(Color.textPrimary.opacity(0.5))
                         }
                         
                         Text(event.name)
                             .font(.system(size: 14, weight: .bold))
-                            .foregroundStyle(.white)
+                            .foregroundStyle(Color.textPrimary)
                             .lineLimit(2)
                     }
                 if event.isInFuture {
@@ -97,7 +97,7 @@ struct EventView: View {
             .padding(.horizontal, 14)
             .padding(.vertical, 12)
         }
-        .background(Color(hex: K.Colors.editorBackground) ?? .black)
+        .background(Color.editorBackground)
         .clipShape(RoundedRectangle(cornerRadius: 20))
     }
 
@@ -107,7 +107,7 @@ struct EventView: View {
         GeometryReader { geo in
             ZStack(alignment: .leading) {
                 Capsule()
-                    .fill(Color.white.opacity(0.1))
+                    .fill(Color.textPrimary.opacity(0.1))
                     .frame(height: 3)
 
                 Capsule()
@@ -154,11 +154,11 @@ struct EventView: View {
 
     private var placeholderImage: some View {
         Rectangle()
-            .fill(Color.white.opacity(0.05))
+            .fill(Color.textPrimary.opacity(0.05))
             .overlay(
                 Image(systemName: "photo")
                     .font(.system(size: 28))
-                    .foregroundStyle(.white.opacity(0.2))
+                    .foregroundStyle(Color.textPrimary.opacity(0.2))
             )
     }
 
@@ -179,9 +179,9 @@ struct EventView: View {
     private var categoryColor: Color {
         if let id = event.categoryID,
            let category = categoryManager.categories.first(where: { $0.id == id }) {
-            return Color(hex: category.color) ?? .white
+            return Color.category(hex: category.color)
         }
-        return .white
+        return Color.textPrimary
     }
 }
 
@@ -189,5 +189,5 @@ struct EventView: View {
     let event = Event(id: UUID(), name: "Trip to Tokyo", date: Date().addingTimeInterval(86400 * 12), imageName: URL(string: "https://picsum.photos/seed/1/400/140")!)
     EventView(event: event, currentDate: Date())
         .padding()
-        .background(Color(hex: "#0D0D14") ?? .black)
+        .background(Color.screenBackground)
 }

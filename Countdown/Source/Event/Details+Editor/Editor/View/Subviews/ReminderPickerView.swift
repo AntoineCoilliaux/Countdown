@@ -64,12 +64,12 @@ struct ReminderPickerView: View {
                         VStack(alignment: .leading) {
                             Text(K.ReminderPickerView.custom)
                                 .font(.system(size: 16))
-                                .foregroundStyle(.white)
+                                .foregroundStyle(Color.textPrimary)
                             
                             if let sub = customReminder.map({ formatCustomLabel($0) ?? "" }), !sub.isEmpty {
                                 Text(sub)
                                     .font(.system(size: 12))
-                                    .foregroundStyle(.white.opacity(0.45))
+                                    .foregroundStyle(Color.textPrimary.opacity(0.45))
                             }
                         }
                         
@@ -80,12 +80,12 @@ struct ReminderPickerView: View {
                             if hasCustomReminder {
                                 Image(systemName: "checkmark")
                                     .font(.system(size: 14, weight: .semibold))
-                                    .foregroundStyle(.white)
+                                    .foregroundStyle(Color.textPrimary)
                             }
                             
                             Image(systemName: "chevron.down")
                                 .font(.system(size: 12, weight: .semibold))
-                                .foregroundStyle(.white.opacity(0.3))
+                                .foregroundStyle(Color.textPrimary.opacity(0.3))
                             // 3️⃣ Animation de rotation à 180° quand le calendrier est déplié
                                 .rotationEffect(.degrees(isCustomExpanded ? 180 : 0))
                         }
@@ -106,7 +106,6 @@ struct ReminderPickerView: View {
                         displayedComponents: [.date, .hourAndMinute]
                     )
                     .datePickerStyle(.graphical)
-                    .colorScheme(.dark)
                     .padding(12)
                     .onChange(of: customDate) { _, newDate in
                         setCustomReminder(to: newDate)
@@ -122,7 +121,7 @@ struct ReminderPickerView: View {
                         } label: {
                             Text(K.ReminderPickerView.removeReminder)
                                 .font(.system(size: 15))
-                                .foregroundStyle(.red)
+                                .foregroundStyle(Color.appRed)
                                 .frame(maxWidth: .infinity)
                                 .padding(.vertical, 14)
                         }
@@ -156,18 +155,18 @@ struct ReminderPickerView: View {
             VStack(alignment: .leading, spacing: 2) {
                 Text(label)
                     .font(.system(size: 16))
-                    .foregroundStyle(.white)
+                    .foregroundStyle(Color.textPrimary)
                 if let sub = sublabel {
                     Text(sub)
                         .font(.system(size: 12))
-                        .foregroundStyle(.white.opacity(0.45))
+                        .foregroundStyle(Color.textPrimary.opacity(0.45))
                 }
             }
             Spacer()
             if isSelected {
                 Image(systemName: "checkmark")
                     .font(.system(size: 14, weight: .semibold))
-                    .foregroundStyle(.white)
+                    .foregroundStyle(Color.textPrimary)
             }
         }
         .padding(.horizontal, 16)
@@ -180,7 +179,7 @@ struct ReminderPickerView: View {
         VStack(alignment: .leading, spacing: 8) {
             Text(K.ReminderPickerView.scheduled)
                 .font(.system(size: 11, weight: .semibold))
-                .foregroundStyle(.white.opacity(0.4))
+                .foregroundStyle(Color.textPrimary.opacity(0.4))
                 .tracking(1.2)
             
             VStack(spacing: 0) {
@@ -190,16 +189,16 @@ struct ReminderPickerView: View {
                             .font(.system(size: 12))
                         Text(reminder.label)
                             .font(.system(size: 14))
-                            .foregroundStyle(.white)
+                            .foregroundStyle(Color.textPrimary)
                         Spacer()
                         if let fire = reminder.fireDate(for: eventDate) {
                             Text(fire.formatted(date: .abbreviated, time: .shortened))
                                 .font(.system(size: 12))
-                                .foregroundStyle(.white.opacity(0.45))
+                                .foregroundStyle(Color.textPrimary.opacity(0.45))
                         } else {
                             Text(K.ReminderPickerView.inThePast)
                                 .font(.system(size: 12))
-                                .foregroundStyle(.red.opacity(0.8))
+                                .foregroundStyle(Color.appRed.opacity(0.8))
                         }
                     }
                     .padding(.horizontal, 16)
@@ -210,21 +209,21 @@ struct ReminderPickerView: View {
                     }
                 }
             }
-            .background(CardBackground(borderColor: .white))
+            .background(CardBackground(borderColor: Color.textPrimary))
         }
     }
     
     private var deniedBanner: some View {
         HStack(spacing: 10) {
             Image(systemName: "bell.slash.fill")
-                .foregroundStyle(.red)
+                .foregroundStyle(Color.appRed)
             VStack(alignment: .leading, spacing: 2) {
                 Text(K.ReminderPickerView.notificationsDisabledMessage)
                     .font(.system(size: 14, weight: .semibold))
-                    .foregroundStyle(.white)
+                    .foregroundStyle(Color.textPrimary)
                 Text(K.ReminderPickerView.enableNotifications)
                     .font(.system(size: 12))
-                    .foregroundStyle(.white.opacity(0.6))
+                    .foregroundStyle(Color.textPrimary.opacity(0.6))
             }
             Spacer()
             Button {
@@ -237,7 +236,7 @@ struct ReminderPickerView: View {
             }
         }
         .padding(14)
-        .background(CardBackground(borderColor: .red.opacity(0.4)))
+        .background(CardBackground(borderColor: Color.appRed.opacity(0.4)))
     }
     
     // MARK: - Helpers

@@ -67,7 +67,7 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Constants.swift,
-				Shared/Components/CategoryGradient.swift,
+				Shared/Color/Color.swift,
 				"Shared/Helpers/Color+Extension.swift",
 				Shared/Widget/WidgetDataStore.swift,
 				Shared/Widget/WidgetEvent.swift,

@@ -14,20 +14,20 @@ struct ColorRow: View {
 
     var body: some View {
         LazyVGrid(columns: columns, spacing: 4) {
-            ForEach(K.Colors.categoryColors, id: \.hex) { color in
+            ForEach(Colors.categoryColors) { color in
                 Circle()
-                    .fill(Color(hex: color.hex) ?? .clear)
+                    .fill(Color.category(hex: color.dark))
                     .frame(width: 35, height: 35)
                     .padding(5)
                     .overlay(
                         Circle()
                             .strokeBorder(
-                                selectedHex == color.hex ? Color.primary : Color.clear,
+                                selectedHex == color.dark ? Color.primary : Color.clear,
                                 lineWidth: 2
                             )
                     )
                     .onTapGesture {
-                        selectedHex = color.hex
+                        selectedHex = color.dark
                     }
             }
         }
