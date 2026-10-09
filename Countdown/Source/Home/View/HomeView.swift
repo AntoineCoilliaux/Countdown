@@ -29,7 +29,7 @@ struct HomeView: View {
                 )
                 .padding(.vertical, 10)
                 .padding(.horizontal, 16)
-                .background(Color.black)
+                .background(Color.screenBackground)
 
                 if filteredEvents.isEmpty {
                     Spacer()
@@ -41,7 +41,7 @@ struct HomeView: View {
                     }
                 }
             }
-            .background(.black)
+            .background(Color.screenBackground)
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     Button {
@@ -92,7 +92,7 @@ struct HomeView: View {
                 Image(systemName: "calendar.badge.clock")
             }
         }
-        .foregroundStyle(.white)
+        .foregroundStyle(Color.textPrimary)
     }
 
     /// Liste unique, partagée entre la vue compacte et la vue normale.
@@ -132,6 +132,8 @@ struct HomeView: View {
     private func row(for event: Event, now: Date) -> some View {
         if useCompactView {
             CompactEventRow(event: event, now: now)
+                // Évite que le fond blanc par défaut des lignes apparaisse en light mode
+                .listRowBackground(Color.clear)
         } else {
             ZStack {
                 NavigationLink {
@@ -157,13 +159,13 @@ struct HomeView: View {
             Color.clear.frame(height: 8)
             Divider()
         }
-        .background(.black)
+        .background(Color.screenBackground)
     }
 
     private var pastSeparator: some View {
         Rectangle()
             .stroke(style: StrokeStyle(lineWidth: 1, dash: [4, 4]))
-            .foregroundStyle(.white.opacity(0.5))
+            .foregroundStyle(Color.textPrimary.opacity(0.5))
             .frame(height: 1)
             .padding(.horizontal, 12)
     }
@@ -225,142 +227,6 @@ struct HomeView: View {
         }
         WidgetDataStore.saveAllEvents(widgetEvents)
         WidgetCenter.shared.reloadAllTimelines()
-    }
-
-    // MARK: - CompactEventRow
-
-    /// Carte horizontale compacte d'un événement.
-    private struct CompactEventRow: View {
-        let event: Event
-        let now: Date
-
-        @EnvironmentObject private var categoryManager: CategoryManager
-
-        private var daysRemaining: Int {
-            let calendar = Calendar.current
-            return abs(calendar.dateComponents(
-                [.day],
-                from: calendar.startOfDay(for: now),
-                to: calendar.startOfDay(for: event.date)
-            ).day ?? 0)
-        }
-
-        /// Progression de createdAt à la date de l'événement, entre 0 et 1.
-        private var progress: CGFloat {
-            guard let createdAt = event.createdAt else { return 0 }
-            let total = event.date.timeIntervalSince(createdAt)
-            guard total > 0 else { return 1 }
-            return min(max(CGFloat(now.timeIntervalSince(createdAt) / total), 0), 1)
-        }
-
-        private var categoryColor: Color {
-            guard let hex = categoryManager.categories
-                .first(where: { $0.id == event.categoryID })?.color
-            else { return .white }
-            return Color(hex: hex) ?? .white
-        }
-
-        // MARK: Parties de la ligne
-
-        @ViewBuilder
-        private var imageOrEmojiView: some View {
-            if event.displayMode == .photo,
-               let filename = event.imageName.localFilename,
-               let fileURL = URL.localImageURL(filename: filename),
-               let data = try? Data(contentsOf: fileURL),
-               let uiImage = UIImage(data: data) {
-                Image(uiImage: uiImage)
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: 48, height: 48)
-                    .clipShape(RoundedRectangle(cornerRadius: 8))
-            } else {
-                Text(event.emoji ?? "✈️")
-                    .font(.system(size: 32))
-                    .frame(width: 48, height: 48)
-                    .background(categoryColor.opacity(0.2))
-                    .clipShape(RoundedRectangle(cornerRadius: 8))
-            }
-        }
-
-        private var titleAndDateView: some View {
-            VStack(alignment: .leading, spacing: 2) {
-                Text(event.name)
-                    .font(.headline)
-                    .foregroundColor(.white)
-                Text(event.date, style: .date)
-                    .font(.subheadline)
-                    .foregroundColor(categoryColor.opacity(0.7))
-            }
-            .lineLimit(1)
-            .frame(maxWidth: .infinity, alignment: .leading)
-        }
-
-        /// Nombre (même taille pour jours, heures et minutes) suivi d'une unité optionnelle.
-        private func value(_ number: String, unit: String? = nil) -> some View {
-            HStack(alignment: .firstTextBaseline, spacing: 1) {
-                Text(number)
-                    .font(.headline.monospacedDigit())
-                    .foregroundColor(categoryColor)
-                if let unit {
-                    Text(unit)
-                        .font(.caption.bold())
-                        .foregroundColor(categoryColor.opacity(0.8))
-                }
-            }
-        }
-
-        private var remainingTimeView: some View {
-            Group {
-                if event.isUnder24Hours {
-                    HStack(spacing: 6) {
-                        value("\(event.hourNumber())", unit: "h")
-                        value("\(event.minuteNumber(includeSeconds: false))", unit: "min")
-                    }
-                } else {
-                    value("\(daysRemaining)")
-                }
-            }
-            .frame(minWidth: 40, alignment: .trailing)
-        }
-
-        private var progressBar: some View {
-            GeometryReader { geo in
-                ZStack(alignment: .leading) {
-                    Capsule()
-                        .fill(Color.white.opacity(0.10))
-                    RoundedRectangle(cornerRadius: 1)
-                        .fill(categoryColor)
-                        .frame(width: geo.size.width * progress)
-                        .animation(.easeInOut(duration: 0.3), value: progress)
-                }
-            }
-            .frame(height: 3)
-            .clipShape(RoundedRectangle(cornerRadius: 1))
-            .padding(.horizontal, 12)
-            .padding(.bottom, 2)
-        }
-
-        var body: some View {
-            NavigationLink(destination: EventDetailView(event: event)) {
-                VStack(spacing: 0) {
-                    HStack(spacing: 12) {
-                        imageOrEmojiView
-                        titleAndDateView
-                        remainingTimeView
-                    }
-                    .padding(.vertical, 8)
-                    .padding(.horizontal, 12)
-                    .background(
-                        RoundedRectangle(cornerRadius: 12)
-                            .fill(Color.black.opacity(0.8))
-                    )
-
-                    progressBar
-                }
-            }
-            .buttonStyle(PlainButtonStyle())
-        }
     }
 }
 

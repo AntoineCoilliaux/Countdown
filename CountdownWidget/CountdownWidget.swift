@@ -128,8 +128,13 @@ struct CountdownWidgetView: View {
         }
     }
     
+    /// Couleur de la catégorie (adaptée au mode clair / sombre), sinon texte principal.
+    private func color(for event: WidgetEvent) -> Color {
+        event.categoryColor.map { Color.category(hex: $0) } ?? Color.textPrimary
+    }
+    
     private func widgetSmallView(for event: WidgetEvent) -> some View {
-        let categoryColor = event.categoryColor.flatMap { Color(hex: $0) } ?? .white
+        let categoryColor = color(for: event)
         let isActuallyInFuture = event.isInFuture(relativeTo: entry.date)
 
         return VStack(alignment: .leading, spacing: 0) {
@@ -144,7 +149,7 @@ struct CountdownWidgetView: View {
                 if let categoryName = event.categoryName {
                     Text(categoryName)
                         .font(.system(size: 12, weight: .light))
-                        .foregroundStyle(.white.opacity(0.6))
+                        .foregroundStyle(Color.textPrimary.opacity(0.6))
                         .lineLimit(1)
                 }
             }
@@ -172,17 +177,17 @@ struct CountdownWidgetView: View {
                 Text(event.date, style: .time)
             }
             .font(.system(size: 10, weight: .regular))
-            .foregroundStyle(.white.opacity(0.45))
+            .foregroundStyle(Color.textPrimary.opacity(0.45))
         }
         .padding(1)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
         .containerBackground(for: .widget) {
-            Color(.black)
+            Color.screenBackground
         }
     }
     
     private func widgetMediumView(for event: WidgetEvent) -> some View {
-        let categoryColor = event.categoryColor.flatMap { Color(hex: $0) } ?? .white
+        let categoryColor = color(for: event)
         let isActuallyInFuture = event.isInFuture(relativeTo: entry.date)
 
         return HStack(alignment: .center, spacing: 4) {
@@ -198,7 +203,7 @@ struct CountdownWidgetView: View {
                 if let categoryName = event.categoryName {
                     Text(categoryName)
                         .font(.system(size: 15, weight: .light))
-                        .foregroundStyle(.white.opacity(0.6))
+                        .foregroundStyle(Color.textPrimary.opacity(0.6))
                         .lineLimit(1)
                 }
                 
@@ -225,14 +230,14 @@ struct CountdownWidgetView: View {
                     Text(event.date, style: .time)
                 }
                 .font(.system(size: 15, weight: .regular))
-                .foregroundStyle(.white.opacity(0.45))
+                .foregroundStyle(Color.textPrimary.opacity(0.45))
             }
             .frame(maxWidth: .infinity, alignment: .leading)
 
             ZStack {
                 if event.displayMode == .emoji {
                     Circle()
-                        .fill(.white.opacity(0.15))
+                        .fill(Color.textPrimary.opacity(0.15))
                         .frame(width: 70, height: 70)
                     
                     if let emoji = event.emoji {
@@ -253,7 +258,7 @@ struct CountdownWidgetView: View {
                               .clipShape(RoundedRectangle(cornerRadius: 10))
                     } else {
                         RoundedRectangle(cornerRadius: 10)
-                            .fill(.white.opacity(0.08))
+                            .fill(Color.textPrimary.opacity(0.08))
                             .frame(width: 80)
                             .frame(maxHeight: .infinity)
                         Text(String(event.name.prefix(1)).uppercased())
@@ -266,30 +271,21 @@ struct CountdownWidgetView: View {
         .padding(4)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
         .containerBackground(for: .widget) {
-            Color(.black)
+            Color.screenBackground
         }
-    }
-        
-    private func backgroundGradient(for event: WidgetEvent) -> some View {
-        let base = event.categoryColor.flatMap { Color(hex: $0) } ?? .black
-        return LinearGradient(
-            colors: [base, base.opacity(0.75)],
-            startPoint: .topLeading,
-            endPoint: .bottomTrailing
-        )
     }
     
     private var emptyView: some View {
         VStack(spacing: 8) {
             Image(systemName: "calendar.badge.clock")
                 .font(.system(size: 28))
-                .foregroundStyle(.white.opacity(0.5))
+                .foregroundStyle(Color.textPrimary.opacity(0.5))
             Text(K.CountdownWidget.noEventSelected)
                 .font(.caption)
-                .foregroundStyle(.white.opacity(0.5))
+                .foregroundStyle(Color.textPrimary.opacity(0.5))
         }
         .containerBackground(for: .widget) {
-            Color(hex: K.Colors.appBackground) ?? .black
+            Color.appBackground
         }
     }
 }
@@ -314,19 +310,3 @@ struct CountdownWidget: Widget {
         .supportedFamilies([.systemSmall, .systemMedium])
     }
 }
-
-//#Preview(as: .systemMedium) {
-//    CountdownWidget()
-//} timeline: {
-//    CountdownEntry(
-//        date: .now,
-//        widgetEvent: WidgetEvent(
-//            id: UUID(),
-//            name: "Japanese GP",
-//            date: Date().addingTimeInterval(-3599),
-//            categoryName: nil,
-//            categoryColor: nil,
-//            emoji: "slightly smiling face"
-//        )
-//    )
-//}
