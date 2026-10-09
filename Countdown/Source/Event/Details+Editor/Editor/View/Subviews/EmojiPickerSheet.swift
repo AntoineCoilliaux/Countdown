@@ -47,24 +47,24 @@ struct EmojiPickerSheet: View {
     var body: some View {
         VStack(spacing: 0) {
             Capsule()
-                .fill(Color.white.opacity(0.3))
+                .fill(Color.textPrimary.opacity(0.3))
                 .frame(width: 36, height: 4)
                 .padding(.top, 12)
                 .padding(.bottom, 16)
 
             HStack(spacing: 8) {
                 Image(systemName: "magnifyingglass")
-                    .foregroundStyle(.white.opacity(0.4))
+                    .foregroundStyle(Color.textPrimary.opacity(0.4))
                 TextField("", text: $searchQuery, prompt: Text("Search")
-                    .foregroundStyle(.white.opacity(0.4)))
+                    .foregroundStyle(Color.textPrimary.opacity(0.4)))
                     .textFieldStyle(.plain)
-                    .foregroundStyle(.white)
-                    .tint(.white)
+                    .foregroundStyle(Color.textPrimary)
+                    .tint(Color.textPrimary)
                     .autocorrectionDisabled()
             }
             .padding(.horizontal, 12)
             .padding(.vertical, 8)
-            .background(Color.white.opacity(0.08))
+            .background(Color.textPrimary.opacity(0.08))
             .clipShape(RoundedRectangle(cornerRadius: 10))
             .padding(.horizontal, 16)
             .padding(.bottom, 12)
@@ -81,14 +81,14 @@ struct EmojiPickerSheet: View {
                                 .frame(height: 40)
                                 .background(
                                     selectedCategory == i
-                                    ? Color.white.opacity(0.15)
+                                    ? Color.textPrimary.opacity(0.15)
                                     : Color.clear
                                 )
                                 .clipShape(RoundedRectangle(cornerRadius: 10))
                                 .overlay(
                                     RoundedRectangle(cornerRadius: 10)
                                         .stroke(
-                                            Color.white.opacity(selectedCategory == i ? 0.3 : 0),
+                                            Color.textPrimary.opacity(selectedCategory == i ? 0.3 : 0),
                                             lineWidth: 1
                                         )
                                 )
@@ -99,7 +99,7 @@ struct EmojiPickerSheet: View {
                 .padding(.bottom, 12)
 
                 Divider()
-                    .background(Color.white.opacity(0.1))
+                    .background(Color.textPrimary.opacity(0.1))
             }
 
             ScrollView {
@@ -117,7 +117,7 @@ struct EmojiPickerSheet: View {
                 .padding(16)
             }
         }
-        .background(Color(hex: K.Colors.appBackground) ?? .black)
+        .background(Color.appBackground)
         .presentationDetents([.medium, .large])
         .presentationDragIndicator(.hidden)
     }
@@ -130,7 +130,7 @@ struct EmojiPickerSheet: View {
             Text(emoji)
                 .font(.system(size: 28))
                 .frame(width: 44, height: 44)
-                .background(selectedEmoji == emoji ? Color.white.opacity(0.15) : Color.clear)
+                .background(selectedEmoji == emoji ? Color.textPrimary.opacity(0.15) : Color.clear)
                 .clipShape(RoundedRectangle(cornerRadius: 10))
         }
     }

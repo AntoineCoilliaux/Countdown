@@ -13,7 +13,7 @@ import SwiftUI
 struct AppDivider: View {
     var body: some View {
         Divider()
-            .background(.white.opacity(0.08))
+            .background(Color.textPrimary.opacity(0.08))
     }
 }
 
@@ -23,7 +23,7 @@ struct ErrorText: View {
     var body: some View {
         Text(K.EditorView.titleIsTooLongMessage)
             .font(.footnote)
-            .foregroundStyle(.red)
+            .foregroundStyle(Color.appRed)
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.leading, 4)
     }

@@ -48,26 +48,6 @@ struct K {
         }
     }
     
-    enum Colors {
-        static let categoryColors: [(name: String, hex: String)] = [
-            ("Lime",     "#C8F135"),
-            ("Lavender", "#A78BFA"),
-            ("Sky Blue", "#5B9BFF"),
-            ("Coral",    "#FF8C66"),
-            ("Mint",     "#4DD4AC"),
-            ("Rose",     "#FF6B9D"),
-            ("Gold",     "#FFD23F"),
-            ("Cyan",     "#7DD3FC"),
-            ("Magenta",  "#D946EF"),
-            ("Amber",    "#F59E0B")
-        ]
-        static let defaultCategoryHex: String = "#7F1D1D"
-        static let appBackground = "#121826"
-        static let editorBackground = "#1C1C2E"
-        static let red = "#F87171"
-        static let green = "#4ADE80"
-    }
-    
     struct CountdownWidget {
         static let noEventSelected = "No event selected"
         

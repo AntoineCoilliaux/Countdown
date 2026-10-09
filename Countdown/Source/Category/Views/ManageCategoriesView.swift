@@ -24,7 +24,7 @@ struct ManageCategoriesView: View {
     var body: some View {
             NavigationStack {
                 ZStack {
-                    Color(.black)
+                    Color.screenBackground
                         .ignoresSafeArea()
                     
                     Group {
@@ -45,8 +45,6 @@ struct ManageCategoriesView: View {
                 }
                 .navigationTitle(K.ManageCategoriesView.manageCategoriesTitle)
                 .navigationBarTitleDisplayMode(.large)
-                .toolbarColorScheme(.dark, for: .navigationBar)
-                .preferredColorScheme(.dark)
                 .toolbar {
                     ToolbarItem(placement: .confirmationAction) {
                         Button(K.Common.Buttons.done) { dismiss() }
@@ -82,10 +80,10 @@ struct ManageCategoriesView: View {
                     }
                     .background(
                         RoundedRectangle(cornerRadius: 16)
-                            .fill(Color(hex: "#1c1c2e") ?? .black.opacity(0.8))
+                            .fill(Color.cardFill)
                             .overlay(
                             RoundedRectangle(cornerRadius: 16)
-                                .strokeBorder(Color(hex: category.color) ?? .gray.opacity(0.5), lineWidth: 3)
+                                .strokeBorder(Color.category(hex: category.color), lineWidth: 3)
                         ))
                     .clipShape(RoundedRectangle(cornerRadius: 16))
                 }
@@ -99,22 +97,21 @@ struct ManageCategoriesView: View {
 
     private func categoryHeader(for category: Category) -> some View {
         HStack(spacing: 12) {
-            Circle()
-                .fill(Color(hex: category.color) ?? .gray)
+            Circle().fill(Color.category(hex: category.color))
                 .frame(width: 20, height: 20)
             
             Text(category.name)
                 .font(.system(size: 16, weight: .medium))
-                .foregroundStyle(.white)
+                .foregroundStyle((Color.textPrimary))
             
             Spacer()
             
             let count = vm.events(for: category, from: eventStore).count
             Text("\(count) event\(count <= 1 ? "" : "s")")
                 .font(.system(size: 13))
-                .foregroundStyle(.white.opacity(0.4))
+                .foregroundStyle(Color.textPrimary)
         }
-        .tint(.white.opacity(0.3))
+        .tint(Color.textPrimary.opacity(0.3))
     }
 
     private var addCategoryButtonView: some View {
@@ -152,7 +149,7 @@ struct ManageCategoriesView: View {
 
     private var formBackground: some View {
         RoundedRectangle(cornerRadius: 20)
-            .fill(Color(hex: K.Colors.appBackground) ?? .black)
+            .fill(Color.appBackground)
             .shadow(radius: 20)
     }
 
@@ -217,13 +214,13 @@ struct ManageCategoriesView: View {
             }
         }
         .padding(10)
-            .background(CardBackground(borderColor: vm.categoryNameIsTooLong ? .red : .white))
-            .background(formBackground)
-            .fixedSize(horizontal: false, vertical: true)
-            .padding(.horizontal, 30)
-            .padding(.bottom, 80)
-            .transition(.scale(scale: 0.9).combined(with: .opacity))
-            .zIndex(2)
+        .background(CardBackground(borderColor: vm.categoryNameIsTooLong ? .red : Color.textPrimary))
+        .background(formBackground)
+        .fixedSize(horizontal: false, vertical: true)
+        .padding(.horizontal, 30)
+        .padding(.bottom, 80)
+        .transition(.scale(scale: 0.9).combined(with: .opacity))
+        .zIndex(2)
     }
     
     // MARK: - Helpers & Alert UI
@@ -253,13 +250,13 @@ struct ManageCategoriesView: View {
         VStack(alignment: .leading, spacing: 25) {
             VStack(spacing: 10) {
                 Image(systemName: "tag.slash")
-                    .foregroundStyle(.white)
+                    .foregroundStyle(Color.textPrimary)
                     .font(.system(size: 40))
                 
                 Text(K.ManageCategoriesView.noCategories)
                     .font(.title)
                     .fontWeight(.medium)
-                    .foregroundStyle(.white)
+                    .foregroundStyle(Color.textPrimary)
             }
             .frame(maxWidth: .infinity, alignment: .center)
             
@@ -268,13 +265,10 @@ struct ManageCategoriesView: View {
                 vm.selectedHex = nil
             } label: {
                 Text(K.Common.Buttons.createFirstCategory)
-                    .foregroundStyle(.black)
+                    .foregroundStyle(Color.screenBackground)
                     .padding(.vertical, 12)
                     .padding(.horizontal, 16)
-                    .background(
-                        RoundedRectangle(cornerRadius: 12)
-                            .fill(Color.white)
-                    )
+                    .background(RoundedRectangle(cornerRadius: 12).fill(Color.textPrimary))
                     .frame(maxWidth: .infinity, alignment: .center)
                 
             }
