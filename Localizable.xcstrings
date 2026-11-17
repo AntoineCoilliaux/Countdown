@@ -1,0 +1,313 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "" : {
+
+    },
+    "·" : {
+
+    },
+    "% of the wait behind you" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "% de l’attente est derrière toi"
+          }
+        }
+      }
+    },
+    "%@" : {
+
+    },
+    "%@ %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ %2$@"
+          }
+        }
+      }
+    },
+    "%lld" : {
+
+    },
+    "%lld event%@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld event%2$@"
+          }
+        }
+      }
+    },
+    "%lld%@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld%2$@"
+          }
+        }
+      }
+    },
+    "%lld%%" : {
+
+    },
+    "😀" : {
+
+    },
+    "A an example control that runs a timer." : {
+
+    },
+    "Add" : {
+
+    },
+    "All" : {
+
+    },
+    "Cancel" : {
+
+    },
+    "Choose from Photos" : {
+
+    },
+    "Could not save the image. Please check your connection." : {
+
+    },
+    "Countdown" : {
+
+    },
+    "Counting down to" : {
+
+    },
+    "Create your first category" : {
+
+    },
+    "Custom" : {
+
+    },
+    "Date" : {
+
+    },
+    "day" : {
+
+    },
+    "DAY" : {
+
+    },
+    "days" : {
+
+    },
+    "DAYS" : {
+
+    },
+    "Delete" : {
+
+    },
+    "Delete category" : {
+
+    },
+    "Delete category and event(s) (%lld)" : {
+
+    },
+    "Delete category only" : {
+
+    },
+    "Delete category?" : {
+
+    },
+    "Did you know?" : {
+
+    },
+    "Do you want to delete only the category (events will move to All) or delete the category and its event(s)?" : {
+
+    },
+    "Done" : {
+
+    },
+    "E.g. Birthdays" : {
+
+    },
+    "E.g. Holidays in Paris" : {
+
+    },
+    "Edit" : {
+
+    },
+    "Edit category" : {
+
+    },
+    "EMOJI" : {
+
+    },
+    "Enable them in Settings to receive reminders." : {
+
+    },
+    "Error" : {
+
+    },
+    "Event" : {
+
+    },
+    "Flags" : {
+
+    },
+    "Flags currently unavailable" : {
+
+    },
+    "Gallery" : {
+
+    },
+    "h" : {
+
+    },
+    "HR" : {
+
+    },
+    "In the past" : {
+
+    },
+    "It's on! Tap to create new countdowns!" : {
+
+    },
+    "It's time for" : {
+
+    },
+    "Loading flags..." : {
+
+    },
+    "Make it a widget!" : {
+
+    },
+    "Manage categories" : {
+
+    },
+    "Manage Categories" : {
+
+    },
+    "min" : {
+
+    },
+    "MIN" : {
+
+    },
+    "Never" : {
+
+    },
+    "New category" : {
+
+    },
+    "New event" : {
+
+    },
+    "No categories yet" : {
+
+    },
+    "No event selected" : {
+
+    },
+    "No events yet" : {
+
+    },
+    "None" : {
+
+    },
+    "Notifications disabled" : {
+
+    },
+    "Notify me when it happens" : {
+
+    },
+    "Off" : {
+
+    },
+    "OK" : {
+
+    },
+    "On" : {
+
+    },
+    "PHOTO" : {
+
+    },
+    "Photos" : {
+
+    },
+    "Pick an event" : {
+
+    },
+    "Pick an event for your widget." : {
+
+    },
+    "Remind me" : {
+
+    },
+    "Remove custom reminder" : {
+
+    },
+    "Rename category" : {
+
+    },
+    "Save" : {
+
+    },
+    "SCHEDULED" : {
+
+    },
+    "Search" : {
+
+    },
+    "SEC" : {
+
+    },
+    "Select an event" : {
+
+    },
+    "Select an image from your photo library" : {
+
+    },
+    "Settings" : {
+
+    },
+    "since" : {
+
+    },
+    "Start a timer" : {
+
+    },
+    "Start Timer" : {
+
+    },
+    "Switch layout" : {
+
+    },
+    "The wait is over!" : {
+
+    },
+    "This category does not contain any event. Are you sure you want to delete it?" : {
+
+    },
+    "Timer" : {
+
+    },
+    "Timer is running" : {
+
+    },
+    "Title is too long!" : {
+
+    },
+    "to" : {
+
+    },
+    "Uploading..." : {
+
+    },
+    "You can add a widget to your home screen for any event." : {
+
+    }
+  },
+  "version" : "1.2"
+}

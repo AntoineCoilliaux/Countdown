@@ -332,7 +332,7 @@ struct EditorView: View {
                 dateExpanded.toggle()
                 if dateExpanded { reminderExpanded = false }
             } label: {
-                scheduleRow(title: K.EditorView.date, titleOpacity: 1) {
+                scheduleRow(title: String(localized: K.EditorView.date), titleOpacity: 1) {
                     HStack(spacing: 6) {
                         Text(vm.formattedDate)
                             .foregroundStyle(Color.textPrimary)
@@ -361,7 +361,7 @@ struct EditorView: View {
     
     private var notifyMe: some View {
         HStack {
-            scheduleRow(title: K.EditorView.notifyMe, titleOpacity: 0.6) {
+            scheduleRow(title: String(localized: K.EditorView.notifyMe), titleOpacity: 0.6) {
                 Toggle("", isOn: Binding(
                     get: { vm.reminders.contains(.now) },
                     set: { enabled in
@@ -387,7 +387,7 @@ struct EditorView: View {
                 reminderExpanded.toggle()
                 if reminderExpanded { dateExpanded = false }
             } label: {
-                scheduleRow(title: K.Common.Reminder.remindMe, titleOpacity: 0.6) {
+                scheduleRow(title: String(localized: K.Common.Reminder.remindMe), titleOpacity: 0.6) {
                     HStack(spacing: 6) {
                         Image(systemName: vm.reminders.isEmpty ? "bell" : "bell.badge")
                             .font(.system(size: 11))
