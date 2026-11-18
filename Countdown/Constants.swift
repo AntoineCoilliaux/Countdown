@@ -16,81 +16,81 @@ struct K {
     
     struct Common {
         struct Buttons {
-            static let done = "Done"
-            static let cancel = "Cancel"
-            static let save = "Save"
-            static let ok = "OK"
+            static let done = LocalizedStringResource("Done")
+            static let cancel = LocalizedStringResource("Cancel")
+            static let save = LocalizedStringResource("Save")
+            static let ok = LocalizedStringResource("OK")
             
-            static let createFirstCategory = "Create your first category"
-            static let addAnotherCategory = "Add"
-            static let editCategory = "Edit"
-            static let deleteCategory = "Delete"
+            static let createFirstCategory = LocalizedStringResource("Create your first category")
+            static let addAnotherCategory = LocalizedStringResource("Add")
+            static let editCategory = LocalizedStringResource("Edit")
+            static let deleteCategory = LocalizedStringResource("Delete")
         }
         
         struct Category {
-            static let deleteAlertTitle = "Delete category?"
-            static let deleteOnly = "Delete category only"
-            static func deleteWithEvents(count: Int) -> String {
+            static let deleteAlertTitle = LocalizedStringResource("Delete category?")
+            static let deleteOnly = LocalizedStringResource("Delete category only")
+            static func deleteWithEvents(count: Int) -> LocalizedStringResource {
                 "Delete category and event(s) (\(count))"
             }
             
-            static let deleteButton = "Delete category"
-            static let deleteWithEventsMessage = "Do you want to delete only the category (events will move to All) or delete the category and its event(s)?"
-            static let deleteWithoutEventsMessage = "This category does not contain any event. Are you sure you want to delete it?"
-            static let namePlaceholder = "E.g. Birthdays"
+            static let deleteButton = LocalizedStringResource("Delete category")
+            static let deleteWithEventsMessage = LocalizedStringResource("Do you want to delete only the category (events will move to All) or delete the category and its event(s)?")
+            static let deleteWithoutEventsMessage = LocalizedStringResource("This category does not contain any event. Are you sure you want to delete it?")
+            static let namePlaceholder = LocalizedStringResource("E.g. Birthdays")
             
-            static let manageCategories = "Manage categories"
+            static let manageCategories = LocalizedStringResource("Manage categories")
 
             }
         
         struct Reminder {
-            static let remindMe = "Remind me"
+            static let remindMe = LocalizedStringResource("Remind me")
         }
     }
     
     struct CountdownWidget {
-        static let noEventSelected = "No event selected"
+        static let noEventSelected = LocalizedStringResource("No event selected")
         
-        static let displayName = "Countdown"
-        static let description = "Make it a widget!"
+        static let displayName = LocalizedStringResource("Countdown")
+        static let description = LocalizedStringResource("Make it a widget!")
         
-        static let itsOn = "It's on! Tap to create new countdowns!"
+        static let itsOn = LocalizedStringResource("It's on! Tap to create new countdowns!")
     }
     
     struct EditorView {
-        static let navigationTitle = "New event"
+        static let navigationTitle = LocalizedStringResource("New event")
         
-        static let countingDownTo = "Counting down to"
+        static let countingDownTo = LocalizedStringResource("Counting down to")
         
-        static let date = "Date"
+        static let date = LocalizedStringResource("Date")
         
-        static let textfieldPlaceholder = "E.g. Holidays in Paris"
-        static let doneButton = "Done"
-        static let none = "None"
+        static let textfieldPlaceholder = LocalizedStringResource("E.g. Holidays in Paris")
+        static let doneButton = LocalizedStringResource("Done")
+        static let none = LocalizedStringResource("None")
         
-        static let photoPickerName = "PHOTO"
-        static let emojiPickerName = "EMOJI"
+        static let photoPickerName = LocalizedStringResource("PHOTO")
+        static let emojiPickerName = LocalizedStringResource("EMOJI")
         
-        static let saveErrorTitle = "Error"
-        static let saveErrorDescription = "Could not save the image. Please check your connection."
+        static let saveErrorTitle = LocalizedStringResource("Error")
+        static let saveErrorDescription = LocalizedStringResource("Could not save the image. Please check your connection.")
         
-        static let titleIsTooLongMessage = "Title is too long!"
+        static let titleIsTooLongMessage = LocalizedStringResource("Title is too long!")
         
-        static let notifyMe = "Notify me when it happens"
+        static let notifyMe = LocalizedStringResource("Notify me when it happens")
     }
     
     struct EventDetailView {
-        static let countdownRowDay = "DAY"
-        static let countdownRowDays = "DAYS"
-        static let countdownRowHours = "HR"
-        static let countdownRowMinutes = "MIN"
-        static let countdownRowSeconds = "SEC"
+        static let countdownRowDay = LocalizedStringResource("DAY")
+        static let countdownRowDays = LocalizedStringResource("DAYS")
+        static let countdownRowHours = LocalizedStringResource("HR")
+        static let countdownRowMinutes = LocalizedStringResource("MIN")
+        static let countdownRowSeconds = LocalizedStringResource("SEC")
         
-        static let progressSectionFuture = "% of the wait behind you"
-        static let progressSectionPast = "The wait is over!"
+        static let progressSectionFuture = LocalizedStringResource("% of the wait behind you")
+        static let progressSectionPast = LocalizedStringResource("The wait is over!")
         
-        static let remindMe = "Remind me"
-        static let never = "Never"
+        static let remindMe = LocalizedStringResource("Remind me")
+        static let never = LocalizedStringResource("Never")
     }
     
     struct EventStore {
@@ -98,59 +98,59 @@ struct K {
     }
     
     struct EventView {
-        static let itsTime = "It's time for"
-        static let day = "day"
-        static let days = "days"
-        static let to = "to"
-        static let since = "since"
-        static let hourAbbreviation = "h"
-        static let minuteAbbreviation = "min"
+        static let itsTime = LocalizedStringResource("It's time for")
+        static let day = LocalizedStringResource("day")
+        static let days = LocalizedStringResource("days")
+        static let to = LocalizedStringResource("to")
+        static let since = LocalizedStringResource("since")
+        static let hourAbbreviation = LocalizedStringResource("h")
+        static let minuteAbbreviation = LocalizedStringResource("min")
     }
     
     struct FlagsPickerView {
-        static let loadingMessage = "Loading flags..."
-        static let errorMessage = "Flags currently unavailable"
+        static let loadingMessage = LocalizedStringResource("Loading flags...")
+        static let errorMessage = LocalizedStringResource("Flags currently unavailable")
     }
     
     struct HomeView {
-        static let noEventsYet = "No events yet"
-        static let all = "All"
+        static let noEventsYet = LocalizedStringResource("No events yet")
+        static let all = LocalizedStringResource("All")
     }
     
     struct ImagePickerSheetView {
-        static let galleryTitle = "Gallery"
-        static let photoLibraryTitle = "Photos"
-        static let flagTitle = "Flags"
+        static let galleryTitle = LocalizedStringResource("Gallery")
+        static let photoLibraryTitle = LocalizedStringResource("Photos")
+        static let flagTitle = LocalizedStringResource("Flags")
     }
     
     struct ManageCategoriesView {
-        static let manageCategoriesTitle = "Manage Categories"
-        static let alertRenameCategory = "Rename category"
-        static let noCategories = "No categories yet"
-        static let newCategory = "New category"
-        static let editCategory = "Edit category"
+        static let manageCategoriesTitle = LocalizedStringResource("Manage Categories")
+        static let alertRenameCategory = LocalizedStringResource("Rename category")
+        static let noCategories = LocalizedStringResource("No categories yet")
+        static let newCategory = LocalizedStringResource("New category")
+        static let editCategory = LocalizedStringResource("Edit category")
     }
     
     struct ReminderPickerView {
-        static let custom = "Custom"
+        static let custom = LocalizedStringResource("Custom")
         
-        static let removeReminder = "Remove custom reminder"
+        static let removeReminder = LocalizedStringResource("Remove custom reminder")
         
-        static let scheduled = "SCHEDULED"
-        static let inThePast = "In the past"
-        static let notificationsDisabledMessage = "Notifications disabled"
-        static let enableNotifications = "Enable them in Settings to receive reminders."
-        static let settings = "Settings"
+        static let scheduled = LocalizedStringResource("SCHEDULED")
+        static let inThePast = LocalizedStringResource("In the past")
+        static let notificationsDisabledMessage = LocalizedStringResource("Notifications disabled")
+        static let enableNotifications = LocalizedStringResource("Enable them in Settings to receive reminders.")
+        static let settings = LocalizedStringResource("Settings")
     }
     
     struct SplashView {
-        static let appName = "Countdown"
+        static let appName = LocalizedStringResource("Countdown")
     }
     
     struct UserPicturesPickerView {
-        static let progressViewText = "Uploading..."
-        static let pickerText = "Choose from Photos"
-        static let pickerDescription = "Select an image from your photo library"
+        static let progressViewText = LocalizedStringResource("Uploading...")
+        static let pickerText = LocalizedStringResource("Choose from Photos")
+        static let pickerDescription = LocalizedStringResource("Select an image from your photo library")
     }
     
     struct WidgetDataStore {
@@ -160,7 +160,7 @@ struct K {
     }
     
     struct WidgetTip {
-        static let title = "Did you know?"
-        static let message = "You can add a widget to your home screen for any event."
+        static let title = LocalizedStringResource("Did you know?")
+        static let message = LocalizedStringResource("You can add a widget to your home screen for any event.")
     }
 }

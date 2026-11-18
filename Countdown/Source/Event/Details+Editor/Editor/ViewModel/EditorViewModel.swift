@@ -56,7 +56,7 @@ final class EditorViewModel: ObservableObject {
     
     var remindersSummary: String {
         let filtered = reminders.filter { $0 != .now }
-        guard !filtered.isEmpty else { return "Never" }
+        guard !filtered.isEmpty else { return String(localized: "Never") }
         return filtered.map { $0.label }.joined(separator: ", ")
     }
     
@@ -86,6 +86,7 @@ final class EditorViewModel: ObservableObject {
     }
     
     func save() async -> Event? {
+        guard canSave else { return nil }
         var finalImageURL = imageName
         if !imageName.isLocalImage {
             if let localURL = await URL.saveImageFromURL(imageName) {
