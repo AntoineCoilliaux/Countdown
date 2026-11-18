@@ -107,7 +107,7 @@ struct ManageCategoriesView: View {
             Spacer()
             
             let count = vm.events(for: category, from: eventStore).count
-            Text("\(count) event\(count <= 1 ? "" : "s")")
+            Text("\(count) events")
                 .font(.system(size: 13))
                 .foregroundStyle(Color.textPrimary)
         }

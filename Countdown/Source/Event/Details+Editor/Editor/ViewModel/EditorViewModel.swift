@@ -56,7 +56,7 @@ final class EditorViewModel: ObservableObject {
     
     var remindersSummary: String {
         let filtered = reminders.filter { $0 != .now }
-        guard !filtered.isEmpty else { return "Never" }
+        guard !filtered.isEmpty else { return String(localized: "Never") }
         return filtered.map { $0.label }.joined(separator: ", ")
     }
     

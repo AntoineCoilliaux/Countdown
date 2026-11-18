@@ -34,13 +34,13 @@ enum ReminderOption: Codable, Equatable, Hashable, Identifiable {
     var label: String {
         switch self {
         case .now:
-            return "When it happens"
+            return String(localized: "When it happens")
         case .oneHour:
-            return "1 hour before"
+            return String(localized: "1 hour before")
         case .oneDay:
-            return "1 day before"
+            return String(localized: "1 day before")
         case .oneWeek:
-            return "1 week before"
+            return String(localized: "1 week before")
         case .custom(let date):
             return date.formatted(date: .abbreviated, time: .shortened)
         }
@@ -89,11 +89,11 @@ enum ReminderPreset: CaseIterable {
     var label: String {
         switch self {
         case .oneHour:
-            return "1 hour before"
+            return String(localized: "1 hour before")
         case .oneDay:
-            return "1 day before"
+            return String(localized: "1 day before")
         case .oneWeek:
-            return "1 week before"
+            return String(localized: "1 week before")
         }
     }
 }
