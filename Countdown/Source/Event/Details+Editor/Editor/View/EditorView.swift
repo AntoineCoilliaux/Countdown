@@ -71,6 +71,7 @@ struct EditorView: View {
                             }
                         }
                     }
+                    .disabled(!vm.canSave)
                 }
             }
         }

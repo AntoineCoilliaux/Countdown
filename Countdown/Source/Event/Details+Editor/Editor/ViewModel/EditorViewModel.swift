@@ -86,6 +86,7 @@ final class EditorViewModel: ObservableObject {
     }
     
     func save() async -> Event? {
+        guard canSave else { return nil }
         var finalImageURL = imageName
         if !imageName.isLocalImage {
             if let localURL = await URL.saveImageFromURL(imageName) {
